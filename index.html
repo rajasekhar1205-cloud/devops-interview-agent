@@ -577,22 +577,6 @@
       <p>Practice. Improve. Ace Interviews.</p>
     </div>
 
-    <!-- Browser compatibility warning (shown only if Web Speech API unsupported) -->
-    <div class="browser-warning hidden" id="browserWarning">
-      <div class="bw-icon">⚠️</div>
-      <div>
-        <h4>Voice mode requires Google Chrome or Microsoft Edge</h4>
-        <p>
-          Your current browser does not support the Web Speech API used for voice input.
-          Please open this page in
-          <a href="https://www.google.com/chrome/" target="_blank">Google Chrome</a> or
-          <a href="https://www.microsoft.com/edge" target="_blank">Microsoft Edge</a>
-          to use voice mode. <strong>Text mode works in all browsers</strong> — switch to
-          ⌨️ Text Mode above the interview panel.
-        </p>
-      </div>
-    </div>
-
     <!-- Google Gemini Configuration -->
     <div class="config-card">
       <h3>⚡ Google Gemini Configuration</h3>
@@ -1972,11 +1956,6 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       document.getElementById('manualInput').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') submitAnswer();
       });
-
-      // Show browser warning if Web Speech API is not available
-      if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
-        document.getElementById('browserWarning').classList.remove('hidden');
-      }
     });
   </script>
 </body>
