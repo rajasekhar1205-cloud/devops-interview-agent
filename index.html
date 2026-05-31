@@ -535,6 +535,39 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(21,101,192,0.4);
     }
+
+    /* Browser warning banner */
+    .browser-warning {
+      background: linear-gradient(135deg, #e53935, #c62828);
+      color: white;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(198,40,40,0.4);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .browser-warning .bw-icon { font-size: 1.8rem; flex-shrink: 0; line-height: 1; }
+    .browser-warning h4 { margin: 0 0 0.35rem 0; font-size: 1rem; }
+    .browser-warning p  { margin: 0; font-size: 0.87rem; opacity: 0.92; line-height: 1.55; }
+    .browser-warning a  { color: #fff; font-weight: 700; }
+
+    /* Mic permission error card */
+    .mic-error-card {
+      background: #fdecea;
+      border: 1.5px solid #ef9a9a;
+      border-left: 5px solid #c62828;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-top: 1rem;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: #333;
+    }
+    .mic-error-card strong { color: #b71c1c; }
+    .mic-error-card ol { margin: 0.5rem 0 0.25rem 1.25rem; padding: 0; }
+    .mic-error-card li { margin-bottom: 0.15rem; }
   </style>
 </head>
 <body>
@@ -544,12 +577,38 @@
       <p>Practice. Improve. Ace Interviews.</p>
     </div>
 
+    <!-- Browser compatibility warning (shown only if Web Speech API unsupported) -->
+    <div class="browser-warning hidden" id="browserWarning">
+      <div class="bw-icon">⚠️</div>
+      <div>
+        <h4>Voice mode requires Google Chrome or Microsoft Edge</h4>
+        <p>
+          Your current browser does not support the Web Speech API used for voice input.
+          Please open this page in
+          <a href="https://www.google.com/chrome/" target="_blank">Google Chrome</a> or
+          <a href="https://www.microsoft.com/edge" target="_blank">Microsoft Edge</a>
+          to use voice mode. <strong>Text mode works in all browsers</strong> — switch to
+          ⌨️ Text Mode above the interview panel.
+        </p>
+      </div>
+    </div>
+
     <!-- Google Gemini Configuration -->
     <div class="config-card">
-      <h3>⚡ Google Gemini Configuration <span style="font-weight:400;font-size:0.85rem;color:#555;">— Free! Get key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#4285f4;">aistudio.google.com</a></span></h3>
+      <h3>⚡ Google Gemini Configuration</h3>
+      <p style="font-size:0.88rem;color:#555;margin:-0.25rem 0 1rem 0;line-height:1.6;">
+        This tool uses Google Gemini AI to give you detailed feedback on your answers.
+        The API key is <strong>completely free</strong> — no credit card, no billing.
+        It takes about 30 seconds to get one:
+        <a href="https://aistudio.google.com/app/apikey" target="_blank"
+           style="color:#4285f4;font-weight:600;text-decoration:none;white-space:nowrap;">
+          ➜ Get your free key at aistudio.google.com
+        </a>
+        &nbsp;→ sign in with Google → click <em>"Create API key"</em> → paste it below.
+      </p>
       <div class="config-grid" style="grid-template-columns: 2fr 1fr;">
         <div class="config-field">
-          <label>Gemini API Key</label>
+          <label>Gemini API Key <span style="font-weight:400;color:#888;font-size:0.8rem;">(starts with AIzaSy…)</span></label>
           <input type="password" id="geminiKey" placeholder="AIzaSy...">
         </div>
         <div class="config-field">
@@ -631,6 +690,18 @@
         <button class="mic-button" id="micButton" onclick="toggleVoice()">🎤</button>
         <div class="status" id="status">Ready to start</div>
         <div class="live-transcript hidden" id="liveTranscript">🎙️ Listening...</div>
+        <!-- Shown when mic permission is denied -->
+        <div class="mic-error-card hidden" id="micErrorCard">
+          <strong>🎤 Microphone access is blocked on this device</strong><br>
+          To fix this in <strong>Chrome / Edge</strong>:
+          <ol>
+            <li>Click the <strong>🔒 padlock</strong> (or ⓘ) icon in the browser address bar</li>
+            <li>Find <strong>Microphone</strong> and change it to <strong>Allow</strong></li>
+            <li>Reload this page and try again</li>
+          </ol>
+          On <strong>mobile (Android Chrome)</strong>: tap the padlock → Site settings → Microphone → Allow.<br>
+          On <strong>iPhone/iPad</strong>: voice mode is not supported — please use ⌨️ <strong>Text Mode</strong> instead.
+        </div>
       </div>
 
       <!-- Question Display -->
@@ -1261,41 +1332,17 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         state.isListening = false;
         updateMicButton();
         if (event.error === 'not-allowed') {
+          // On HTTPS (Netlify), 'not-allowed' means the user has genuinely
+          // blocked mic access — retrying does nothing. Show a clear fix guide.
           clearInterval(state.micHeartbeat);
           state.micHeartbeat = null;
           clearTimeout(state.sessionRestartTimer);
           state.sessionRestartTimer = null;
-          state.permissionAttempts++;
-          if (state.permissionAttempts <= 3) {
-            // Chrome shows a permission dialog — the first 1-2 attempts
-            // fire 'not-allowed' while the dialog is still open.
-            // Wait 2s and retry automatically (user may still be clicking Allow).
-            const delay = state.permissionAttempts * 2000;
-            updateStatus(`Waiting for mic permission… (attempt ${state.permissionAttempts}/3)`);
-            setTimeout(() => {
-              if (!state.answerSubmitted) {
-                state.wantListening = true;
-                _startRecognition();
-                // Restart heartbeat
-                if (!state.micHeartbeat) {
-                  state.micHeartbeat = setInterval(() => {
-                    if (state.wantListening && !state.isListening && !state.recognitionStarting &&
-                        !state.isSpeaking && !state.answerSubmitted) {
-                      _startRecognition();
-                    }
-                  }, 1500);
-                }
-              }
-            }, delay);
-          } else {
-            // Genuinely blocked — stop and tell user how to fix it
-            state.wantListening = false;
-            state.permissionAttempts = 0;
-            updateStatus('⛔ Mic blocked — click 🔒 in address bar → Allow microphone → reload');
-            const lt = document.getElementById('liveTranscript');
-            lt.textContent = '⛔ Microphone access denied. Allow in Chrome settings and reload the page.';
-            lt.classList.remove('hidden');
-          }
+          state.wantListening   = false;
+          state.permissionAttempts = 0;
+          updateStatus('⛔ Microphone access denied — see the fix guide below');
+          document.getElementById('micErrorCard').classList.remove('hidden');
+          document.getElementById('liveTranscript').classList.add('hidden');
         } else if (event.error !== 'no-speech') {
           updateStatus('Mic error: ' + event.error + '. Will retry automatically.');
         }
@@ -1857,6 +1904,7 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       state.interimBuffer = '';
       sessionHistory = [];
       document.getElementById('downloadBtn').classList.add('hidden');
+      document.getElementById('micErrorCard').classList.add('hidden');
       clearInterval(state.micHeartbeat);
       state.micHeartbeat = null;
       clearTimeout(state.sessionRestartTimer);
@@ -1924,6 +1972,11 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       document.getElementById('manualInput').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') submitAnswer();
       });
+
+      // Show browser warning if Web Speech API is not available
+      if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
+        document.getElementById('browserWarning').classList.remove('hidden');
+      }
     });
   </script>
 </body>
