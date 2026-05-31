@@ -1,0 +1,1930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rajasekhar - Your Devops Interviewer</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      color: white;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+
+    /* Gemini Config Card */
+    .config-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      border-left: 5px solid #0078d4;
+    }
+
+    .config-card h3 {
+      color: #0078d4;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .config-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+      align-items: end;
+    }
+
+    @media (max-width: 640px) {
+      .config-grid { grid-template-columns: 1fr; }
+    }
+
+    .config-field label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 0.3rem;
+    }
+
+    .config-field input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      transition: border-color 0.2s;
+    }
+
+    .config-field input:focus {
+      outline: none;
+      border-color: #0078d4;
+    }
+
+    .config-status {
+      font-size: 0.8rem;
+      margin-top: 0.75rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      display: inline-block;
+    }
+
+    .config-status.ok {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .config-status.not-set {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    /* Voice & interview styles */
+    .voice-control {
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .mic-button {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-size: 2.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s ease;
+      margin: 0 auto;
+      display: block;
+    }
+
+    .mic-button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .mic-button.listening {
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+      animation: pulse 1.5s infinite;
+    }
+
+    .mic-button.speaking {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #666;
+      font-weight: 600;
+    }
+
+    .progress {
+      background: #f0f0f0;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    .question-box {
+      background: linear-gradient(135deg, #667eea15, #764ba215);
+      border-left: 4px solid #667eea;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .question-label {
+      font-size: 0.85rem;
+      color: #667eea;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      color: #333;
+      line-height: 1.5;
+    }
+
+    .answer-box {
+      background: #f8f9fa;
+      border-left: 4px solid #28a745;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .answer-label {
+      font-size: 0.85rem;
+      color: #28a745;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .answer-text {
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .feedback-box {
+      background: #fff3cd;
+      border-left: 4px solid #ffc107;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .feedback-box.ai-powered {
+      background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+      border-left: 4px solid #0078d4;
+    }
+
+    .feedback-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .feedback-box .feedback-label { color: #856404; }
+    .feedback-box.ai-powered .feedback-label { color: #0078d4; }
+
+    .feedback-text {
+      font-size: 1rem;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Loading spinner for AI feedback */
+    .loading-dots {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .loading-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #0078d4;
+      animation: bounce 1.2s infinite;
+    }
+
+    .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0.7); opacity: 0.5; }
+      40% { transform: scale(1); opacity: 1; }
+    }
+
+    .input-group {
+      margin: 1.5rem 0;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    input[type="text"]:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-success {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #218838;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: #6c757d;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: #5a6268;
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .summary-card {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .score {
+      font-size: 4rem;
+      font-weight: 700;
+      margin: 1rem 0;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .mode-selector {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .mode-btn {
+      padding: 0.8rem 1.5rem;
+      border: 2px solid #667eea;
+      background: white;
+      color: #667eea;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .mode-btn.active {
+      background: #667eea;
+      color: white;
+    }
+
+    .live-transcript {
+      margin-top: 0.75rem;
+      padding: 0.5rem 1rem;
+      background: #f0f4ff;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: #444;
+      font-style: italic;
+      text-align: center;
+      border: 1px dashed #667eea;
+    }
+
+    /* Resume Card */
+    .resume-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      border-left: 5px solid #28a745;
+    }
+
+    .resume-card h3 {
+      color: #28a745;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .resume-card p.hint {
+      font-size: 0.82rem;
+      color: #666;
+      margin-bottom: 0.75rem;
+    }
+
+    .resume-card textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      resize: vertical;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .resume-card textarea:focus {
+      outline: none;
+      border-color: #28a745;
+    }
+
+    .resume-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, #28a745, #218838);
+      color: white;
+      padding: 0.65rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 3px 10px rgba(40,167,69,0.3);
+    }
+
+    .btn-green:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(40,167,69,0.4);
+    }
+
+    .btn-green:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .resume-status {
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+    }
+
+    .resume-status.idle    { background: #f0f0f0; color: #555; }
+    .resume-status.loading { background: #fff3cd; color: #856404; }
+    .resume-status.ok      { background: #e8f5e9; color: #2e7d32; }
+    .resume-status.error   { background: #fdecea; color: #c62828; }
+
+    /* JD Card */
+    .jd-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      border-left: 5px solid #e67e22;
+    }
+    .jd-card h3 {
+      color: #e67e22;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .jd-card p.hint {
+      font-size: 0.82rem;
+      color: #666;
+      margin-bottom: 0.75rem;
+    }
+    .jd-card textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      resize: vertical;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .jd-card textarea:focus {
+      outline: none;
+      border-color: #e67e22;
+    }
+
+    /* Download Report button */
+    .btn-download {
+      background: linear-gradient(135deg, #1565c0, #0d47a1);
+      color: white;
+      box-shadow: 0 4px 15px rgba(21,101,192,0.3);
+    }
+    .btn-download:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(21,101,192,0.4);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Rajasekhar - Your Devops Interviewer</h1>
+      <p>Practice. Improve. Ace Interviews.</p>
+    </div>
+
+    <!-- Google Gemini Configuration -->
+    <div class="config-card">
+      <h3>⚡ Google Gemini Configuration <span style="font-weight:400;font-size:0.85rem;color:#555;">— Free! Get key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#4285f4;">aistudio.google.com</a></span></h3>
+      <div class="config-grid" style="grid-template-columns: 2fr 1fr;">
+        <div class="config-field">
+          <label>Gemini API Key</label>
+          <input type="password" id="geminiKey" placeholder="AIzaSy...">
+        </div>
+        <div class="config-field">
+          <label>Model (optional)</label>
+          <input type="text" id="geminiModel" placeholder="gemini-2.5-flash">
+        </div>
+      </div>
+      <div id="configStatus" class="config-status not-set">
+        ⚠️ Not configured — using basic keyword feedback
+      </div>
+    </div>
+
+    <!-- Mode Selection -->
+    <div class="card">
+      <div class="mode-selector">
+        <button class="mode-btn active" onclick="setMode('voice')" id="voiceMode">
+          🎤 Voice Mode
+        </button>
+        <button class="mode-btn" onclick="setMode('text')" id="textMode">
+          ⌨️ Text Mode
+        </button>
+      </div>
+    </div>
+
+    <!-- Resume-Based Questions -->
+    <div class="resume-card">
+      <h3>📄 Resume-Based Questions <span style="font-weight:400;font-size:0.82rem;color:#555;">— Gemini generates personalised questions from your resume</span></h3>
+      <p class="hint">Paste your CV / resume below. Click "Generate Questions" and your next interview will use questions tailored to your background.</p>
+      <textarea id="resumeText" placeholder="Paste your resume here…&#10;&#10;Example:&#10;DevOps Engineer with 5 years experience in AWS, Kubernetes, Terraform…"></textarea>
+      <div class="resume-actions">
+        <button class="btn-green" id="generateQuestionsBtn" onclick="generateResumeQuestions()">&#x2728; Generate Questions</button>
+        <label style="font-size:0.82rem;font-weight:600;color:#555;display:flex;align-items:center;gap:0.4rem;">
+          Questions:
+          <select id="resumeQuestionCount" style="padding:0.4rem 0.6rem;border:1.5px solid #e0e0e0;border-radius:6px;font-size:0.88rem;cursor:pointer;">
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20" selected>20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+          </select>
+        </label>
+        <button class="btn-secondary" id="clearResumeBtn" onclick="clearResumeQuestions()" style="padding:0.55rem 1rem;font-size:0.88rem;">&#x2715; Use Default Questions</button>
+        <span class="resume-status idle" id="resumeStatus">No resume loaded</span>
+      </div>
+    </div>
+
+    <!-- Job Description Mode -->
+    <div class="jd-card">
+      <h3>💼 Job Description Mode <span style="font-weight:400;font-size:0.82rem;color:#555;">— Gemini generates questions matching the role’s requirements</span></h3>
+      <p class="hint">Paste the job description or job posting below. Gemini will generate questions a hiring manager for that specific role would ask. <strong>JD questions take priority over resume questions when both are set.</strong></p>
+      <textarea id="jdText" placeholder="Paste job description here…&#10;&#10;Example:&#10;Senior DevOps Engineer — AWS, Kubernetes, Terraform, CI/CD pipelines…&#10;Responsibilities: Design and implement CI/CD pipelines, manage cloud infrastructure…"></textarea>
+      <div class="resume-actions">
+        <button class="btn-green" id="generateJDBtn" onclick="generateJDQuestions()">&#x2728; Generate JD Questions</button>
+        <label style="font-size:0.82rem;font-weight:600;color:#555;display:flex;align-items:center;gap:0.4rem;">
+          Questions:
+          <select id="jdQuestionCount" style="padding:0.4rem 0.6rem;border:1.5px solid #e0e0e0;border-radius:6px;font-size:0.88rem;cursor:pointer;">
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20" selected>20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+          </select>
+        </label>
+        <button class="btn-secondary" id="clearJDBtn" onclick="clearJDQuestions()" style="padding:0.55rem 1rem;font-size:0.88rem;">&#x2715; Clear JD Questions</button>
+        <span class="resume-status idle" id="jdStatus">No JD loaded</span>
+      </div>
+    </div>
+
+    <!-- Interview Panel -->
+    <div class="card">
+      <div class="progress" id="progress">
+        Click "Start Interview" to begin
+      </div>
+
+      <!-- Voice Control -->
+      <div class="voice-control" id="voiceControl">
+        <button class="mic-button" id="micButton" onclick="toggleVoice()">🎤</button>
+        <div class="status" id="status">Ready to start</div>
+        <div class="live-transcript hidden" id="liveTranscript">🎙️ Listening...</div>
+      </div>
+
+      <!-- Question Display -->
+      <div class="question-box hidden" id="questionBox">
+        <div class="question-label">Interview Question</div>
+        <div class="question-text" id="questionText"></div>
+      </div>
+
+      <!-- Manual Input (for text mode) -->
+      <div class="input-group hidden" id="textInputGroup">
+        <input type="text" id="manualInput" placeholder="Type your answer here and press Enter or click Submit...">
+      </div>
+
+      <!-- Answer Display -->
+      <div class="answer-box hidden" id="answerBox">
+        <div class="answer-label">Your Answer</div>
+        <div class="answer-text" id="answerText"></div>
+      </div>
+
+      <!-- Feedback Display -->
+      <div class="feedback-box hidden" id="feedbackBox">
+        <div class="feedback-label" id="feedbackLabel">AI Feedback</div>
+        <div class="feedback-text" id="feedbackText"></div>
+      </div>
+
+      <!-- Control Buttons -->
+      <div class="button-group">
+        <button class="btn-primary" onclick="startInterview()" id="startBtn">Start Interview</button>
+        <button class="btn-success hidden" onclick="submitAnswer()" id="submitBtn">Submit Answer</button>
+        <button class="btn-secondary" onclick="skipQuestion()" id="skipBtn" disabled>Skip Question</button>
+        <button class="btn-secondary" onclick="nextQuestion()" id="nextBtn" disabled>Next Question</button>
+        <button class="btn-secondary" onclick="resetInterview()" id="resetBtn" disabled>Reset</button>
+        <button class="btn-secondary" onclick="retryAnswer()" id="retryBtn" disabled>Retry Answer</button>
+        <button class="btn-download hidden" onclick="downloadSession()" id="downloadBtn">💾 Download Report</button>
+      </div>
+    </div>
+
+    <!-- Summary (shown at end) -->
+    <div class="summary-card hidden" id="summaryCard">
+      <h2>Interview Complete! 🎉</h2>
+      <div class="score" id="finalScore">—</div>
+      <p>Questions Answered</p>
+      <button class="btn-primary" style="margin-top: 1rem;" onclick="resetInterview()">Start New Interview</button>
+      <button class="btn-download" style="margin-top: 0.75rem;" onclick="downloadSession()">💾 Download Session Report</button>
+    </div>
+  </div>
+
+  <script>
+    // ─── Gemini helpers ───────────────────────────────────────────────────────
+
+    function isAOAIConfigured() {
+      return document.getElementById('geminiKey').value.trim().length > 10;
+    }
+
+    function refreshConfigStatus() {
+      const el = document.getElementById('configStatus');
+      if (isAOAIConfigured()) {
+        el.className = 'config-status ok';
+        el.textContent = '✅ Gemini configured — AI feedback enabled';
+      } else {
+        el.className = 'config-status not-set';
+        el.textContent = '⚠️ Not configured — using basic keyword feedback';
+      }
+    }
+
+    // Update status badge whenever the user types in the config fields
+    ['geminiKey', 'geminiModel'].forEach(id => {
+      document.getElementById(id).addEventListener('input', refreshConfigStatus);
+    });
+
+    // ─── Resume-Based Questions ────────────────────────────────────────────────
+
+    // null = use the built-in question bank; array = use generated questions
+    let resumeQuestions = null;
+    let jdQuestions     = null;   // JD mode — takes priority over resume when both are set
+    let sessionHistory  = [];     // [{question, answer, feedbackHtml}] for report download
+
+    // Returns whichever question list is currently active.
+    // Priority: JD > Resume > Built-in bank
+    function activeQuestions() {
+      return jdQuestions || resumeQuestions || questions;
+    }
+
+    async function generateResumeQuestions() {
+      const resumeText = document.getElementById('resumeText').value.trim();
+      if (!resumeText) {
+        alert('Please paste your resume first.');
+        return;
+      }
+      if (!isAOAIConfigured()) {
+        alert('Please enter your Gemini API key first — it is needed to generate personalised questions.');
+        return;
+      }
+
+      const btn    = document.getElementById('generateQuestionsBtn');
+      const status = document.getElementById('resumeStatus');
+      const questionCount = parseInt(document.getElementById('resumeQuestionCount').value, 10) || 20;
+      btn.disabled = true;
+      status.className = 'resume-status loading';
+      status.textContent = `⏳ Generating ${questionCount} questions…`;
+
+      try {
+        const apiKey = document.getElementById('geminiKey').value.trim();
+        const model  = document.getElementById('geminiModel').value.trim() || 'gemini-2.5-flash';
+        const url    = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+        const body = {
+          contents: [{
+            role: 'user',
+            parts: [{ text:
+`You are a senior DevOps / Cloud interviewer. Based on the candidate's resume below, generate exactly ${questionCount} technical interview questions tailored to THEIR specific experience, tools, and technologies mentioned.
+
+Rules:
+- Each question must be directly relevant to something mentioned in the resume (specific tools, cloud providers, CI/CD pipelines, IaC tools, container platforms, etc.)
+- Mix difficulty: roughly 25% basic, 50% intermediate, 25% advanced/situational
+- Include scenario-based questions referencing their actual experience
+- No generic questions that could apply to anyone
+- Return ONLY a valid JSON array of exactly ${questionCount} question strings. No markdown, no code fences, no explanation — just the raw JSON array.
+
+Resume:
+${resumeText}
+
+Output (raw JSON array only):` }]
+          }],
+          generationConfig: {
+            maxOutputTokens: Math.max(3500, questionCount * 180),
+            temperature: 0.6,
+            responseMimeType: 'application/json'
+          }
+        };
+
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err?.error?.message || `HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        let rawText = (data.candidates[0].content.parts[0].text || '').trim();
+
+        // Strip markdown code fences (``` or ```json) — handle multiline
+        rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
+
+        // If Gemini returned prose with an embedded array, extract the array portion
+        if (!rawText.startsWith('[')) {
+          const arrayMatch = rawText.match(/\[[\s\S]*\]/);
+          if (arrayMatch) rawText = arrayMatch[0];
+        }
+
+        let parsed;
+        try {
+          parsed = JSON.parse(rawText);
+        } catch (parseErr) {
+          // Last resort: try to recover a truncated array by closing it
+          const truncFixed = rawText.replace(/,?\s*"[^"]*$/, '').replace(/,\s*$/, '') + ']';
+          try {
+            parsed = JSON.parse(truncFixed);
+          } catch {
+            throw new Error('Could not parse Gemini response as JSON. Try again or use a shorter resume.');
+          }
+        }
+
+        if (!Array.isArray(parsed) || parsed.length === 0) {
+          throw new Error('Gemini returned an empty list. Please try again.');
+        }
+
+        // Filter out any non-string entries
+        parsed = parsed.filter(q => typeof q === 'string' && q.trim().length > 0);
+
+        resumeQuestions = parsed;
+        status.className = 'resume-status ok';
+        status.textContent = `✅ ${parsed.length} personalised questions ready`;
+        document.getElementById('clearResumeBtn').style.display = '';
+      } catch (err) {
+        status.className = 'resume-status error';
+        status.textContent = '❌ ' + err.message;
+        resumeQuestions = null;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function clearResumeQuestions() {
+      resumeQuestions = null;
+      document.getElementById('resumeStatus').className = 'resume-status idle';
+      document.getElementById('resumeStatus').textContent = 'No resume loaded — using default questions';
+    }
+
+    // ─── Job Description Mode ──────────────────────────────────────────────────────────
+
+    async function generateJDQuestions() {
+      const jdText = document.getElementById('jdText').value.trim();
+      if (!jdText) { alert('Please paste a job description first.'); return; }
+      if (!isAOAIConfigured()) { alert('Please enter your Gemini API key first.'); return; }
+
+      const btn    = document.getElementById('generateJDBtn');
+      const status = document.getElementById('jdStatus');
+      const questionCount = parseInt(document.getElementById('jdQuestionCount').value, 10) || 20;
+      btn.disabled = true;
+      status.className = 'resume-status loading';
+      status.textContent = `⏳ Generating ${questionCount} questions…`;
+
+      try {
+        const apiKey = document.getElementById('geminiKey').value.trim();
+        const model  = document.getElementById('geminiModel').value.trim() || 'gemini-2.5-flash';
+        const url    = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+        const body = {
+          contents: [{
+            role: 'user',
+            parts: [{ text:
+`You are a senior hiring manager conducting a technical interview. Based on the job description below, generate exactly ${questionCount} interview questions that a hiring manager for this specific role would ask.
+
+Rules:
+- Questions must be directly based on the skills, tools, responsibilities, and requirements listed in the JD
+- Mix difficulty: ~25% basic screening, ~50% technical depth, ~25% situational/behavioural
+- Include questions about specific technologies, cloud providers, and methodologies mentioned in the JD
+- Include scenario-based questions tied to the role’s actual responsibilities
+- No generic filler questions unrelated to the JD content
+- Return ONLY a valid JSON array of exactly ${questionCount} question strings. No markdown, no code fences, no explanation — just the raw JSON array.
+
+Job Description:
+${jdText}
+
+Output (raw JSON array only):` }]
+          }],
+          generationConfig: {
+            maxOutputTokens: Math.max(3500, questionCount * 180),
+            temperature: 0.6,
+            responseMimeType: 'application/json'
+          }
+        };
+
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err?.error?.message || `HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        let rawText = (data.candidates[0].content.parts[0].text || '').trim();
+        rawText = rawText.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
+        if (!rawText.startsWith('[')) {
+          const m = rawText.match(/\[[\s\S]*\]/);
+          if (m) rawText = m[0];
+        }
+        let parsed;
+        try { parsed = JSON.parse(rawText); }
+        catch {
+          const fixed = rawText.replace(/,?\s*"[^"]*$/, '').replace(/,\s*$/, '') + ']';
+          try { parsed = JSON.parse(fixed); }
+          catch { throw new Error('Could not parse Gemini response. Try again.'); }
+        }
+        if (!Array.isArray(parsed) || parsed.length === 0)
+          throw new Error('Gemini returned an empty list. Please try again.');
+
+        jdQuestions = parsed.filter(q => typeof q === 'string' && q.trim());
+        status.className = 'resume-status ok';
+        status.textContent = `✅ ${jdQuestions.length} JD questions ready (active)`;
+        if (resumeQuestions) status.textContent += ' — overrides resume questions';
+      } catch (err) {
+        status.className = 'resume-status error';
+        status.textContent = '❌ ' + err.message;
+        jdQuestions = null;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function clearJDQuestions() {
+      jdQuestions = null;
+      const st = document.getElementById('jdStatus');
+      st.className = 'resume-status idle';
+      st.textContent = resumeQuestions ? 'JD cleared — resume questions now active' : 'JD cleared — using default questions';
+    }
+
+    // ─── Session Download ───────────────────────────────────────────────────────────────────
+
+    function escapeHtml(s) {
+      return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function downloadSession() {
+      if (sessionHistory.length === 0) {
+        alert('No answers recorded yet — complete at least one question first.');
+        return;
+      }
+      const date = new Date().toLocaleString('en-GB', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+      let html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DevOps Interview Report — ${date}</title>
+  <style>
+    body{font-family:'Segoe UI',sans-serif;max-width:860px;margin:2rem auto;padding:1rem 1.5rem;background:#f5f5f7;color:#333}
+    h1{color:#667eea;text-align:center;font-size:1.8rem;margin-bottom:0.25rem}
+    .meta{text-align:center;color:#888;font-size:0.85rem;margin-bottom:2rem}
+    .entry{background:#fff;border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 10px rgba(0,0,0,0.08)}
+    .q-num{font-size:0.72rem;color:#667eea;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem}
+    .question{font-size:1.05rem;font-weight:600;color:#222;border-left:4px solid #667eea;padding-left:.75rem;margin-bottom:1rem;line-height:1.4}
+    .lbl{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem}
+    .lbl-a{color:#28a745}.lbl-f{color:#0078d4}
+    .answer{background:#f8f9fa;border-left:3px solid #28a745;padding:.7rem 1rem;border-radius:6px;margin-bottom:1rem;font-size:.93rem;line-height:1.6}
+    .feedback{background:linear-gradient(135deg,#e3f2fd,#f3e5f5);border-left:3px solid #0078d4;padding:.7rem 1rem;border-radius:6px;font-size:.9rem;line-height:1.7}
+    strong{font-weight:700}
+  </style>
+</head>
+<body>
+  <h1>🎤 DevOps Interview Report</h1>
+  <div class="meta">Generated: ${date} &nbsp;·&nbsp; ${sessionHistory.length} question${sessionHistory.length !== 1 ? 's' : ''} answered</div>
+`;
+      sessionHistory.forEach((e, i) => {
+        html += `  <div class="entry">
+    <div class="q-num">Question ${i + 1} of ${sessionHistory.length}</div>
+    <div class="question">${escapeHtml(e.question)}</div>
+    <div class="lbl lbl-a">Your Answer</div>
+    <div class="answer">${escapeHtml(e.answer) || '<em style="color:#aaa">No answer recorded</em>'}</div>
+    <div class="lbl lbl-f">🤖 AI Feedback</div>
+    <div class="feedback">${e.feedbackHtml || '<em style="color:#aaa">No AI feedback recorded</em>'}</div>
+  </div>
+`;
+      });
+      html += `</body>
+</html>`;
+
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url;
+      a.download = `interview-report-${new Date().toISOString().slice(0, 10)}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    /**
+     * Call Google Gemini API and return the feedback string.
+     * Free tier: 15 req/min, 1500 req/day — no credit card needed.
+     * Get key: https://aistudio.google.com/app/apikey
+     */
+    async function callGemini(question, answer, modelOverride) {
+      const apiKey = document.getElementById('geminiKey').value.trim();
+      const model  = modelOverride || document.getElementById('geminiModel').value.trim() || 'gemini-2.5-flash';
+      const url    = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+      const body = {
+        system_instruction: {
+          parts: [{ text:
+`You are a senior DevOps interviewer evaluating a candidate's spoken answer.
+Respond using EXACTLY these three sections with these exact headers (including the emoji):
+
+✅ WHAT YOU ANSWERED WELL:
+- [specific thing the candidate got right]
+- [another specific strength, or note if the answer was very brief]
+
+⚠️ WHAT'S MISSING OR NEEDS IMPROVEMENT:
+- [specific missing concept or technical detail]
+- [another gap, or how to elaborate better]
+
+💡 HOW TO ANSWER THIS IN AN INTERVIEW:
+[Write a DETAILED model answer of 6-8 sentences. Cover: the definition, why it matters, how it works in practice, a real-world example or use case, and any key tools or best practices. This should be the gold-standard answer a senior engineer would give.]
+
+Be technically precise. Use specific tool names, commands, or metrics where relevant.` }]
+        },
+        contents: [{
+          role: 'user',
+          parts: [{ text: `Interview Question: ${question}\n\nCandidate's Answer: ${answer}` }]
+        }],
+        generationConfig: {
+          maxOutputTokens: 2500,
+          temperature: 0.4
+        }
+      };
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err?.error?.message || `HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.candidates[0].content.parts[0].text.trim();
+    }
+
+    /**
+     * callGeminiWithRetry — cascades through models on quota exhaustion,
+     * retries same model on rate-limit (429) with countdown display.
+     */
+    async function callGeminiWithRetry(question, answer, maxRetries = 2) {
+      const configured = document.getElementById('geminiModel').value.trim();
+      // If user typed a model, only use that; otherwise cascade through free-tier models
+      const models = configured
+        ? [configured]
+        : ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-lite'];
+      const feedbackText = document.getElementById('feedbackText');
+
+      for (let mi = 0; mi < models.length; mi++) {
+        const model = models[mi];
+        for (let attempt = 0; attempt < maxRetries; attempt++) {
+          try {
+            return await callGemini(question, answer, model);
+          } catch (err) {
+            const isQuota     = err.message.toLowerCase().includes('quota');
+            const isRateLimit = err.message.includes('429') ||
+                                err.message.toLowerCase().includes('rate');
+
+            if (isQuota) {
+              // Daily quota exhausted for this model — try the next one
+              const next = models[mi + 1];
+              if (next) {
+                feedbackText.innerHTML =
+                  `<div class="loading-dots"><span></span><span></span><span></span></div> ` +
+                  `Quota exhausted for <b>${model}</b> — trying <b>${next}</b>…`;
+                await new Promise(r => setTimeout(r, 800));
+              }
+              break; // stop retrying this model, outer loop picks next
+            }
+
+            if (!isRateLimit || attempt === maxRetries - 1) throw err;
+
+            // Rate limit — parse wait time and show countdown
+            const match = err.message.match(/retry in (\d+(?:\.\d+)?)s/i);
+            const waitSec = match ? Math.ceil(parseFloat(match[1])) + 1 : (attempt + 1) * 15;
+            for (let s = waitSec; s > 0; s--) {
+              feedbackText.innerHTML =
+                `<div class="loading-dots"><span></span><span></span><span></span></div> ` +
+                `Rate limit — retrying in ${s}s… (attempt ${attempt + 1}/${maxRetries})`;
+              await new Promise(r => setTimeout(r, 1000));
+            }
+            feedbackText.innerHTML =
+              '<div class="loading-dots"><span></span><span></span><span></span></div> Retrying…';
+          }
+        }
+      }
+      throw new Error(
+        'All Gemini models have exhausted their free quota for today. ' +
+        'Free tier resets daily — try again tomorrow, or add billing at https://ai.google.dev/gemini-api/docs/rate-limits'
+      );
+    }
+
+    // ─── State management ─────────────────────────────────────────────────────
+
+    let state = {
+      currentIndex: 0,
+      mode: 'voice',
+      isListening: false,
+      isSpeaking: false,
+      wantListening: false,
+      recognition: null,
+      answeredCount: 0,
+      lastHeard: '',
+      interimBuffer: '',
+      isInterviewActive: false,
+      answerSubmitted: false,
+      micHeartbeat: null,
+      sessionRestartTimer: null,   // proactive restart before Chrome's ~60s kill
+      permissionAttempts: 0,       // retry counter for not-allowed errors
+      recognitionStarting: false   // true while .start() called but onstart not yet fired
+    };
+
+    // ─── Question bank ────────────────────────────────────────────────────────
+
+    const questions = [
+      "What is CI/CD and why is it important?",
+      "How do you handle monitoring and logging in DevOps?",
+      "What are containers and how do they help in DevOps?",
+      "What is Terraform and why is it used?",
+      "Explain Infrastructure as Code (IaC).",
+      "Difference between Terraform and CloudFormation?",
+      "What are Terraform providers?",
+      "What is a Terraform state file?",
+      "Why is remote state important?",
+      "Explain Terraform lifecycle.",
+      "What are Terraform modules?",
+      "Difference between count and for_each?",
+      "What are Terraform workspaces?",
+      "Explain Terraform backend.",
+      "Difference between terraform refresh and terraform apply?",
+      "How do you handle secrets in Terraform?",
+      "Explain Terraform locking mechanism.",
+      "What is terraform taint?",
+      "Difference between resource and data source?",
+      "Explain Terraform dependency management.",
+      "What are provisioners in Terraform?",
+      "Explain null_resource.",
+      "What causes Terraform state corruption and how do you fix it?",
+      "How do you import existing resources into Terraform?",
+      "Explain terraform plan output.",
+      "Difference between local-exec and remote-exec?",
+      "Explain Terraform variable types.",
+      "How do you manage multiple environments in Terraform?",
+      "What is terraform destroy?",
+      "Explain dynamic blocks in Terraform.",
+      "How do you optimize Terraform code?",
+      "Explain Terraform CI/CD workflow.",
+      "What are Terraform best practices?",
+      "What is Docker?",
+      "Difference between Docker and Virtual Machine?",
+      "What is a Docker image?",
+      "Difference between image and container?",
+      "Explain Docker architecture.",
+      "What is Docker daemon?",
+      "Explain Dockerfile.",
+      "Difference between CMD and ENTRYPOINT?",
+      "Difference between COPY and ADD?",
+      "Explain Docker layers.",
+      "What is Docker caching?",
+      "Explain multi-stage Docker builds.",
+      "What is Docker Compose?",
+      "Difference between Docker volumes and bind mounts?",
+      "Explain Docker networking.",
+      "What are Docker network types?",
+      "Explain bridge network.",
+      "What is host networking?",
+      "What is overlay network?",
+      "Explain Docker restart policies.",
+      "What are Docker healthchecks?",
+      "How do you debug failed containers?",
+      "Explain Docker logs.",
+      "How to reduce Docker image size?",
+      "What is Docker registry?",
+      "Difference between docker stop and docker kill?",
+      "Explain Docker container lifecycle.",
+      "What is .dockerignore?",
+      "How do you troubleshoot Docker daemon issues?",
+      "Explain Docker security best practices.",
+      "What is Kubernetes?",
+      "Why Kubernetes is needed?",
+      "Explain Kubernetes architecture.",
+      "What is a Pod?",
+      "Difference between Pod and Container?",
+      "What is Deployment in Kubernetes?",
+      "Difference between Deployment and StatefulSet?",
+      "What is ReplicaSet?",
+      "Explain Kubernetes Services.",
+      "Types of Kubernetes Services?",
+      "Difference between ClusterIP, NodePort, and LoadBalancer?",
+      "What is Ingress?",
+      "Explain ConfigMap and Secret.",
+      "What are Namespaces?",
+      "Explain Kubernetes scheduling.",
+      "What are taints and tolerations?",
+      "What are node selectors and affinity?",
+      "Explain Persistent Volumes and PVCs.",
+      "What are liveness and readiness probes?",
+      "Difference between rolling update and recreate strategy?",
+      "Explain Horizontal Pod Autoscaler.",
+      "What is Helm?",
+      "Explain Kubernetes networking.",
+      "What is kube-proxy?",
+      "Explain etcd.",
+      "What causes CrashLoopBackOff?",
+      "How do you debug Kubernetes Pods?",
+      "Explain Kubernetes RBAC.",
+      "Difference between DaemonSet and Deployment?",
+      "Explain Kubernetes security best practices."
+    ];
+
+    // ─── Speech recognition ───────────────────────────────────────────────────
+
+    function initSpeechRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert('Speech recognition not supported. Please use Chrome or Edge.');
+        return null;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US'; // US English has largest training data for DevOps/tech terms
+
+      recognition.onstart = () => {
+        state.recognitionStarting = false;
+        state.permissionAttempts = 0;  // permission confirmed working — reset retry counter
+        state.isListening = true;
+        updateMicButton();
+        updateStatus('🔴 Listening — speak your full answer, then click Submit');
+        const lt = document.getElementById('liveTranscript');
+        lt.textContent = state.lastHeard ? '🎙️ ' + state.lastHeard : '🎙️ Listening...';
+        lt.classList.remove('hidden');
+        // No proactive restart timer — it caused Chrome to re-prompt for
+        // mic permission every 45s on file:// origins. Chrome’s own session end
+        // fires onend which restarts immediately; the heartbeat catches silent failures.
+      };
+
+      recognition.onresult = (event) => {
+        let interim = '', final = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          if (event.results[i].isFinal) final += event.results[i][0].transcript;
+          else interim += event.results[i][0].transcript;
+        }
+        const lt = document.getElementById('liveTranscript');
+        if (final) {
+          state.interimBuffer = ''; // final committed, clear interim buffer
+          state.lastHeard = (state.lastHeard ? state.lastHeard + ' ' : '') + correctTranscript(final.trim());
+        }
+        if (interim) {
+          state.interimBuffer = interim; // save in case session dies mid-sentence
+        }
+        // Show accumulated text + current interim
+        const display = (state.lastHeard ? state.lastHeard : '') +
+                        (interim ? (state.lastHeard ? ' ' : '') + correctTranscript(interim) : '');
+        if (display) {
+          lt.textContent = '🎙️ ' + display;
+          lt.classList.remove('hidden');
+        }
+      };
+
+      recognition.onerror = (event) => {
+        console.error('Speech error:', event.error);
+        state.recognitionStarting = false;
+        state.isListening = false;
+        updateMicButton();
+        if (event.error === 'not-allowed') {
+          clearInterval(state.micHeartbeat);
+          state.micHeartbeat = null;
+          clearTimeout(state.sessionRestartTimer);
+          state.sessionRestartTimer = null;
+          state.permissionAttempts++;
+          if (state.permissionAttempts <= 3) {
+            // Chrome shows a permission dialog — the first 1-2 attempts
+            // fire 'not-allowed' while the dialog is still open.
+            // Wait 2s and retry automatically (user may still be clicking Allow).
+            const delay = state.permissionAttempts * 2000;
+            updateStatus(`Waiting for mic permission… (attempt ${state.permissionAttempts}/3)`);
+            setTimeout(() => {
+              if (!state.answerSubmitted) {
+                state.wantListening = true;
+                _startRecognition();
+                // Restart heartbeat
+                if (!state.micHeartbeat) {
+                  state.micHeartbeat = setInterval(() => {
+                    if (state.wantListening && !state.isListening && !state.recognitionStarting &&
+                        !state.isSpeaking && !state.answerSubmitted) {
+                      _startRecognition();
+                    }
+                  }, 1500);
+                }
+              }
+            }, delay);
+          } else {
+            // Genuinely blocked — stop and tell user how to fix it
+            state.wantListening = false;
+            state.permissionAttempts = 0;
+            updateStatus('⛔ Mic blocked — click 🔒 in address bar → Allow microphone → reload');
+            const lt = document.getElementById('liveTranscript');
+            lt.textContent = '⛔ Microphone access denied. Allow in Chrome settings and reload the page.';
+            lt.classList.remove('hidden');
+          }
+        } else if (event.error !== 'no-speech') {
+          updateStatus('Mic error: ' + event.error + '. Will retry automatically.');
+        }
+      };
+
+      recognition.onend = () => {
+        state.recognitionStarting = false;
+        state.isListening = false;
+        updateMicButton();
+        // Session died — rescue any unsaved interim words before restarting
+        if (state.interimBuffer.trim()) {
+          state.lastHeard = (state.lastHeard ? state.lastHeard + ' ' : '') +
+                            correctTranscript(state.interimBuffer.trim());
+          state.interimBuffer = '';
+          const lt = document.getElementById('liveTranscript');
+          lt.textContent = '🎙️ ' + state.lastHeard;
+        }
+        // Restart after a short delay to let Chrome fully release the audio resource.
+        // Calling .start() immediately after onend on file:// causes InvalidStateError.
+        if (state.wantListening && !state.answerSubmitted && !state.isSpeaking) {
+          setTimeout(() => {
+            if (state.wantListening && !state.answerSubmitted && !state.isSpeaking) {
+              _startRecognition();
+            }
+          }, 150);
+        }
+      };
+
+      return recognition;
+    }
+
+    // ─── Mode ─────────────────────────────────────────────────────────────────
+
+    /**
+     * Fix common speech-recognition mishearings for DevOps vocabulary.
+     * Uses whole-word boundaries \b so partial words are never clobbered.
+     */
+    function correctTranscript(text) {
+      const fixes = [
+        // ── Monitoring mishearings (longest phrases first) ─────────────────────
+        [/\bMontreal\s+and\s+login\b/gi,          'monitoring and logging'],
+        [/\bMontreal\s+and\s+logging\b/gi,        'monitoring and logging'],
+        [/\bMontreal\b/gi,                         'monitoring'],
+        [/\btrouble\s+should\b/gi,                 'troubleshoot'],
+        [/\bhandle\s+mounting\b/gi,               'handle monitoring'],
+        [/\bmounting\s+by\s+tracking\b/gi,        'monitoring by tracking'],
+        [/\bhandle\s+mounting\b/gi,               'handle monitoring'],
+        [/\bmounting\s+by\s+tracking\b/gi,        'monitoring by tracking'],
+        // ── Utilization / traffic mishearings ────────────────────────────────────
+        [/\bestalization\b/gi,                     'utilization'],
+        [/\bnetwork\s+profit\b/gi,                 'network traffic'],
+        [/\blatent\s+application\b/gi,             'latency, application'],
+        // ── New Relic ─────────────────────────────────────────────────────────────
+        [/\bnew\s+relick\b/gi,                     'New Relic'],
+        [/\bnew\s+relic\b/gi,                      'New Relic'],
+        // ── Monitored / metrics / monitoring mishearings ──────────────────────────
+        [/\bmattress\b/gi,                         'metrics'],
+        [/\bmartered\b/gi,                         'monitored'],
+        [/\bmoulding\b/gi,                         'monitoring'],
+        // ── Splunk compound mishearings ───────────────────────────────────────────
+        [/\bplan\s+planted\b/gi,                   'Splunk'],
+        [/\bplan\s+plant\b/gi,                     'Splunk'],
+        // ── CI/CD — must come before any single-letter "CI" rules ──────────────────
+        [/\bsee\s+i\s+see\s+d\b/gi,             'CI/CD'],
+        [/\bci\s+cd\b/gi,                        'CI/CD'],
+        [/\bcic\b/gi,                            'CI/CD'],
+        [/\brci\s*series\b/gi,                   'CI/CD'],
+        [/\barcy\s*series\b/gi,                  'CI/CD'],
+        [/\bsee\s+i\s+series\b/gi,               'CI/CD'],
+        [/\bsi\s+cd\b/gi,                        'CI/CD'],
+        // ── "Hey Siri" only — not bare "sir" (too common in en-US) ─────────
+        [/\bhey\s+siri\b/gi,                     'CI'],
+        [/\bsiri\b/gi,                           'CI'],
+        [/\bsee\s+eye\b/gi,                      'CI'],
+        // ── DevOps ──────────────────────────────────────────────────────────
+        [/\bdivorce\b/gi,                        'DevOps'],
+        [/\ba\s+develops\s+practice\b/gi,        'a DevOps practice'],  // "develops" in context
+        [/\bdeveloped\s+practice\b/gi,           'DevOps practice'],
+        [/\bdev\s+ops\b/gi,                      'DevOps'],
+        [/\bdev-ops\b/gi,                        'DevOps'],
+        // ── CI/CD stands for (Chrome hears "distance for") ─────────────────
+        [/\bdistance\s+for\b/gi,                 'CI/CD stands for'],
+        [/\bCI\s*slash\s*CD\s+stands\b/gi,       'CI/CD stands'],
+        // ── deployment mishearings ────────────────────────────────────────
+        [/\bdignition\b/gi,                      'deployment'],
+        [/\bcontinuously\s+meant\b/gi,           'continuous integration'],
+        [/\bcontinuous\s+dignition\b/gi,         'continuous deployment'],
+        // ── source mishearings ───────────────────────────────────────────────
+        [/\bscore\s+(code|repository|control|repo|quality|checks?)\b/gi, 'source $1'],
+        // ── shared repository ────────────────────────────────────────────────
+        [/\bshare[dt]?\s+(in\s+)?(?:positive|repository|repo)\b/gi,     'shared repository'],
+        [/\bshare\s+repo\b/gi,                   'shared repo'],
+        [/\bshare\s+depositories\b/gi,           'shared repositories'],
+        [/\bdepositories\b/gi,                   'repositories'],
+        // ── committed ────────────────────────────────────────────────────────
+        [/\bwhenever\s+code\s+is\s+coming\b/gi,  'whenever code is committed'],
+        [/\bcode\s+is\s+coming\b/gi,             'code is committed'],
+        [/\bcoming\s+today\b/gi,                 'committed'],
+        [/\bcommit\s+it\b/gi,                    'committed'],
+        [/\bis\s+coming\s+automatically\b/gi,    'is committed, automatically'],
+        // ── pipeline ─────────────────────────────────────────────────────────
+        [/\bpipe\s+line\b/gi,                    'pipeline'],
+        // ── deploying ────────────────────────────────────────────────────────
+        [/\bthe\s+flying\b/gi,                   'deploying'],
+        [/\btesting\s+and\s+reply\b/gi,          'testing and deploying'],  // "reply" after testing
+        [/\breply\s+application\b/gi,            'deploy application'],
+        [/\breply\s+to\s+production\b/gi,        'deployed to production'],
+        [/\bautomatically\s+reply\b/gi,          'automatically deployed'],
+        // ── deploy family ────────────────────────────────────────────────────
+        [/\bdeplies\b/gi,                        'deploys'],
+        [/\bdeployees\b/gi,                      'deploys'],
+        [/\bdeploy\s+ease\b/gi,                  'deploys'],
+        // ── source code ──────────────────────────────────────────────────────
+        [/\bso\s+scared\b/gi,                    'source code'],
+        [/\bsaw\s+scared\b/gi,                   'source code'],
+        // ── automates ────────────────────────────────────────────────────────
+        [/\bthat\s+automatically\s+process\b/gi, 'that automates the process'],
+        // ── in → is (common mishearing) ──────────────────────────────────────
+        [/\bin\s+automatically\b/gi,             'is automatically'],
+        // ── prostate → push ──────────────────────────────────────────────────
+        [/\bprostate\b/gi,                       'push'],
+        // ── planning → deploying (only in build/test/deploy context) ─────────
+        [/\btesting\s+(the\s+)?planning\b/gi,    'testing and deploying'],
+        [/\bplanning\s+(application|app)\b/gi,   'deploying $1'],
+        // ── developers phrase mishearings ─────────────────────────────────────
+        [/\bdevelopers\s+that\s+code\s+change\b/gi, 'developers integrate code changes'],
+        [/\bcode\s+change\s+the\s+situation\b/gi,   'code changes continuously integrated'],
+        [/\bthe\s+situation\b/gi,                'the integration'],
+        // ── Kubernetes ────────────────────────────────────────────────────────
+        [/\bcubernetes\b/gi,                     'Kubernetes'],
+        [/\bcoobernetes\b/gi,                    'Kubernetes'],
+        [/\bkuber\s*netease\b/gi,                'Kubernetes'],
+        [/\bdaemon\s+set\b/gi,                   'DaemonSet'],
+        [/\bstateful\s+set\b/gi,                 'StatefulSet'],
+        [/\breplica\s+set\b/gi,                  'ReplicaSet'],
+        [/\bconfig\s+map\b/gi,                   'ConfigMap'],
+        [/\bname\s+space\b/gi,                   'namespace'],
+        [/\bload\s+balancer\b/gi,                'LoadBalancer'],
+        [/\bcluster\s+ip\b/gi,                   'ClusterIP'],
+        [/\bnode\s+port\b/gi,                    'NodePort'],
+        // ── kubectl ───────────────────────────────────────────────────────────
+        [/\bcube\s*cuddle\b/gi,                  'kubectl'],
+        [/\bcube\s*control\b/gi,                 'kubectl'],
+        // ── YAML ──────────────────────────────────────────────────────────────
+        [/\byamal\b/gi,                          'YAML'],
+        [/\byammer\b/gi,                         'YAML'],
+        // ── Tools ─────────────────────────────────────────────────────────────
+        [/\bgit\s+hub\b/gi,                      'GitHub'],
+        [/\bget\s+lab\b/gi,                      'GitLab'],
+        [/\bgit\s+lab\b/gi,                      'GitLab'],
+        [/\bjenkin'?s\b/gi,                      'Jenkins'],
+        [/\bans\s*able\b/gi,                     'Ansible'],
+        [/\bcloud\s+formation\b/gi,              'CloudFormation'],
+        // ── Terraform ─────────────────────────────────────────────────────────
+        [/\bterror\s+form\b/gi,                  'Terraform'],
+        [/\bterror\s+farm\b/gi,                  'Terraform'],
+        // ── Docker ────────────────────────────────────────────────────────────
+        [/\bdock\s+her\b/gi,                     'Docker'],
+        [/\bdock\s+er\b/gi,                      'Docker'],
+        // ── Infrastructure as Code ────────────────────────────────────────────
+        [/\binfrastructure\s+as\s+a\s+code\b/gi, 'Infrastructure as Code'],
+        [/\binfrastructure\s+as\s+code\b/gi,     'Infrastructure as Code'],
+        [/\binfra\s+as\s+code\b/gi,              'Infrastructure as Code'],
+        // ── Monitoring and Logging ────────────────────────────────────────────
+        [/\bmontry\s+under\s+login\b/gi,         'monitoring and logging'],
+        [/\bmonitoring\s+under\s+login\b/gi,     'monitoring and logging'],
+        [/\bmontry\s+and\s+logging\b/gi,         'monitoring and logging'],
+        [/\bmontry\b/gi,                         'monitoring'],
+        [/\bunder\s+login\b/gi,                  'and logging'],
+        [/\blogin\s+article\b/gi,                'logging are critical'],
+        [/\barticle\s+in\b/gi,                   'are critical in'],
+        [/\bcomment\s+system\s+reliability\b/gi, 'consistent system reliability'],
+        [/\bfor\s+Pakistan\b/gi,                 ''],
+        // ── Metrics mishearings ───────────────────────────────────────────────
+        // "matrix" is almost never said in a DevOps interview meaning the Matrix film
+        [/\bapplication\s+matrix\b/gi,           'application metrics'],
+        [/\bcontainer\s+matrix\b/gi,             'container metrics'],
+        [/\binfrastructure\s+matrix\b/gi,        'infrastructure metrics'],
+        [/\bperformance\s+matrix\b/gi,           'performance metrics'],
+        [/\bkey\s+matrix\b/gi,                   'key metrics'],
+        [/\bavailable\s+tea\b/gi,                'availability'],
+        [/\bup\s+time\b/gi,                      'uptime'],
+        // ── Logs mishearings ──────────────────────────────────────────────────
+        [/\bapplication\s+locks?\b/gi,           'application logs'],
+        [/\bsystem\s+locks?\b/gi,                'system logs'],
+        // ── Monitoring/Metrics synonyms Chrome mishears ───────────────────────
+        // "monetary" and "metals" are real words but never appear in DevOps answers
+        [/\bmonetary\b/gi,                       'monitoring'],
+        [/\bmetals\b/gi,                         'metrics'],
+        // ── Phrase mishearings ────────────────────────────────────────────────
+        [/\bvisiting\s+to\s+like\b/gi,           'using tools like'],
+        [/\bactivity\s+detect\b/gi,              'proactively detect'],
+        [/\broute\s+cause\b/gi,                  'root cause'],
+        [/\bMicrosoft\s+team\b/gi,               'Microsoft Teams'],
+        [/\bfor\s+for\s+men\b/gi,                'for performance'],
+        [/\breliable\s+[Ll]ee\b/g,               'reliably'],
+        [/\bmounting\s+and\s+logging\b/gi,       'monitoring and logging'],
+        // ── Observability tools ───────────────────────────────────────────────
+        [/\bprometheas\b/gi,                     'Prometheus'],
+        [/\bpromoters\b/gi,                      'Prometheus'],
+        [/\bfrom\s+others\b/gi,                  'Prometheus'],
+        [/\bgraph\s*anna\b/gi,                   'Grafana'],
+        [/\brafana\b/gi,                         'Grafana'],
+        [/\bgraphia\b/gi,                        'Grafana'],
+        [/\bkapana\b/gi,                         'Grafana'],
+        [/\bkibana\b/gi,                         'Kibana'],
+        // Azure Monitor — many phonetic variants heard from Indian accent
+        [/\bAshwin\s+monitor\b/gi,               'Azure Monitor'],
+        [/\bAsh\s+when\s+monitor\b/gi,           'Azure Monitor'],
+        [/\bas\s+a\s+day\s+as\s+a\b/gi,          'Azure'],
+        [/\bAshwin\b/gi,                         'Azure'],
+        [/\bas\s+you\s+monitor\b/gi,             'Azure Monitor'],
+        [/\bas\s+your\s+monitor\b/gi,            'Azure Monitor'],
+        [/\bArjun\b/gi,                          'Azure'],
+        // ── ELK / logging platforms — compound phrases first ──────────────────
+        [/\belk\s+plank\b/gi,                    'ELK stack'],
+        [/\bLKG\s+login\b/gi,                    'ELK logging'],
+        [/\bLKG\b/gi,                            'ELK'],
+        [/\bEagle\s+kiss\b/gi,                   'Elasticsearch'],
+        [/\belastic\s+search\b/gi,               'Elasticsearch'],
+        [/\bplank\b/gi,                          'Splunk'],
+        [/\bdata\s+dog\b/gi,                     'Datadog'],
+        [/\bcloud\s+watch\b/gi,                  'CloudWatch'],
+        // ── Kubernetes extended ───────────────────────────────────────────────
+        [/\bcubool\b/gi,                         'Kubernetes'],
+      ];
+      return fixes.reduce((t, [pattern, replacement]) => t.replace(pattern, replacement), text);
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      document.getElementById('voiceMode').classList.toggle('active', mode === 'voice');
+      document.getElementById('textMode').classList.toggle('active', mode === 'text');
+      document.getElementById('voiceControl').classList.toggle('hidden', mode === 'text');
+      document.getElementById('textInputGroup').classList.toggle('hidden', mode === 'voice');
+      updateStatus(mode === 'voice'
+        ? 'Mic auto-submits — or click Submit Answer after speaking'
+        : 'Type your answer and press Enter or Submit');
+    }
+
+    function setNavButtons({ nextDisabled, skipDisabled, retryDisabled }) {
+      document.getElementById('nextBtn').disabled = nextDisabled;
+      document.getElementById('skipBtn').disabled = skipDisabled;
+      document.getElementById('retryBtn').disabled = retryDisabled;
+    }
+
+    // ─── Interview flow ───────────────────────────────────────────────────────
+
+    function startInterview() {
+      state.currentIndex = 0;
+      state.answeredCount = 0;
+
+      document.getElementById('summaryCard').classList.add('hidden');
+      document.getElementById('startBtn').classList.add('hidden');
+      document.getElementById('submitBtn').classList.remove('hidden');
+      document.getElementById('resetBtn').disabled = false;
+      setNavButtons({ nextDisabled: true, skipDisabled: false, retryDisabled: true });
+
+      if (state.mode === 'voice') {
+        state.recognition = initSpeechRecognition();
+        if (!state.recognition) return;
+      }
+
+      state.isInterviewActive = true;
+      state.answerSubmitted = false;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      if (state.currentIndex >= activeQuestions().length) {
+        endInterview();
+        return;
+      }
+
+      const question = activeQuestions()[state.currentIndex];
+
+      document.getElementById('questionBox').classList.remove('hidden');
+      document.getElementById('questionText').textContent = question;
+      document.getElementById('answerBox').classList.add('hidden');
+      document.getElementById('feedbackBox').classList.add('hidden');
+      state.answerSubmitted = false;
+      state.lastHeard = '';
+      state.interimBuffer = '';
+      document.getElementById('liveTranscript').classList.add('hidden');
+      setNavButtons({ nextDisabled: true, skipDisabled: false, retryDisabled: true });
+      document.getElementById('progress').textContent =
+        `Question ${state.currentIndex + 1} of ${activeQuestions().length}`;
+
+      updateStatus('Question loading…');
+
+      if (state.mode === 'voice') {
+        // Start mic only after the question has finished being spoken.
+        // Guard against answerSubmitted: speechSynthesis.cancel() in speakText
+        // fires onend on the current utterance, which would re-trigger this callback.
+        speakText(question, () => {
+          if (state.recognition && !state.isListening && !state.answerSubmitted) startListening();
+        });
+      } else {
+        speakText(question);
+      }
+    }
+
+    function toggleVoice() {
+      if (state.isListening) stopListening();
+      else startListening();
+    }
+
+    // Internal: create a fresh instance and start it (never call twice while already listening)
+    function _startRecognition() {
+      if (state.isListening || state.recognitionStarting || !state.wantListening || state.answerSubmitted) return;
+
+      state.recognitionStarting = true;
+
+      // Always create a fresh instance — Chrome on file:// does not support calling
+      // .start() again on a SpeechRecognition object that has already ended its session.
+      // Reusing the same instance causes a silent InvalidStateError which means no audio
+      // is captured until the heartbeat recovers ~1.5s later.
+      state.recognition = initSpeechRecognition();
+      if (!state.recognition) {
+        state.recognitionStarting = false;
+        return;
+      }
+
+      try {
+        state.recognition.start();
+        // recognitionStarting is cleared by recognition.onstart
+      } catch (e) {
+        // Chrome audio resource not yet fully released — wait and retry once.
+        console.warn('Speech start deferred:', e.message);
+        setTimeout(() => {
+          if (!state.wantListening || state.isListening || state.answerSubmitted) {
+            state.recognitionStarting = false;
+            return;
+          }
+          state.recognition = initSpeechRecognition();
+          try {
+            state.recognition.start();
+          } catch (e2) {
+            console.error('Speech start retry failed:', e2.message);
+            state.recognitionStarting = false;
+            state.recognition = null;
+            // The 1500ms heartbeat will pick this up
+          }
+        }, 300);
+      }
+    }
+
+    function startListening() {
+      if (state.answerSubmitted) return;
+      state.wantListening = true;
+      state.permissionAttempts = 0;    // reset on each fresh start
+      state.recognitionStarting = false; // clear any stale pending flag
+      _startRecognition();
+
+      // Heartbeat as safety net — fires if onend-restart silently fails.
+      // 1500ms is short enough to catch gaps without causing extra noise.
+      if (!state.micHeartbeat) {
+        state.micHeartbeat = setInterval(() => {
+          if (state.wantListening && !state.isListening && !state.recognitionStarting &&
+              !state.isSpeaking && !state.answerSubmitted) {
+            _startRecognition();
+          }
+        }, 1500);
+      }
+    }
+
+    function stopListening() {
+      state.wantListening = false;
+      state.recognitionStarting = false;
+      clearInterval(state.micHeartbeat);
+      state.micHeartbeat = null;
+      clearTimeout(state.sessionRestartTimer);
+      state.sessionRestartTimer = null;
+      if (state.recognition && state.isListening) state.recognition.stop();
+      state.isListening = false;
+      updateMicButton();
+    }
+
+    function submitAnswer() {
+      if (state.mode === 'text') {
+        const answer = document.getElementById('manualInput').value.trim();
+        if (answer) {
+          handleAnswer(answer);
+          document.getElementById('manualInput').value = '';
+        }
+      } else {
+        // Voice mode: submit whatever was captured so far.
+        // Do NOT call stopListening() here — handleAnswer() does it after setting
+        // state.answerSubmitted = true, ensuring onend never sees answerSubmitted=false.
+        if (state.lastHeard.trim()) {
+          const heard = state.lastHeard.trim();
+          state.lastHeard = '';
+          handleAnswer(heard);
+        } else {
+          updateStatus('No speech captured yet — please speak your answer.');
+        }
+      }
+    }
+
+    // ─── Answer handling + Gemini feedback ─────────────────────────────────────
+
+    async function handleAnswer(answer) {
+      if (state.answerSubmitted) return; // prevent double-submission
+      state.answerSubmitted = true;
+      state.answeredCount++;
+      setNavButtons({ nextDisabled: false, skipDisabled: true, retryDisabled: false });
+
+      document.getElementById('answerBox').classList.remove('hidden');
+      document.getElementById('answerText').textContent = answer;
+
+      // stopListening() is safe here: the isListening guard prevents a second
+      // recognition.stop() call if submitAnswer() already stopped it.
+      stopListening();
+
+      // Track for session report — feedbackHtml will be filled in by generateFeedback
+      sessionHistory.push({ question: activeQuestions()[state.currentIndex], answer, feedbackHtml: '' });
+      document.getElementById('downloadBtn').classList.remove('hidden');
+
+      updateStatus('Evaluating answer…');
+      await generateFeedback(activeQuestions()[state.currentIndex], answer);
+      updateStatus('Answer recorded');
+    }
+
+    /**
+     * generateFeedback — calls Gemini when configured, keyword heuristic only as last resort.
+     */
+    function renderFeedback(text) {
+      // Safely convert Gemini's markdown-style output to HTML for display
+      const escaped = text
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return escaped
+        // Section headers: ✅ / ⚠️ / 💡 followed by ALL-CAPS text and colon
+        .replace(/^([✅⚠️💡]\s+[A-Z &']+:)$/gm, '<div style="margin-top:0.9em;font-weight:700;font-size:1em">$1</div>')
+        // **bold**
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        // Bullet lines starting with - or •
+        .replace(/^[-•]\s+(.+)$/gm, '<div style="margin:0.25em 0 0 1em">• $1</div>')
+        // Remaining newlines to <br>
+        .replace(/\n/g, '<br>');
+    }
+
+    async function generateFeedback(question, answer) {
+      const feedbackBox   = document.getElementById('feedbackBox');
+      const feedbackLabel = document.getElementById('feedbackLabel');
+      const feedbackText  = document.getElementById('feedbackText');
+
+      feedbackBox.className = 'feedback-box ai-powered';
+      feedbackLabel.textContent = '🤖 Gemini AI Feedback';
+      feedbackText.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div> Analysing your answer…';
+      feedbackBox.classList.remove('hidden');
+
+      if (isAOAIConfigured()) {
+        try {
+          const aiFeedback = await callGeminiWithRetry(question, answer);
+          const renderedFeedback = renderFeedback(aiFeedback);
+          feedbackText.innerHTML = renderedFeedback;
+          // Save rendered HTML to session history for report download
+          if (sessionHistory.length > 0) {
+            sessionHistory[sessionHistory.length - 1].feedbackHtml = renderedFeedback;
+          }
+          speakText(aiFeedback);
+        } catch (err) {
+          console.error('Gemini error:', err);
+          feedbackBox.className = 'feedback-box';
+          feedbackLabel.textContent = '❌ Gemini Error';
+          feedbackText.innerHTML =
+            `<strong>Error:</strong> ${err.message}<br><br>` +
+            `<strong>Things to check:</strong><br>` +
+            `• API key is correct (starts with AIzaSy…)<br>` +
+            `• Model name is valid (try <em>gemini-2.0-flash-lite</em>)<br>` +
+            `• You have internet access`;
+        }
+        return; // never silently fall through to keyword heuristic
+      }
+
+      // ── Keyword heuristic — only when Gemini is NOT configured ────────────
+      feedbackBox.className = 'feedback-box';
+      feedbackLabel.textContent = 'Basic Feedback';
+
+      const keywords = ['terraform', 'docker', 'kubernetes', 'ci/cd', 'pipeline',
+                        'container', 'deployment', 'monitoring', 'infrastructure'];
+      const hasKeywords = keywords.some(k => answer.toLowerCase().includes(k));
+      const isDetailed  = answer.split(' ').length > 15;
+
+      let feedback;
+      if (hasKeywords && isDetailed) {
+        feedback = 'Good coverage of key concepts with detail. Add your Gemini API key above for real AI feedback.';
+      } else if (hasKeywords) {
+        feedback = 'Key terms mentioned but needs more elaboration. Add your Gemini API key for real AI feedback.';
+      } else if (isDetailed) {
+        feedback = 'Detailed but lacks technical terminology. Add your Gemini API key for real AI feedback.';
+      } else {
+        feedback = 'Brief answer — try to elaborate. Add your Gemini API key for real AI feedback.';
+      }
+
+      feedbackText.textContent = feedback;
+      speakText(feedback);
+    }
+
+    // ─── Navigation ───────────────────────────────────────────────────────────
+
+    function nextQuestion() {
+      if (!state.answerSubmitted) {
+        updateStatus('Please submit your answer or click Skip Question.');
+        return;
+      }
+      state.currentIndex++;
+      showQuestion();
+    }
+
+    function skipQuestion() {
+      stopListening();
+      state.currentIndex++;
+      showQuestion();
+    }
+
+    function retryAnswer() {
+      document.getElementById('answerBox').classList.add('hidden');
+      document.getElementById('feedbackBox').classList.add('hidden');
+      const input = document.getElementById('manualInput');
+      if (input) input.value = '';
+
+      // Allow editing and re-submission for the same question.
+      if (state.answerSubmitted && state.answeredCount > 0) {
+        state.answeredCount--;
+      }
+      state.answerSubmitted = false;
+      setNavButtons({ nextDisabled: true, skipDisabled: false, retryDisabled: true });
+
+      if (state.mode === 'voice') {
+        startListening();
+      }
+    }
+
+    function endInterview() {
+      ['questionBox', 'answerBox', 'feedbackBox'].forEach(id =>
+        document.getElementById(id).classList.add('hidden'));
+
+      clearInterval(state.micHeartbeat);
+      state.micHeartbeat = null;
+      document.getElementById('submitBtn').classList.add('hidden');
+      document.getElementById('summaryCard').classList.remove('hidden');
+      document.getElementById('finalScore').textContent =
+        `${state.answeredCount}/${activeQuestions().length}`;
+
+      updateStatus('Interview completed!');
+      speakText(`Interview complete! You answered ${state.answeredCount} questions. Great job!`);
+      if (state.recognition) state.recognition.stop();
+      setNavButtons({ nextDisabled: true, skipDisabled: true, retryDisabled: true });
+    }
+
+    function resetInterview() {
+      state.currentIndex  = 0;
+      state.answeredCount = 0;
+      state.isListening   = false;
+      state.isInterviewActive = false;
+      state.answerSubmitted = false;
+      state.lastHeard = '';
+      state.interimBuffer = '';
+      sessionHistory = [];
+      document.getElementById('downloadBtn').classList.add('hidden');
+      clearInterval(state.micHeartbeat);
+      state.micHeartbeat = null;
+      clearTimeout(state.sessionRestartTimer);
+      state.sessionRestartTimer = null;
+
+      if (state.recognition) state.recognition.stop();
+      window.speechSynthesis.cancel();
+
+      ['questionBox', 'answerBox', 'feedbackBox', 'summaryCard'].forEach(id =>
+        document.getElementById(id).classList.add('hidden'));
+
+      document.getElementById('startBtn').classList.remove('hidden');
+      document.getElementById('submitBtn').classList.add('hidden');
+      document.getElementById('resetBtn').disabled = true;
+      setNavButtons({ nextDisabled: true, skipDisabled: true, retryDisabled: true });
+
+      document.getElementById('progress').textContent = 'Click "Start Interview" to begin';
+      updateStatus('Ready to start');
+      updateMicButton();
+    }
+
+    // ─── UI helpers ───────────────────────────────────────────────────────────
+
+    function updateMicButton() {
+      const micBtn = document.getElementById('micButton');
+      micBtn.className = 'mic-button';
+      if (state.isListening) {
+        micBtn.classList.add('listening');
+        micBtn.textContent = '🎙️';
+      } else if (state.isSpeaking) {
+        micBtn.classList.add('speaking');
+        micBtn.textContent = '🔊';
+      } else {
+        micBtn.textContent = '🎤';
+      }
+    }
+
+    function updateStatus(message) {
+      document.getElementById('status').textContent = message;
+    }
+
+    function speakText(text, onEnd) {
+      window.speechSynthesis.cancel(); // clear any queued speech first
+      state.isSpeaking = true;
+      updateMicButton();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate  = 0.9;
+      utterance.pitch = 1.0;
+      utterance.onend = () => {
+        state.isSpeaking = false;
+        updateMicButton();
+        if (onEnd) onEnd();
+      };
+      utterance.onerror = () => {
+        state.isSpeaking = false;
+        updateMicButton();
+        if (onEnd) onEnd(); // still start mic even if speech fails
+      };
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // ─── Enter key for text input ─────────────────────────────────────────────
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('manualInput').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') submitAnswer();
+      });
+    });
+  </script>
+</body>
+</html>
