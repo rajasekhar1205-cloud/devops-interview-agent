@@ -2161,21 +2161,41 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       });
     }
 
-    function submitFeedback() {
+    async function submitFeedback() {
       const rating  = fbRating ? '⭐'.repeat(fbRating) + ` (${fbRating}/5)` : 'Not rated';
       const liked   = document.getElementById('fbLike').value.trim()    || 'Not provided';
       const improve = document.getElementById('fbImprove').value.trim() || 'Not provided';
 
-      const subject = encodeURIComponent('Feedback — DevOps Interviewer Tool');
-      const body    = encodeURIComponent(
-        `Rating: ${rating}\n\nWhat they liked:\n${liked}\n\nWhat to improve:\n${improve}`
-      );
-      window.location.href = `mailto:rajasekharmaddaka@gmail.com?subject=${subject}&body=${body}`;
+      const submitBtn = document.querySelector('.fb-submit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
 
-      document.getElementById('fbForm').classList.add('hidden');
-      document.getElementById('fbThankyou').classList.remove('hidden');
-      document.getElementById('fbLike').value    = '';
-      document.getElementById('fbImprove').value = '';
+      try {
+        const response = await fetch('https://formspree.io/f/maqkzpvl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            rating,
+            'What they liked': liked,
+            'What to improve': improve
+          })
+        });
+
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data?.error || `HTTP ${response.status}`);
+        }
+
+        document.getElementById('fbForm').classList.add('hidden');
+        document.getElementById('fbThankyou').classList.remove('hidden');
+        document.getElementById('fbLike').value    = '';
+        document.getElementById('fbImprove').value = '';
+      } catch (err) {
+        submitBtn.textContent = '❌ Failed to send — try again';
+        console.error('Feedback error:', err);
+      } finally {
+        submitBtn.disabled = false;
+      }
     }
   </script>
 </body>
