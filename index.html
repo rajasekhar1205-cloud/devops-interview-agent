@@ -625,14 +625,10 @@
       cursor: pointer;
       padding: 0;
       line-height: 1;
-      transition: transform 0.1s;
-      filter: grayscale(1) opacity(0.4);
+      transition: opacity 0.15s;
+      opacity: 0.25;
     }
-    .fb-stars button.active,
-    .fb-stars button:hover ~ button { filter: none; }
-    .fb-stars button.active ~ button { filter: grayscale(1) opacity(0.4); }
-    .fb-stars:hover button { filter: none; }
-    .fb-stars:hover button:hover ~ button { filter: grayscale(1) opacity(0.4); }
+    .fb-stars button.active { opacity: 1; }
     .fb-modal textarea {
       width: 100%;
       border: 1.5px solid #e0e0e0;
@@ -2103,11 +2099,11 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
 
         <label class="fb-label">How useful was this tool?</label>
         <div class="fb-stars" id="fbStars">
-          <button type="button" data-val="1" onclick="setRating(1)">⭐</button>
-          <button type="button" data-val="2" onclick="setRating(2)">⭐</button>
-          <button type="button" data-val="3" onclick="setRating(3)">⭐</button>
-          <button type="button" data-val="4" onclick="setRating(4)">⭐</button>
-          <button type="button" data-val="5" onclick="setRating(5)">⭐</button>
+          <button type="button" onclick="setRating(1)" onmouseenter="hoverRating(1)" onmouseleave="resetHover()">⭐</button>
+          <button type="button" onclick="setRating(2)" onmouseenter="hoverRating(2)" onmouseleave="resetHover()">⭐</button>
+          <button type="button" onclick="setRating(3)" onmouseenter="hoverRating(3)" onmouseleave="resetHover()">⭐</button>
+          <button type="button" onclick="setRating(4)" onmouseenter="hoverRating(4)" onmouseleave="resetHover()">⭐</button>
+          <button type="button" onclick="setRating(5)" onmouseenter="hoverRating(5)" onmouseleave="resetHover()">⭐</button>
         </div>
 
         <label class="fb-label">What did you like most?</label>
@@ -2150,6 +2146,18 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       fbRating = val;
       document.querySelectorAll('#fbStars button').forEach((btn, i) => {
         btn.classList.toggle('active', i < val);
+      });
+    }
+
+    function hoverRating(val) {
+      document.querySelectorAll('#fbStars button').forEach((btn, i) => {
+        btn.style.opacity = i < val ? '1' : '0.25';
+      });
+    }
+
+    function resetHover() {
+      document.querySelectorAll('#fbStars button').forEach((btn, i) => {
+        btn.style.opacity = i < fbRating ? '1' : '0.25';
       });
     }
 
