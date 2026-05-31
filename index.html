@@ -536,6 +536,134 @@
       box-shadow: 0 6px 20px rgba(21,101,192,0.4);
     }
 
+    /* Floating feedback button */
+    .feedback-fab {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(102,126,234,0.5);
+      transition: all 0.25s ease;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .feedback-fab:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(102,126,234,0.6);
+    }
+
+    /* Feedback modal */
+    .fb-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .fb-overlay.open { display: flex; }
+    .fb-modal {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .fb-modal h3 {
+      color: #667eea;
+      font-size: 1.15rem;
+      margin-bottom: 0.25rem;
+    }
+    .fb-modal p.fb-sub {
+      font-size: 0.84rem;
+      color: #777;
+      margin-bottom: 1.25rem;
+    }
+    .fb-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: #999;
+      padding: 0.2rem 0.4rem;
+      line-height: 1;
+    }
+    .fb-close:hover { color: #333; }
+    .fb-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 0.4rem;
+      margin-top: 1rem;
+    }
+    .fb-stars {
+      display: flex;
+      gap: 0.4rem;
+      margin-bottom: 0.25rem;
+    }
+    .fb-stars button {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      transition: transform 0.1s;
+      filter: grayscale(1) opacity(0.4);
+    }
+    .fb-stars button.active,
+    .fb-stars button:hover ~ button { filter: none; }
+    .fb-stars button.active ~ button { filter: grayscale(1) opacity(0.4); }
+    .fb-stars:hover button { filter: none; }
+    .fb-stars:hover button:hover ~ button { filter: grayscale(1) opacity(0.4); }
+    .fb-modal textarea {
+      width: 100%;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 80px;
+      transition: border-color 0.2s;
+    }
+    .fb-modal textarea:focus { outline: none; border-color: #667eea; }
+    .fb-submit {
+      margin-top: 1.25rem;
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .fb-submit:hover { opacity: 0.9; }
+    .fb-thankyou { text-align: center; padding: 1rem 0; }
+    .fb-thankyou .fb-big { font-size: 3rem; }
+    .fb-thankyou h4 { color: #667eea; margin: 0.5rem 0 0.25rem; font-size: 1.1rem; }
+    .fb-thankyou p { color: #777; font-size: 0.88rem; }
+
     /* Browser warning banner */
     .browser-warning {
       background: linear-gradient(135deg, #e53935, #c62828);
@@ -1957,6 +2085,90 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         if (e.key === 'Enter') submitAnswer();
       });
     });
+  </script>
+
+  <!-- Floating feedback button -->
+  <button class="feedback-fab" onclick="openFeedbackModal()">
+    💬 Share Feedback
+  </button>
+
+  <!-- Feedback modal -->
+  <div class="fb-overlay" id="fbOverlay" onclick="closeFeedbackModal(event)">
+    <div class="fb-modal" id="fbModal">
+      <button class="fb-close" onclick="closeFeedbackModal()">&#x2715;</button>
+
+      <div id="fbForm">
+        <h3>💬 Share Your Feedback</h3>
+        <p class="fb-sub">Takes 30 seconds. Helps make this tool better.</p>
+
+        <label class="fb-label">How useful was this tool?</label>
+        <div class="fb-stars" id="fbStars">
+          <button type="button" data-val="1" onclick="setRating(1)">⭐</button>
+          <button type="button" data-val="2" onclick="setRating(2)">⭐</button>
+          <button type="button" data-val="3" onclick="setRating(3)">⭐</button>
+          <button type="button" data-val="4" onclick="setRating(4)">⭐</button>
+          <button type="button" data-val="5" onclick="setRating(5)">⭐</button>
+        </div>
+
+        <label class="fb-label">What did you like most?</label>
+        <textarea id="fbLike" placeholder="e.g. The AI feedback was really helpful..."></textarea>
+
+        <label class="fb-label">What would you improve?</label>
+        <textarea id="fbImprove" placeholder="e.g. I wish it had..."></textarea>
+
+        <button class="fb-submit" onclick="submitFeedback()">Send Feedback →</button>
+      </div>
+
+      <div class="fb-thankyou hidden" id="fbThankyou">
+        <div class="fb-big">🙏</div>
+        <h4>Thank you for your feedback!</h4>
+        <p>It genuinely helps improve this tool for everyone.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let fbRating = 0;
+
+    function openFeedbackModal() {
+      document.getElementById('fbOverlay').classList.add('open');
+      document.getElementById('fbForm').classList.remove('hidden');
+      document.getElementById('fbThankyou').classList.add('hidden');
+      fbRating = 0;
+      setRating(0);
+    }
+
+    function closeFeedbackModal(e) {
+      if (!e || e.target === document.getElementById('fbOverlay') || !e.target.closest) {
+        document.getElementById('fbOverlay').classList.remove('open');
+      } else if (!e.target.closest('#fbModal')) {
+        document.getElementById('fbOverlay').classList.remove('open');
+      }
+    }
+
+    function setRating(val) {
+      fbRating = val;
+      document.querySelectorAll('#fbStars button').forEach((btn, i) => {
+        btn.classList.toggle('active', i < val);
+      });
+    }
+
+    function submitFeedback() {
+      const rating  = fbRating ? '⭐'.repeat(fbRating) + ` (${fbRating}/5)` : 'Not rated';
+      const liked   = document.getElementById('fbLike').value.trim()    || 'Not provided';
+      const improve = document.getElementById('fbImprove').value.trim() || 'Not provided';
+
+      const subject = encodeURIComponent('Feedback — DevOps Interviewer Tool');
+      const body    = encodeURIComponent(
+        `Rating: ${rating}\n\nWhat they liked:\n${liked}\n\nWhat to improve:\n${improve}`
+      );
+      window.location.href = `mailto:rajasekharmaddaka@gmail.com?subject=${subject}&body=${body}`;
+
+      document.getElementById('fbForm').classList.add('hidden');
+      document.getElementById('fbThankyou').classList.remove('hidden');
+      document.getElementById('fbLike').value    = '';
+      document.getElementById('fbImprove').value = '';
+    }
   </script>
 </body>
 </html>
