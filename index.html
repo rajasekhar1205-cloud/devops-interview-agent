@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rajasekhar - Your Devops Interviewer</title>
+  <!-- PDF text extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- DOCX text extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -486,6 +490,108 @@
     .resume-status.ok      { background: #e8f5e9; color: #2e7d32; }
     .resume-status.error   { background: #fdecea; color: #c62828; }
 
+    /* Resume file upload area */
+    .resume-upload-area {
+      border: 2px dashed #c8d4f5;
+      border-radius: 10px;
+      padding: 1.1rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #f8f9ff;
+      margin-bottom: 0.5rem;
+    }
+    .resume-upload-area:hover,
+    .resume-upload-area.drag-over {
+      border-color: #667eea;
+      background: #eef0ff;
+    }
+    .upload-icon { font-size: 1.6rem; line-height: 1; margin-bottom: 0.3rem; }
+    .upload-text { font-size: 0.9rem; font-weight: 600; color: #555; margin-bottom: 0.2rem; }
+    .upload-hint { font-size: 0.76rem; color: #999; }
+    .resume-file-status {
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.4rem 0.85rem;
+      border-radius: 7px;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+    .resume-file-status.ok    { background: #e8f5e9; color: #2e7d32; }
+    .resume-file-status.error { background: #fdecea; color: #c62828; }
+    .resume-file-status.loading { background: #fff3cd; color: #856404; }
+
+    /* Interview type selector */
+    .type-selector {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #f0f0f0;
+    }
+    .type-btn {
+      flex: 1;
+      max-width: 220px;
+      padding: 0.75rem 1rem;
+      border: 2px solid #e0e0e0;
+      background: white;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.25s;
+      text-align: center;
+    }
+    .type-btn .type-label { font-size: 0.95rem; display: block; }
+    .type-btn .type-desc  { font-size: 0.72rem; opacity: 0.7; margin-top: 0.2rem; display: block; font-weight: 400; }
+    #practiceTopicType               { border-color: #667eea; color: #667eea; }
+    #practiceTopicType.active        { background: #667eea; color: white; }
+    #practiceOverallType             { border-color: #16a34a; color: #16a34a; }
+    #practiceOverallType.active      { background: #16a34a; color: white; }
+    #mockType                        { border-color: #e67e22; color: #e67e22; }
+    #mockType.active                 { background: #e67e22; color: white; }
+
+    /* Mock interview review card */
+    .mock-review-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .mock-review-header { text-align: center; margin-bottom: 1.5rem; }
+    .mock-review-header h2 { color: #333; font-size: 1.5rem; margin-bottom: 0.3rem; }
+    .mock-review-header p  { color: #777; font-size: 0.9rem; }
+    .mock-eval-bar-wrap {
+      background: #e8e8e8;
+      border-radius: 99px;
+      height: 8px;
+      margin: 1rem auto 0.5rem;
+      max-width: 400px;
+      overflow: hidden;
+    }
+    .mock-eval-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 99px;
+      transition: width 0.35s ease;
+      width: 0%;
+    }
+    .mock-entry {
+      border: 1px solid #e8e8e8;
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      background: #fafafa;
+    }
+    .mock-entry-q-num        { font-size: 0.72rem; color: #667eea; font-weight: 700; text-transform: uppercase; margin-bottom: 0.4rem; }
+    .mock-entry-question     { font-size: 1rem; font-weight: 600; color: #222; border-left: 4px solid #667eea; padding-left: 0.75rem; margin-bottom: 0.75rem; line-height: 1.4; }
+    .mock-entry-answer-lbl   { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #28a745; margin: 0.5rem 0 0.3rem; }
+    .mock-entry-feedback-lbl { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #0078d4; margin: 0.75rem 0 0.3rem; }
+    .mock-entry-answer   { background: #f8f9fa; border-left: 3px solid #28a745; padding: 0.65rem 0.9rem; border-radius: 6px; font-size: 0.9rem; line-height: 1.6; color: #333; }
+    .mock-entry-feedback { background: linear-gradient(135deg, #e3f2fd, #f3e5f5); border-left: 3px solid #0078d4; padding: 0.65rem 0.9rem; border-radius: 6px; font-size: 0.88rem; line-height: 1.7; color: #333; }
+    .mock-entry-feedback.pending { color: #999; font-style: italic; background: #f9f9f9; border-left-color: #ddd; }
+
     /* JD Card */
     .jd-card {
       background: white;
@@ -535,6 +641,393 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(21,101,192,0.4);
     }
+
+    /* Floating feedback button */
+    .feedback-fab {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(102,126,234,0.5);
+      transition: all 0.25s ease;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .feedback-fab:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(102,126,234,0.6);
+    }
+
+    /* Feedback modal */
+    .fb-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .fb-overlay.open { display: flex; }
+    .fb-modal {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      position: relative;
+    }
+    .fb-modal h3 {
+      color: #667eea;
+      font-size: 1.15rem;
+      margin-bottom: 0.25rem;
+    }
+    .fb-modal p.fb-sub {
+      font-size: 0.84rem;
+      color: #777;
+      margin-bottom: 1.25rem;
+    }
+    .fb-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: #999;
+      padding: 0.2rem 0.4rem;
+      line-height: 1;
+    }
+    .fb-close:hover { color: #333; }
+    .fb-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 0.4rem;
+      margin-top: 1rem;
+    }
+    .fb-stars {
+      display: flex;
+      gap: 0.4rem;
+      margin-bottom: 0.25rem;
+    }
+    .fb-stars button {
+      background: none;
+      border: none;
+      font-size: 1.8rem;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      transition: opacity 0.15s;
+      opacity: 0.25;
+    }
+    .fb-stars button.active { opacity: 1; }
+    .fb-modal textarea {
+      width: 100%;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 0.65rem 0.85rem;
+      font-size: 0.9rem;
+      font-family: inherit;
+      resize: vertical;
+      min-height: 80px;
+      transition: border-color 0.2s;
+    }
+    .fb-modal textarea:focus { outline: none; border-color: #667eea; }
+    .fb-submit {
+      margin-top: 1.25rem;
+      width: 100%;
+      padding: 0.85rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .fb-submit:hover { opacity: 0.9; }
+    .fb-thankyou { text-align: center; padding: 1rem 0; }
+    .fb-thankyou .fb-big { font-size: 3rem; }
+    .fb-thankyou h4 { color: #667eea; margin: 0.5rem 0 0.25rem; font-size: 1.1rem; }
+    .fb-thankyou p { color: #777; font-size: 0.88rem; }
+
+    /* Browser warning banner */
+    .browser-warning {
+      background: linear-gradient(135deg, #e53935, #c62828);
+      color: white;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(198,40,40,0.4);
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .browser-warning .bw-icon { font-size: 1.8rem; flex-shrink: 0; line-height: 1; }
+    .browser-warning h4 { margin: 0 0 0.35rem 0; font-size: 1rem; }
+    .browser-warning p  { margin: 0; font-size: 0.87rem; opacity: 0.92; line-height: 1.55; }
+    .browser-warning a  { color: #fff; font-weight: 700; }
+
+    /* Mic permission error card */
+    .mic-error-card {
+      background: #fdecea;
+      border: 1.5px solid #ef9a9a;
+      border-left: 5px solid #c62828;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-top: 1rem;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: #333;
+    }
+    .mic-error-card strong { color: #b71c1c; }
+    .mic-error-card ol { margin: 0.5rem 0 0.25rem 1.25rem; padding: 0; }
+    .mic-error-card li { margin-bottom: 0.15rem; }
+
+    /* ─── Topic Filter ────────────────────────────────────────────────── */
+    .topic-filter {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-top: 0.9rem;
+      border-top: 1px solid #f0f0f0;
+      margin-top: 0.75rem;
+    }
+    .topic-filter-label {
+      width: 100%;
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #bbb;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 0.15rem;
+    }
+    .topic-btn {
+      padding: 0.36rem 0.85rem;
+      border: 1.5px solid #667eea;
+      background: white;
+      color: #667eea;
+      border-radius: 99px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .topic-btn.active { background: #667eea; color: white; }
+    .topic-btn:hover:not(.active) { background: #f0f2ff; }
+
+    /* ─── Visual Progress Bar ─────────────────────────────────────────── */
+    .progress-bar-wrap {
+      background: #e0e0e0;
+      border-radius: 99px;
+      height: 5px;
+      margin: 0.6rem 0 0;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      border-radius: 99px;
+      transition: width 0.45s ease;
+      width: 0%;
+    }
+
+    /* ─── Question Timer ──────────────────────────────────────────────── */
+    .question-timer {
+      text-align: center;
+      font-size: 0.78rem;
+      color: #ccc;
+      font-weight: 600;
+      margin-top: 0.3rem;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.03em;
+    }
+    .question-timer.warn  { color: #e67e22; }
+    .question-timer.alert { color: #e53935; }
+
+
+    /* ─── Copy Feedback Button ────────────────────────────────────────── */
+    .copy-feedback-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin-top: 0.85rem;
+      padding: 0.4rem 0.85rem;
+      border: 1.5px solid #0078d4;
+      background: white;
+      color: #0078d4;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .copy-feedback-btn:hover { background: #0078d4; color: white; }
+
+    /* ─── AI score pill ───────────────────────────────────────────────── */
+    .ai-score-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      margin: 0.6rem 0 0.8rem;
+      padding: 0.45rem 0.9rem;
+      background: #f4f8ff;
+      border: 1.5px solid #dce8ff;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      flex-wrap: wrap;
+    }
+
+    /* ─── Score percentage + performance badge ────────────────────────── */
+    .score-pct {
+      font-size: 1.05rem;
+      opacity: 0.8;
+      margin: -0.4rem 0 0.5rem;
+    }
+    .perf-badge {
+      display: inline-block;
+      padding: 0.35rem 1.1rem;
+      border-radius: 99px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      background: rgba(255,255,255,0.22);
+      margin-bottom: 0.75rem;
+    }
+
+    /* ─── Keyboard shortcut hint ──────────────────────────────────────── */
+    .kb-hint {
+      text-align: center;
+      font-size: 0.73rem;
+      color: #ccc;
+      margin-top: 0.6rem;
+    }
+    .kb-hint kbd {
+      background: #f2f2f2;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      padding: 0.05em 0.38em;
+      font-size: 0.84em;
+      color: #666;
+      font-family: monospace;
+    }
+
+    /* ─── Performance Dashboard ───────────────────────────────────────── */
+    .dashboard-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .dashboard-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+    .dashboard-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .dashboard-toggle-icon {
+      font-size: 0.85rem;
+      color: #aaa;
+      transition: transform 0.2s;
+    }
+    .dashboard-toggle-icon.open { transform: rotate(180deg); }
+    .dashboard-body { margin-top: 1rem; }
+    .dashboard-stats {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .dash-stat {
+      flex: 1;
+      min-width: 100px;
+      background: #f8f9ff;
+      border: 1px solid #e8eaff;
+      border-radius: 10px;
+      padding: 0.7rem 1rem;
+      text-align: center;
+    }
+    .dash-stat-val  { font-size: 1.5rem; font-weight: 800; color: #667eea; }
+    .dash-stat-lbl  { font-size: 0.72rem; color: #888; margin-top: 0.15rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .dashboard-table-wrap { overflow-x: auto; }
+    .dashboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    .dashboard-table th {
+      background: #f4f4f8;
+      color: #555;
+      font-weight: 700;
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+      border-bottom: 2px solid #eee;
+      white-space: nowrap;
+    }
+    .dashboard-table td {
+      padding: 0.45rem 0.75rem;
+      border-bottom: 1px solid #f0f0f0;
+      color: #333;
+      vertical-align: middle;
+    }
+    .dashboard-table tr:last-child td { border-bottom: none; }
+    .dashboard-table tr:hover td { background: #fafafa; }
+    .dash-badge {
+      display: inline-block;
+      padding: 0.18em 0.55em;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: white;
+    }
+    .dash-empty {
+      text-align: center;
+      color: #bbb;
+      font-size: 0.88rem;
+      padding: 1.5rem 0;
+    }
+    .dashboard-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 0.75rem;
+    }
+    .dash-clear-btn {
+      background: none;
+      border: 1px solid #ffb3b3;
+      color: #e53935;
+      border-radius: 6px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.78rem;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .dash-clear-btn:hover { background: #fff0f0; }
   </style>
 </head>
 <body>
@@ -546,10 +1039,20 @@
 
     <!-- Google Gemini Configuration -->
     <div class="config-card">
-      <h3>⚡ Google Gemini Configuration <span style="font-weight:400;font-size:0.85rem;color:#555;">— Free! Get key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#4285f4;">aistudio.google.com</a></span></h3>
+      <h3>⚡ Google Gemini Configuration</h3>
+      <p style="font-size:0.88rem;color:#555;margin:-0.25rem 0 1rem 0;line-height:1.6;">
+        This tool uses Google Gemini AI to give you detailed feedback on your answers.
+        The API key is <strong>completely free</strong> — no credit card, no billing.
+        It takes about 30 seconds to get one:
+        <a href="https://aistudio.google.com/app/apikey" target="_blank"
+           style="color:#4285f4;font-weight:600;text-decoration:none;white-space:nowrap;">
+          ➜ Get your free key at aistudio.google.com
+        </a>
+        &nbsp;→ sign in with Google → click <em>"Create API key"</em> → paste it below.
+      </p>
       <div class="config-grid" style="grid-template-columns: 2fr 1fr;">
         <div class="config-field">
-          <label>Gemini API Key</label>
+          <label>Gemini API Key <span style="font-weight:400;color:#888;font-size:0.8rem;">(starts with AIzaSy…)</span></label>
           <input type="password" id="geminiKey" placeholder="AIzaSy...">
         </div>
         <div class="config-field">
@@ -572,12 +1075,49 @@
           ⌨️ Text Mode
         </button>
       </div>
+      <div class="type-selector">
+        <button class="type-btn active" onclick="setInterviewType('practice-topic')" id="practiceTopicType">
+          <span class="type-label">📚 Practice by Topic</span>
+          <span class="type-desc">Pick a topic · instant AI feedback</span>
+        </button>
+        <button class="type-btn" onclick="setInterviewType('practice-overall')" id="practiceOverallType">
+          <span class="type-label">🌐 Practice Overall</span>
+          <span class="type-desc">All topics · instant AI feedback</span>
+        </button>
+        <button class="type-btn" onclick="setInterviewType('mock')" id="mockType">
+          <span class="type-label">🎯 Mock Interview</span>
+          <span class="type-desc">All feedback revealed at the end</span>
+        </button>
+      </div>
+      <div class="topic-filter">
+        <div class="topic-filter-label">Practice Topic</div>
+        <button class="topic-btn active" onclick="setTopic('all')" id="topicAll">All Topics</button>
+        <button class="topic-btn" onclick="setTopic('cicd')" id="topicCicd">CI/CD &amp; DevOps</button>
+        <button class="topic-btn" onclick="setTopic('terraform')" id="topicTerraform">Terraform</button>
+        <button class="topic-btn" onclick="setTopic('docker')" id="topicDocker">Docker</button>
+        <button class="topic-btn" onclick="setTopic('kubernetes')" id="topicKubernetes">Kubernetes</button>
+        <button class="topic-btn" onclick="setTopic('azure')" id="topicAzure">Azure</button>
+        <button class="topic-btn" onclick="setTopic('scenarios')" id="topicScenarios">🧩 Scenarios</button>
+        <button class="topic-btn" onclick="setTopic('sysdesign')" id="topicSysdesign">🏗️ System Design</button>
+      </div>
     </div>
 
     <!-- Resume-Based Questions -->
     <div class="resume-card">
       <h3>📄 Resume-Based Questions <span style="font-weight:400;font-size:0.82rem;color:#555;">— Gemini generates personalised questions from your resume</span></h3>
-      <p class="hint">Paste your CV / resume below. Click "Generate Questions" and your next interview will use questions tailored to your background.</p>
+      <p class="hint">Attach your resume file <strong>or</strong> paste the text below. Click "Generate Questions" and your next interview will use questions tailored to your background.</p>
+
+      <!-- File upload area -->
+      <div class="resume-upload-area" id="resumeDropZone" onclick="document.getElementById('resumeFileInput').click()" ondragover="event.preventDefault();this.classList.add('drag-over')" ondragleave="this.classList.remove('drag-over')" ondrop="handleResumeDrop(event)">
+        <div class="upload-icon">📎</div>
+        <div class="upload-text">Click to attach resume <span style="color:#aaa;font-size:0.8rem;">or drag & drop</span></div>
+        <div class="upload-hint">PDF, DOCX, or TXT — text is extracted automatically</div>
+        <input type="file" id="resumeFileInput" accept=".pdf,.docx,.doc,.txt" style="display:none" onchange="handleResumeFile(this.files[0])">
+      </div>
+      <div id="resumeFileStatus" class="resume-file-status hidden"></div>
+
+      <div style="text-align:center;font-size:0.82rem;color:#aaa;margin:0.6rem 0;letter-spacing:0.05em;">— OR PASTE BELOW —</div>
+
       <textarea id="resumeText" placeholder="Paste your resume here…&#10;&#10;Example:&#10;DevOps Engineer with 5 years experience in AWS, Kubernetes, Terraform…"></textarea>
       <div class="resume-actions">
         <button class="btn-green" id="generateQuestionsBtn" onclick="generateResumeQuestions()">&#x2728; Generate Questions</button>
@@ -622,8 +1162,9 @@
 
     <!-- Interview Panel -->
     <div class="card">
-      <div class="progress" id="progress">
-        Click "Start Interview" to begin
+      <div class="progress" id="progress">Select a mode above and click Start</div>
+      <div class="progress-bar-wrap" id="progressBarWrap" style="display:none">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
       </div>
 
       <!-- Voice Control -->
@@ -631,6 +1172,19 @@
         <button class="mic-button" id="micButton" onclick="toggleVoice()">🎤</button>
         <div class="status" id="status">Ready to start</div>
         <div class="live-transcript hidden" id="liveTranscript">🎙️ Listening...</div>
+        <div class="question-timer hidden" id="questionTimer">⏱ 0:00</div>
+        <!-- Shown when mic permission is denied -->
+        <div class="mic-error-card hidden" id="micErrorCard">
+          <strong>🎤 Microphone access is blocked on this device</strong><br>
+          To fix this in <strong>Chrome / Edge</strong>:
+          <ol>
+            <li>Click the <strong>🔒 padlock</strong> (or ⓘ) icon in the browser address bar</li>
+            <li>Find <strong>Microphone</strong> and change it to <strong>Allow</strong></li>
+            <li>Reload this page and try again</li>
+          </ol>
+          On <strong>mobile (Android Chrome)</strong>: tap the padlock → Site settings → Microphone → Allow.<br>
+          On <strong>iPhone/iPad</strong>: voice mode is not supported — please use ⌨️ <strong>Text Mode</strong> instead.
+        </div>
       </div>
 
       <!-- Question Display -->
@@ -658,7 +1212,7 @@
 
       <!-- Control Buttons -->
       <div class="button-group">
-        <button class="btn-primary" onclick="startInterview()" id="startBtn">Start Interview</button>
+        <button class="btn-primary" onclick="startInterview()" id="startBtn">▶ Start Practice</button>
         <button class="btn-success hidden" onclick="submitAnswer()" id="submitBtn">Submit Answer</button>
         <button class="btn-secondary" onclick="skipQuestion()" id="skipBtn" disabled>Skip Question</button>
         <button class="btn-secondary" onclick="nextQuestion()" id="nextBtn" disabled>Next Question</button>
@@ -666,15 +1220,66 @@
         <button class="btn-secondary" onclick="retryAnswer()" id="retryBtn" disabled>Retry Answer</button>
         <button class="btn-download hidden" onclick="downloadSession()" id="downloadBtn">💾 Download Report</button>
       </div>
+      <div class="kb-hint hidden" id="kbHint">
+        <kbd>Space</kbd> mic  ·  <kbd>Enter</kbd>&nbsp;/&nbsp;<kbd>N</kbd> next  ·  <kbd>S</kbd> skip
+      </div>
     </div>
 
     <!-- Summary (shown at end) -->
     <div class="summary-card hidden" id="summaryCard">
       <h2>Interview Complete! 🎉</h2>
       <div class="score" id="finalScore">—</div>
+      <div class="score-pct" id="scorePercent"></div>
+      <div id="perfBadge" class="perf-badge hidden"></div>
       <p>Questions Answered</p>
       <button class="btn-primary" style="margin-top: 1rem;" onclick="resetInterview()">Start New Interview</button>
       <button class="btn-download" style="margin-top: 0.75rem;" onclick="downloadSession()">💾 Download Session Report</button>
+    </div>
+
+    <!-- Mock Interview Review (shown after mock interview ends) -->
+    <div class="mock-review-card hidden" id="mockReviewCard">
+      <div class="mock-review-header">
+        <h2>🎯 Mock Interview Complete!</h2>
+        <p id="mockReviewMeta"></p>
+        <div class="mock-eval-bar-wrap hidden" id="mockEvalBarWrap">
+          <div class="mock-eval-bar" id="mockEvalBar"></div>
+        </div>
+        <div id="mockEvalStatus" style="font-size:0.85rem;color:#667eea;font-weight:600;margin-top:0.5rem;min-height:1.4em;"></div>
+      </div>
+      <div id="mockReviewEntries"></div>
+      <div style="text-align:center;margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn-primary" onclick="resetInterview()">Start New Interview</button>
+        <button class="btn-download" onclick="downloadSession()">💾 Download Report</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Performance Dashboard -->
+  <div class="dashboard-card" id="dashboardCard">
+    <div class="dashboard-header" onclick="toggleDashboard()">
+      <h3>📊 Interview Performance Dashboard</h3>
+      <span class="dashboard-toggle-icon" id="dashToggleIcon">▼</span>
+    </div>
+    <div class="dashboard-body" id="dashboardBody" style="display:none">
+      <div class="dashboard-stats" id="dashStats"></div>
+      <div class="dashboard-table-wrap">
+        <table class="dashboard-table">
+          <thead>
+            <tr>
+              <th>Date &amp; Time</th>
+              <th>Mode</th>
+              <th>Topic</th>
+              <th>Answered</th>
+              <th>Score</th>
+              <th>Badge</th>
+            </tr>
+          </thead>
+          <tbody id="dashTableBody"></tbody>
+        </table>
+      </div>
+      <div class="dashboard-actions">
+        <button class="dash-clear-btn" onclick="clearDashboard()">🗑 Clear History</button>
+      </div>
     </div>
   </div>
 
@@ -701,17 +1306,105 @@
       document.getElementById(id).addEventListener('input', refreshConfigStatus);
     });
 
+    // ─── localStorage: persist API key across page reloads ────────────────────
+    (function() {
+      const k = localStorage.getItem('devops_gemini_key');
+      const m = localStorage.getItem('devops_gemini_model');
+      if (k) { document.getElementById('geminiKey').value   = k; refreshConfigStatus(); }
+      if (m)   document.getElementById('geminiModel').value = m;
+    })();
+    document.getElementById('geminiKey').addEventListener('change', () =>
+      localStorage.setItem('devops_gemini_key',   document.getElementById('geminiKey').value.trim()));
+    document.getElementById('geminiModel').addEventListener('change', () =>
+      localStorage.setItem('devops_gemini_model', document.getElementById('geminiModel').value.trim()));
+
+    // ─── Resume File Upload ────────────────────────────────────────────────────
+
+    // Set pdf.js worker from the same CDN version
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    function setResumeFileStatus(msg, type) {
+      const el = document.getElementById('resumeFileStatus');
+      el.textContent = msg;
+      el.className = 'resume-file-status ' + type;
+      el.classList.remove('hidden');
+    }
+
+    function handleResumeDrop(event) {
+      event.preventDefault();
+      document.getElementById('resumeDropZone').classList.remove('drag-over');
+      const file = event.dataTransfer.files[0];
+      if (file) handleResumeFile(file);
+    }
+
+    async function handleResumeFile(file) {
+      if (!file) return;
+      const name = file.name.toLowerCase();
+      setResumeFileStatus('⏳ Reading ' + file.name + '…', 'loading');
+      document.getElementById('resumeDropZone').querySelector('.upload-text').textContent =
+        '📄 ' + file.name;
+
+      try {
+        let text = '';
+
+        if (name.endsWith('.txt')) {
+          text = await file.text();
+
+        } else if (name.endsWith('.pdf')) {
+          if (typeof pdfjsLib === 'undefined') throw new Error('PDF library not loaded — check internet connection.');
+          const arrayBuffer = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+          const pages = [];
+          for (let p = 1; p <= pdf.numPages; p++) {
+            const page = await pdf.getPage(p);
+            const content = await page.getTextContent();
+            pages.push(content.items.map(i => i.str).join(' '));
+          }
+          text = pages.join('\n');
+
+        } else if (name.endsWith('.docx') || name.endsWith('.doc')) {
+          if (typeof mammoth === 'undefined') throw new Error('DOCX library not loaded — check internet connection.');
+          const arrayBuffer = await file.arrayBuffer();
+          const result = await mammoth.extractRawText({ arrayBuffer });
+          text = result.value;
+
+        } else {
+          throw new Error('Unsupported file type. Please use PDF, DOCX, or TXT.');
+        }
+
+        text = text.replace(/\s{3,}/g, '\n').trim();
+        if (!text) throw new Error('No text could be extracted from this file.');
+
+        document.getElementById('resumeText').value = text;
+        setResumeFileStatus('✅ ' + file.name + ' loaded (' + text.length.toLocaleString() + ' chars)', 'ok');
+      } catch (err) {
+        setResumeFileStatus('❌ ' + err.message, 'error');
+        document.getElementById('resumeDropZone').querySelector('.upload-text').textContent =
+          'Click to attach resume';
+      }
+    }
+
     // ─── Resume-Based Questions ────────────────────────────────────────────────
 
     // null = use the built-in question bank; array = use generated questions
     let resumeQuestions = null;
     let jdQuestions     = null;   // JD mode — takes priority over resume when both are set
     let sessionHistory  = [];     // [{question, answer, feedbackHtml}] for report download
+    let aiScores        = [];     // AI scores (1-5) per answered question this session
 
     // Returns whichever question list is currently active.
-    // Priority: JD > Resume > Built-in bank
+    // Priority: JD > Resume > topic-filtered / shuffled built-in bank
     function activeQuestions() {
-      return jdQuestions || resumeQuestions || questions;
+      if (jdQuestions || resumeQuestions) return jdQuestions || resumeQuestions;
+      if (!_filteredQuestions) {
+        const range = TOPIC_RANGES[activeTopic];
+        const pool  = range ? questions.slice(range[0], range[1]) : questions;
+        _filteredQuestions = [...pool];
+      }
+      return _filteredQuestions;
     }
 
     async function generateResumeQuestions() {
@@ -1003,6 +1696,15 @@ Respond using EXACTLY these three sections with these exact headers (including t
 💡 HOW TO ANSWER THIS IN AN INTERVIEW:
 [Write a DETAILED model answer of 6-8 sentences. Cover: the definition, why it matters, how it works in practice, a real-world example or use case, and any key tools or best practices. This should be the gold-standard answer a senior engineer would give.]
 
+After the three sections, on its own line, write EXACTLY this (nothing else on that line):
+SCORE: X/5
+Where X is an integer 1-5 based on:
+1 = Did not answer / completely wrong
+2 = Mentioned topic but very vague / mostly incorrect
+3 = Partial answer, key concepts missing
+4 = Good answer, minor gaps
+5 = Excellent, complete and accurate
+
 Be technically precise. Use specific tool names, commands, or metrics where relevant.` }]
         },
         contents: [{
@@ -1091,6 +1793,7 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
     let state = {
       currentIndex: 0,
       mode: 'voice',
+      interviewType: 'practice-topic',
       isListening: false,
       isSpeaking: false,
       wantListening: false,
@@ -1105,6 +1808,57 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       permissionAttempts: 0,       // retry counter for not-allowed errors
       recognitionStarting: false   // true while .start() called but onstart not yet fired
     };
+
+    // ─── Topic filter · Timer ─────────────────────────────────────────────────
+
+    let activeTopic        = 'all';
+    let timerInterval      = null;
+    let timerSeconds       = 0;
+    let _filteredQuestions = null;
+
+    // Slice bounds for built-in question bank: [start, end] for questions.slice()
+    const TOPIC_RANGES = {
+      all:        null,        // all 198 questions
+      cicd:       [0,   3],    // 3 General / CI-CD questions
+      terraform:  [3,   33],   // 30 Terraform questions
+      docker:     [33,  63],   // 30 Docker questions
+      kubernetes: [63,  93],   // 30 Kubernetes questions
+      azure:      [93,  113],  // 20 Azure questions
+      scenarios:  [113, 178],  // 65 Scenario-based questions
+      sysdesign:  [178, 198],  // 20 System Design questions
+    };
+
+    function setTopic(t) {
+      if (state && state.isInterviewActive) return;   // locked during interview
+      activeTopic = t;
+      _filteredQuestions = null;                      // invalidate cache
+      ['all', 'cicd', 'terraform', 'docker', 'kubernetes', 'azure', 'scenarios', 'sysdesign'].forEach(id => {
+        const el = document.getElementById('topic' + id.charAt(0).toUpperCase() + id.slice(1));
+        if (el) el.classList.toggle('active', id === t);
+      });
+    }
+
+    function startQuestionTimer() {
+      clearInterval(timerInterval);
+      timerSeconds = 0;
+      const el = document.getElementById('questionTimer');
+      el.textContent = '⏱ 0:00';
+      el.className = 'question-timer';
+      el.classList.remove('hidden');
+      timerInterval = setInterval(() => {
+        timerSeconds++;
+        const m = Math.floor(timerSeconds / 60);
+        const s = timerSeconds % 60;
+        el.textContent = `⏱ ${m}:${s.toString().padStart(2, '0')}`;
+        if (timerSeconds >= 120)      el.className = 'question-timer alert';
+        else if (timerSeconds >= 60)  el.className = 'question-timer warn';
+      }, 1000);
+    }
+
+    function stopQuestionTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
 
     // ─── Question bank ────────────────────────────────────────────────────────
 
@@ -1201,7 +1955,120 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       "How do you debug Kubernetes Pods?",
       "Explain Kubernetes RBAC.",
       "Difference between DaemonSet and Deployment?",
-      "Explain Kubernetes security best practices."
+      "Explain Kubernetes security best practices.",
+      // ── Azure (indices 93-112) ──────────────────────────────────────────────
+      "What is Azure DevOps and what are its main components?",
+      "Explain the difference between Azure Pipelines and GitHub Actions.",
+      "What is an Azure Pipeline YAML definition and how is it structured?",
+      "What are Azure Artifacts and how do you use them in a pipeline?",
+      "Explain Azure Container Registry (ACR) and how it integrates with AKS.",
+      "What is Azure Kubernetes Service (AKS) and how do you deploy to it?",
+      "How do you manage secrets in Azure DevOps pipelines?",
+      "What is Azure Key Vault and how do you integrate it with your applications?",
+      "Explain Azure Service Principal and Managed Identity — when do you use each?",
+      "What is Azure Resource Manager (ARM) and what are ARM templates?",
+      "How does Bicep differ from ARM templates?",
+      "What is Azure Monitor and how do you set up alerting?",
+      "Explain Azure Application Insights and when you would use it.",
+      "What is Azure Log Analytics and how does it complement Azure Monitor?",
+      "How do you implement blue-green or canary deployments in Azure?",
+      "What is Azure App Service and when would you use it over AKS?",
+      "Explain Azure Virtual Network (VNet), subnets, and Network Security Groups.",
+      "What is Azure Policy and how do you enforce compliance across resources?",
+      "How do you implement infrastructure as code for Azure using Terraform?",
+      "What are Azure DevOps Environments and how do you use approval gates?",
+      // ── Scenario-based: CI/CD (indices 113-122) ───────────────────────────
+      "Scenario: Your CI pipeline passes locally but fails in the pipeline with a 'command not found' error. How do you diagnose and fix it?",
+      "Scenario: A deployment pipeline works fine on the main branch but breaks on feature branches. What could cause this and how do you resolve it?",
+      "Scenario: Your pipeline takes 45 minutes to run. Stakeholders want it under 10 minutes. How do you approach optimising it?",
+      "Scenario: A junior developer accidentally merged broken code to main and it was deployed to production. Walk me through how you would handle this incident and prevent it in future.",
+      "Scenario: You need to deploy the same application to dev, staging, and production environments with different config values. How do you structure your pipeline?",
+      "Scenario: Your pipeline is failing intermittently — it passes 7 out of 10 runs with no code changes. How do you investigate?",
+      "Scenario: You are asked to add automated security scanning to an existing CI/CD pipeline without slowing it down significantly. How do you do it?",
+      "Scenario: A rollback is needed after a bad production release. Your pipeline has no rollback stage. How do you handle it immediately and what do you add going forward?",
+      "Scenario: Two teams are deploying to the same environment at the same time and causing conflicts. How do you solve this?",
+      "Scenario: You need to enforce that no deployment to production can happen without two peer approvals and a passing security scan. How do you implement this?",
+      // ── Scenario-based: Terraform (indices 123-132) ───────────────────────
+      "Scenario: You run 'terraform apply' and it tries to destroy a production database. What do you do and how do you prevent this in future?",
+      "Scenario: Two engineers ran 'terraform apply' at the same time and the state file is now corrupted. How do you recover?",
+      "Scenario: You need to move an existing manually created Azure resource under Terraform management without recreating it. How do you do it?",
+      "Scenario: Your Terraform plan shows 'forces replacement' on a critical resource you cannot afford to destroy. How do you handle it?",
+      "Scenario: You need to deploy the same infrastructure to 5 different environments with minor differences per environment. How do you structure this in Terraform?",
+      "Scenario: A team member deleted the Terraform state file. There is no backup. How do you recover the state?",
+      "Scenario: Your Terraform module is being used by 10 teams. You need to release a breaking change. How do you manage this safely?",
+      "Scenario: Terraform apply is taking over 30 minutes and timing out. How do you investigate and fix this?",
+      "Scenario: You need to enforce that all Terraform resources have mandatory tags (e.g. owner, environment). How do you implement this?",
+      "Scenario: You inherited a large Terraform codebase with no modules, no remote state, and hardcoded credentials. How do you plan to refactor it?",
+      // ── Scenario-based: Docker (indices 133-142) ──────────────────────────
+      "Scenario: A Docker container that works on a developer's machine fails in production with a 'permission denied' error. How do you debug this?",
+      "Scenario: Your Docker image is 3 GB and taking 20 minutes to build and push. How do you reduce its size and build time?",
+      "Scenario: A running container is consuming 100% CPU and causing issues on the host. What steps do you take?",
+      "Scenario: You need to share sensitive environment variables with a container without baking them into the image. How do you do this securely?",
+      "Scenario: A container exits immediately after starting with no error logs. How do you diagnose why?",
+      "Scenario: You need to run a legacy application that requires a specific OS library version inside Docker without affecting the host. How do you approach this?",
+      "Scenario: Your CI is building Docker images on every commit and your registry is filling up rapidly. How do you manage image lifecycle?",
+      "Scenario: Two microservices in separate containers need to communicate with each other locally during development. How do you set this up?",
+      "Scenario: A security scan flagged critical vulnerabilities in your base Docker image. You cannot change the base image immediately. What mitigations do you apply?",
+      "Scenario: You need to ensure a Docker container restarts automatically if it crashes but stops restarting if it keeps failing. How do you configure this?",
+      // ── Scenario-based: Kubernetes (indices 143-152) ──────────────────────
+      "Scenario: A Pod is stuck in 'Pending' state. Walk me through how you diagnose and resolve this.",
+      "Scenario: Your application deployed to Kubernetes is intermittently returning 502 errors. How do you investigate?",
+      "Scenario: A Kubernetes node is in 'NotReady' state. What steps do you take to investigate and recover?",
+      "Scenario: You need to roll out a new version of your application to Kubernetes with zero downtime. How do you achieve this?",
+      "Scenario: Your Kubernetes cluster is running out of memory. Pods are being OOMKilled. How do you address this immediately and long term?",
+      "Scenario: A ConfigMap change needs to be applied to running Pods without redeploying. Is this possible, and how?",
+      "Scenario: You need to prevent a team's workloads from consuming more than 4 CPU cores and 8 GB RAM in a shared cluster. How do you enforce this?",
+      "Scenario: An application Pod needs read access to a secret stored in Azure Key Vault without hardcoding credentials in the manifest. How do you achieve this?",
+      "Scenario: You need to run a database migration job before your new application version starts serving traffic in Kubernetes. How do you implement this?",
+      "Scenario: A developer accidentally deleted a namespace containing production workloads. How do you recover and what safeguards do you put in place?",
+      // ── Scenario-based: Azure (indices 153-162) ───────────────────────────
+      "Scenario: A production Azure pipeline has been running fine for months but suddenly fails with an 'authentication failed' error. How do you diagnose this?",
+      "Scenario: You need to migrate an on-premises application to Azure with minimal downtime. Walk me through your approach.",
+      "Scenario: An Azure Function is timing out under high load. How do you investigate and resolve it?",
+      "Scenario: Your Azure cost has doubled unexpectedly this month. How do you identify the cause and reduce spend?",
+      "Scenario: A secret stored in Azure Key Vault was accidentally deleted. The application is down. How do you recover?",
+      "Scenario: You need to give a third-party vendor read-only access to specific Azure resources without giving them an Azure AD account. How do you do this?",
+      "Scenario: Your AKS cluster nodes are running at 90% CPU. The application is degrading. What are your immediate and long-term actions?",
+      "Scenario: A new Azure Policy has been applied to your subscription and is blocking all your Terraform deployments. How do you resolve this?",
+      "Scenario: You need to ensure all data stored in Azure Storage is encrypted with customer-managed keys and audited. How do you set this up?",
+      "Scenario: Your team needs to deploy to Azure from GitHub Actions but your company policy forbids storing long-lived credentials in GitHub. How do you authenticate securely?",
+      // ── Scenario-based: Azure DevOps CI/CD Pipeline ──────────────────────────────
+      "Scenario: Your Azure DevOps pipeline that used to complete in 8 minutes now takes 35 minutes. No code changes were made. How do you systematically diagnose and fix the slowness?",
+      "Scenario: A pipeline stage is slow because it downloads 2 GB of NuGet/npm packages on every run. How do you fix this in Azure DevOps without changing the application code?",
+      "Scenario: Multiple jobs in your Azure DevOps pipeline are doing the same setup steps independently. How do you restructure the pipeline to eliminate this duplication and speed up runs?",
+      "Scenario: Your Azure DevOps pipeline is queuing for 15 minutes before it even starts running. The jobs themselves are fast. What is the likely cause and how do you fix it?",
+      "Scenario: A developer stored a database connection string directly in the YAML pipeline file and committed it to the repo. What do you do right now and how do you prevent this in future?",
+      "Scenario: You need to pass a secret API key to a pipeline task. The key must not appear in logs, must not be in YAML, and must be rotated without editing the pipeline. How do you implement this in Azure DevOps?",
+      "Scenario: A pipeline variable group is linked to Azure Key Vault. Suddenly all pipelines using it fail with 'access denied'. What do you investigate and how do you fix it?",
+      "Scenario: You need different secrets for dev, staging, and production in the same pipeline. How do you structure variable groups and environments so the right secrets are used at each stage?",
+      "Scenario: An audit finds that 10 people have 'Edit pipeline' permissions who should not. How do you audit, tighten, and enforce pipeline permissions in Azure DevOps going forward?",
+      "Scenario: A pipeline is running but the deployment to the production environment keeps waiting indefinitely. No one has rejected it. How do you investigate this approval gate issue?",
+      "Scenario: You need to implement a canary deployment for an Azure App Service using Azure DevOps pipelines — route 10% of traffic to new version, monitor, then promote or roll back. How do you build this?",
+      "Scenario: Your Azure DevOps release pipeline is deploying to the wrong environment because an environment variable was overridden by a lower-scoped variable. How do you debug variable scoping issues in Azure DevOps?",
+      "Scenario: A self-hosted agent is intermittently failing with 'agent lost communication' mid-pipeline. How do you diagnose and resolve this?",
+      "Scenario: You need to ensure that any pipeline deploying to production must always run from the main branch and cannot be triggered manually from a feature branch. How do you enforce this?",
+      "Scenario: Your Azure DevOps pipeline deploys a containerised app to AKS. After a recent pipeline change, the deployment succeeds but the app is returning 500 errors. The previous version was fine. Walk me through how you investigate and roll back.",
+      // ── System Design (indices 178-197) ───────────────────────────────────────────────
+      "System Design: Design a production-grade AKS cluster for a microservices application with 20 services. Cover node pool design, networking, ingress, autoscaling, and security.",
+      "System Design: Design a multi-region Azure architecture for a high-availability web application that must achieve 99.99% uptime. What Azure services do you use and how do you handle failover?",
+      "System Design: Design an end-to-end Azure DevOps CI/CD pipeline for a .NET microservices application deployed to AKS, covering build, test, security scan, container publish, and staged deployments.",
+      "System Design: Design a GitOps workflow for deploying to multiple Kubernetes clusters across dev, staging, and production using Azure DevOps and Flux or ArgoCD.",
+      "System Design: Design a secrets management strategy for an organisation with 50 microservices running on AKS, where each service needs different secrets and all must be rotated without downtime.",
+      "System Design: Design a Terraform repository structure for an organisation managing 10 Azure subscriptions across 3 environments. Cover state management, modules, and team collaboration.",
+      "System Design: Design a container image supply chain from developer commit to production AKS deployment, including vulnerability scanning, signing, and policy enforcement.",
+      "System Design: Design a monitoring and observability stack for an AKS-based application. What tools do you choose for metrics, logs, traces, and alerting? How do they integrate?",
+      "System Design: Design a disaster recovery plan for a critical application running on AKS in Azure. Cover RTO/RPO targets, data backup, failover strategy, and runbook.",
+      "System Design: Design a cost optimisation strategy for an Azure environment spending £200k/month. What areas do you analyse and what levers do you pull?",
+      "System Design: Design a network architecture for AKS that isolates workloads by team, restricts internet egress, and allows secure communication with on-premises systems via ExpressRoute.",
+      "System Design: Design a CI/CD pipeline that builds and deploys to 5 different cloud environments (Azure, AWS, GCP, on-prem, edge). How do you handle the differences?",
+      "System Design: Design a platform engineering team's internal developer platform (IDP) that lets application teams self-serve infrastructure and deployments on Azure without needing DevOps involvement for every change.",
+      "System Design: Design a zero-trust security model for a Kubernetes-based microservices application. Cover network policies, pod identity, mTLS, and secrets.",
+      "System Design: Design a blue-green deployment strategy for a stateful application on AKS with a PostgreSQL database. How do you handle schema migrations and traffic switching?",
+      "System Design: Design a log aggregation and audit pipeline for an organisation that must retain all Azure platform and application logs for 7 years for compliance purposes.",
+      "System Design: Design the infrastructure for a machine learning model training and serving platform on Azure, covering data pipelines, training clusters, model registry, and inference endpoints.",
+      "System Design: Design a self-service Terraform module catalogue for a large enterprise so teams can provision approved Azure resources without writing Terraform from scratch.",
+      "System Design: Design an incident management and on-call system for a DevOps team managing 30 microservices. Cover alerting, escalation, runbooks, and post-incident reviews.",
+      "System Design: Design the migration of a monolithic on-premises .NET application to Azure-native microservices over 12 months. What is your phased approach, and what risks do you mitigate?"
     ];
 
     // ─── Speech recognition ───────────────────────────────────────────────────
@@ -1216,7 +2083,7 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       const recognition = new SpeechRecognition();
       recognition.continuous = true;
       recognition.interimResults = true;
-      recognition.lang = 'en-US'; // US English has largest training data for DevOps/tech terms
+      recognition.lang = 'en-IN'; // Indian English — better accent model for Indian speakers in Chrome
 
       recognition.onstart = () => {
         state.recognitionStarting = false;
@@ -1233,6 +2100,11 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       };
 
       recognition.onresult = (event) => {
+        // Ignore audio captured after submission or while TTS is speaking the question.
+        // This keeps the mic session alive across questions without accumulating
+        // stale text.
+        if (state.answerSubmitted || state.isSpeaking) return;
+
         let interim = '', final = '';
         for (let i = event.resultIndex; i < event.results.length; i++) {
           if (event.results[i].isFinal) final += event.results[i][0].transcript;
@@ -1261,41 +2133,17 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         state.isListening = false;
         updateMicButton();
         if (event.error === 'not-allowed') {
+          // On HTTPS (Netlify), 'not-allowed' means the user has genuinely
+          // blocked mic access — retrying does nothing. Show a clear fix guide.
           clearInterval(state.micHeartbeat);
           state.micHeartbeat = null;
           clearTimeout(state.sessionRestartTimer);
           state.sessionRestartTimer = null;
-          state.permissionAttempts++;
-          if (state.permissionAttempts <= 3) {
-            // Chrome shows a permission dialog — the first 1-2 attempts
-            // fire 'not-allowed' while the dialog is still open.
-            // Wait 2s and retry automatically (user may still be clicking Allow).
-            const delay = state.permissionAttempts * 2000;
-            updateStatus(`Waiting for mic permission… (attempt ${state.permissionAttempts}/3)`);
-            setTimeout(() => {
-              if (!state.answerSubmitted) {
-                state.wantListening = true;
-                _startRecognition();
-                // Restart heartbeat
-                if (!state.micHeartbeat) {
-                  state.micHeartbeat = setInterval(() => {
-                    if (state.wantListening && !state.isListening && !state.recognitionStarting &&
-                        !state.isSpeaking && !state.answerSubmitted) {
-                      _startRecognition();
-                    }
-                  }, 1500);
-                }
-              }
-            }, delay);
-          } else {
-            // Genuinely blocked — stop and tell user how to fix it
-            state.wantListening = false;
-            state.permissionAttempts = 0;
-            updateStatus('⛔ Mic blocked — click 🔒 in address bar → Allow microphone → reload');
-            const lt = document.getElementById('liveTranscript');
-            lt.textContent = '⛔ Microphone access denied. Allow in Chrome settings and reload the page.';
-            lt.classList.remove('hidden');
-          }
+          state.wantListening   = false;
+          state.permissionAttempts = 0;
+          updateStatus('⛔ Microphone access denied — see the fix guide below');
+          document.getElementById('micErrorCard').classList.remove('hidden');
+          document.getElementById('liveTranscript').classList.add('hidden');
         } else if (event.error !== 'no-speech') {
           updateStatus('Mic error: ' + event.error + '. Will retry automatically.');
         }
@@ -1371,11 +2219,11 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         [/\bsiri\b/gi,                           'CI'],
         [/\bsee\s+eye\b/gi,                      'CI'],
         // ── DevOps ──────────────────────────────────────────────────────────
-        [/\bdivorce\b/gi,                        'DevOps'],
-        [/\ba\s+develops\s+practice\b/gi,        'a DevOps practice'],  // "develops" in context
-        [/\bdeveloped\s+practice\b/gi,           'DevOps practice'],
         [/\bdev\s+ops\b/gi,                      'DevOps'],
         [/\bdev-ops\b/gi,                        'DevOps'],
+        [/\ba\s+develops\s+practice\b/gi,        'a DevOps practice'],
+        [/\bdeveloped\s+practice\b/gi,           'DevOps practice'],
+        // divorce → DevOps REMOVED (too aggressive — legitimate word)
         // ── CI/CD stands for (Chrome hears "distance for") ─────────────────
         [/\bdistance\s+for\b/gi,                 'CI/CD stands for'],
         [/\bCI\s*slash\s*CD\s+stands\b/gi,       'CI/CD stands'],
@@ -1481,10 +2329,11 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         // ── Logs mishearings ──────────────────────────────────────────────────
         [/\bapplication\s+locks?\b/gi,           'application logs'],
         [/\bsystem\s+locks?\b/gi,                'system logs'],
-        // ── Monitoring/Metrics synonyms Chrome mishears ───────────────────────
-        // "monetary" and "metals" are real words but never appear in DevOps answers
-        [/\bmonetary\b/gi,                       'monitoring'],
-        [/\bmetals\b/gi,                         'metrics'],
+        // ── Monitoring/Metrics synonyms ───────────────────────────────────────
+        // Only replace when clearly in a DevOps context (compound phrases)
+        [/\bmonetary\s+(?:tool|system|solution|platform|setup|stack|service)\b/gi, 'monitoring $1'],
+        [/\bmetals\s+(?:tool|system|solution|platform|setup|stack|service|dashboard)\b/gi, 'metrics $1'],
+        // bare "monetary" / "metals" NOT replaced — too many false positives
         // ── Phrase mishearings ────────────────────────────────────────────────
         [/\bvisiting\s+to\s+like\b/gi,           'using tools like'],
         [/\bactivity\s+detect\b/gi,              'proactively detect'],
@@ -1495,8 +2344,10 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         [/\bmounting\s+and\s+logging\b/gi,       'monitoring and logging'],
         // ── Observability tools ───────────────────────────────────────────────
         [/\bprometheas\b/gi,                     'Prometheus'],
-        [/\bpromoters\b/gi,                      'Prometheus'],
-        [/\bfrom\s+others\b/gi,                  'Prometheus'],
+        [/\bpromoters\s+(?:and|to|for|like|with|are|is)\b/gi, 'Prometheus $1'],  // only in context
+        [/\bfrom\s+others\s+(?:and|to|for|with|or)\b/gi, 'Prometheus $1'],  // only in compound context
+        [/\bprome\s*theus\b/gi,                  'Prometheus'],
+        [/\bpromet\s*heas?\b/gi,                 'Prometheus'],
         [/\bgraph\s*anna\b/gi,                   'Grafana'],
         [/\brafana\b/gi,                         'Grafana'],
         [/\bgraphia\b/gi,                        'Grafana'],
@@ -1511,12 +2362,14 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         [/\bas\s+your\s+monitor\b/gi,            'Azure Monitor'],
         [/\bArjun\b/gi,                          'Azure'],
         // ── ELK / logging platforms — compound phrases first ──────────────────
-        [/\belk\s+plank\b/gi,                    'ELK stack'],
-        [/\bLKG\s+login\b/gi,                    'ELK logging'],
+        [/\belk\s+(?:plank|stack|log)\b/gi,      'ELK stack'],
+        [/\bLKG\s+log(?:in|ging)?\b/gi,          'ELK logging'],
         [/\bLKG\b/gi,                            'ELK'],
         [/\bEagle\s+kiss\b/gi,                   'Elasticsearch'],
         [/\belastic\s+search\b/gi,               'Elasticsearch'],
-        [/\bplank\b/gi,                          'Splunk'],
+        [/\bspl?unk\b/gi,                        'Splunk'],          // direct mishear only
+        [/\bplan\s*(?:k|c)\b/gi,                 'Splunk'],          // "plank" / "planc" close to Splunk
+        // bare "plank" NOT replaced — real English word
         [/\bdata\s+dog\b/gi,                     'Datadog'],
         [/\bcloud\s+watch\b/gi,                  'CloudWatch'],
         // ── Kubernetes extended ───────────────────────────────────────────────
@@ -1536,6 +2389,30 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         : 'Type your answer and press Enter or Submit');
     }
 
+    function setInterviewType(type) {
+      if (state.isInterviewActive) return;
+      state.interviewType = type;
+      ['practiceTopicType','practiceOverallType','mockType'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('active');
+      });
+      const btnMap = { 'practice-topic': 'practiceTopicType', 'practice-overall': 'practiceOverallType', 'mock': 'mockType' };
+      const activeBtn = document.getElementById(btnMap[type]);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Topic filter only visible when practising by topic
+      const tf = document.querySelector('.topic-filter');
+      if (tf) tf.style.display = (type === 'practice-topic') ? '' : 'none';
+
+      // Practice Overall always uses all topics
+      if (type === 'practice-overall') {
+        setTopic('all');
+      }
+
+      document.getElementById('startBtn').textContent =
+        type === 'mock' ? '🎯 Start Mock Interview' : '▶ Start Practice';
+    }
+
     function setNavButtons({ nextDisabled, skipDisabled, retryDisabled }) {
       document.getElementById('nextBtn').disabled = nextDisabled;
       document.getElementById('skipBtn').disabled = skipDisabled;
@@ -1547,6 +2424,7 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
     function startInterview() {
       state.currentIndex = 0;
       state.answeredCount = 0;
+      _filteredQuestions = null;  // rebuild filtered list for this session
 
       document.getElementById('summaryCard').classList.add('hidden');
       document.getElementById('startBtn').classList.add('hidden');
@@ -1584,17 +2462,29 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       document.getElementById('progress').textContent =
         `Question ${state.currentIndex + 1} of ${activeQuestions().length}`;
 
-      updateStatus('Question loading…');
+      // Visual progress bar
+      const pct = activeQuestions().length > 0
+        ? Math.round((state.currentIndex / activeQuestions().length) * 100) : 0;
+      document.getElementById('progressBarFill').style.width = pct + '%';
+      document.getElementById('progressBarWrap').style.display = 'block';
+
+      // Keyboard hint + per-question timer
+      document.getElementById('kbHint').classList.remove('hidden');
+      startQuestionTimer();
+
+      updateStatus('Reading question…');
 
       if (state.mode === 'voice') {
-        // Start mic only after the question has finished being spoken.
-        // Guard against answerSubmitted: speechSynthesis.cancel() in speakText
-        // fires onend on the current utterance, which would re-trigger this callback.
         speakText(question, () => {
-          if (state.recognition && !state.isListening && !state.answerSubmitted) startListening();
+          if (!state.answerSubmitted) {
+            updateStatus('🔴 Listening — speak your full answer, then click Submit');
+            if (state.recognition && !state.isListening) startListening();
+          }
         });
       } else {
-        speakText(question);
+        speakText(question, () => {
+          if (!state.answerSubmitted) updateStatus('Type your answer and press Enter or Submit');
+        });
       }
     }
 
@@ -1609,11 +2499,14 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
 
       state.recognitionStarting = true;
 
-      // Always create a fresh instance — Chrome on file:// does not support calling
-      // .start() again on a SpeechRecognition object that has already ended its session.
-      // Reusing the same instance causes a silent InvalidStateError which means no audio
-      // is captured until the heartbeat recovers ~1.5s later.
-      state.recognition = initSpeechRecognition();
+      // Reuse the existing recognition instance whenever possible — creating a new
+      // instance on every question re-triggers the browser "Use your microphone" prompt.
+      // Only create a fresh instance on first start (state.recognition is null) or
+      // after an error clears it. On file:// origins Chrome cannot restart an ended
+      // session, so we fall back to a new instance if .start() throws.
+      if (!state.recognition) {
+        state.recognition = initSpeechRecognition();
+      }
       if (!state.recognition) {
         state.recognitionStarting = false;
         return;
@@ -1623,14 +2516,14 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         state.recognition.start();
         // recognitionStarting is cleared by recognition.onstart
       } catch (e) {
-        // Chrome audio resource not yet fully released — wait and retry once.
-        console.warn('Speech start deferred:', e.message);
+        // On file:// Chrome cannot reuse an ended session — create a fresh instance.
+        console.warn('Speech reuse failed, creating new instance:', e.message);
+        state.recognition = initSpeechRecognition();
         setTimeout(() => {
           if (!state.wantListening || state.isListening || state.answerSubmitted) {
             state.recognitionStarting = false;
             return;
           }
-          state.recognition = initSpeechRecognition();
           try {
             state.recognition.start();
           } catch (e2) {
@@ -1701,18 +2594,27 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       if (state.answerSubmitted) return; // prevent double-submission
       state.answerSubmitted = true;
       state.answeredCount++;
+      stopQuestionTimer();
       setNavButtons({ nextDisabled: false, skipDisabled: true, retryDisabled: false });
 
       document.getElementById('answerBox').classList.remove('hidden');
       document.getElementById('answerText').textContent = answer;
 
-      // stopListening() is safe here: the isListening guard prevents a second
-      // recognition.stop() call if submitAnswer() already stopped it.
-      stopListening();
+      // Do NOT call stopListening() here — keeping the mic session alive for the
+      // whole interview prevents Chrome from re-prompting "Use your microphone"
+      // on every question. The answerSubmitted flag and the onresult guard above
+      // stop stale audio from accumulating. stopListening() is only called when
+      // the interview fully ends or the user resets.
 
       // Track for session report — feedbackHtml will be filled in by generateFeedback
       sessionHistory.push({ question: activeQuestions()[state.currentIndex], answer, feedbackHtml: '' });
       document.getElementById('downloadBtn').classList.remove('hidden');
+
+      // In mock mode, skip per-question feedback — all evaluated at the end
+      if (state.interviewType === 'mock') {
+        updateStatus('✓ Answer recorded — click Next Question to continue');
+        return;
+      }
 
       updateStatus('Evaluating answer…');
       await generateFeedback(activeQuestions()[state.currentIndex], answer);
@@ -1722,6 +2624,30 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
     /**
      * generateFeedback — calls Gemini when configured, keyword heuristic only as last resort.
      */
+    function cleanForSpeech(text) {
+      return text
+        // Section headers with emojis → natural spoken phrases
+        .replace(/✅\s*WHAT YOU ANSWERED WELL\s*:/gi,      'What you answered well.')
+        .replace(/⚠️\s*WHAT[''S ]+MISSING[^:\n]*:/gi,     "What's missing or needs improvement.")
+        .replace(/💡\s*HOW TO ANSWER[^:\n]*:/gi,            'How to answer this in an interview.')
+        // Strip **bold** markers — leave the text, drop the asterisks
+        .replace(/\*\*(.*?)\*\*/g, '$1')
+        // Strip leading bullet dashes / dots
+        .replace(/^[-•]\s*/gm, '')
+        // Remove any stray leftover emoji characters
+        .replace(/[✅⚠️💡]/g, '')
+        // Replace commas with a short pause (space) so TTS doesn't say "comma"
+        .replace(/,/g, ' ')
+        // Replace colons and semicolons similarly
+        .replace(/[;:]/g, '.')
+        // Remove other punctuation that TTS engines sometimes vocalise
+        .replace(/[`~@#$%^&*_=+|<>{}[\]\\]/g, ' ')
+        // Collapse multiple spaces / blank lines created by removals
+        .replace(/  +/g, ' ')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+    }
+
     function renderFeedback(text) {
       // Safely convert Gemini's markdown-style output to HTML for display
       const escaped = text
@@ -1750,13 +2676,57 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       if (isAOAIConfigured()) {
         try {
           const aiFeedback = await callGeminiWithRetry(question, answer);
-          const renderedFeedback = renderFeedback(aiFeedback);
+
+          // Extract SCORE: X/5 from the response before rendering
+          let displayedFeedback = aiFeedback;
+          let aiScore = null;
+          const scoreMatch = aiFeedback.match(/SCORE:\s*([1-5])\/5/i);
+          if (scoreMatch) {
+            aiScore = parseInt(scoreMatch[1], 10);
+            aiScores.push(aiScore);
+            // Strip the score line from the displayed text
+            displayedFeedback = aiFeedback.replace(/\n?SCORE:\s*[1-5]\/5\s*/i, '').trim();
+          }
+
+          const renderedFeedback = renderFeedback(displayedFeedback);
           feedbackText.innerHTML = renderedFeedback;
+
+          // AI score pill
+          const existingPill = feedbackText.parentElement.querySelector('.ai-score-pill');
+          if (existingPill) existingPill.remove();
+          if (aiScore !== null) {
+            const colors = { 1: '#dc2626', 2: '#e67e22', 3: '#d97706', 4: '#2563eb', 5: '#16a34a' };
+            const labels = { 1: 'Needs work', 2: 'Vague', 3: 'Partial', 4: 'Good', 5: 'Excellent' };
+            const stars  = '★'.repeat(aiScore) + '☆'.repeat(5 - aiScore);
+            const pill = document.createElement('div');
+            pill.className = 'ai-score-pill';
+            pill.innerHTML = `<span style="color:${colors[aiScore]};font-weight:800;font-size:1.05rem">${stars}</span>&nbsp; <strong style="color:${colors[aiScore]}">${aiScore}/5 — ${labels[aiScore]}</strong> <span style="color:#999;font-size:0.78rem;margin-left:0.4rem">AI-judged score</span>`;
+            feedbackText.parentElement.insertBefore(pill, feedbackText.nextSibling);
+          }
+
+          // Copy feedback button
+          const existingCopy = feedbackText.parentElement.querySelector('.copy-feedback-btn');
+          if (!existingCopy) {
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'copy-feedback-btn';
+            copyBtn.textContent = '📋 Copy Feedback';
+            copyBtn.onclick = () => {
+              navigator.clipboard.writeText(displayedFeedback).then(() => {
+                copyBtn.textContent = '✅ Copied!';
+                setTimeout(() => { copyBtn.textContent = '📋 Copy Feedback'; }, 2000);
+              }).catch(() => {
+                copyBtn.textContent = '⚠️ Copy failed';
+                setTimeout(() => { copyBtn.textContent = '📋 Copy Feedback'; }, 2000);
+              });
+            };
+            feedbackText.parentElement.appendChild(copyBtn);
+          }
           // Save rendered HTML to session history for report download
           if (sessionHistory.length > 0) {
             sessionHistory[sessionHistory.length - 1].feedbackHtml = renderedFeedback;
+            if (aiScore !== null) sessionHistory[sessionHistory.length - 1].aiScore = aiScore;
           }
-          speakText(aiFeedback);
+          speakText(cleanForSpeech(aiFeedback));
         } catch (err) {
           console.error('Gemini error:', err);
           feedbackBox.className = 'feedback-box';
@@ -1807,7 +2777,10 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
     }
 
     function skipQuestion() {
-      stopListening();
+      // Do not stopListening() — keep the mic session alive to avoid re-prompting.
+      // Clearing the buffers in showQuestion() is sufficient.
+      state.lastHeard = '';
+      state.interimBuffer = '';
       state.currentIndex++;
       showQuestion();
     }
@@ -1836,15 +2809,118 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
 
       clearInterval(state.micHeartbeat);
       state.micHeartbeat = null;
+      stopQuestionTimer();
       document.getElementById('submitBtn').classList.add('hidden');
-      document.getElementById('summaryCard').classList.remove('hidden');
-      document.getElementById('finalScore').textContent =
-        `${state.answeredCount}/${activeQuestions().length}`;
-
-      updateStatus('Interview completed!');
-      speakText(`Interview complete! You answered ${state.answeredCount} questions. Great job!`);
       if (state.recognition) state.recognition.stop();
+      window.speechSynthesis.cancel();
       setNavButtons({ nextDisabled: true, skipDisabled: true, retryDisabled: true });
+
+      if (state.interviewType === 'mock') {
+        runMockEvaluation();
+        return;
+      }
+
+      document.getElementById('summaryCard').classList.remove('hidden');
+      const total = activeQuestions().length;
+      document.getElementById('finalScore').textContent =
+        `${state.answeredCount}/${total}`;
+      // Score percentage + performance badge
+      const pct = total > 0 ? Math.round((state.answeredCount / total) * 100) : 0;
+      document.getElementById('scorePercent').textContent = `${pct}%`;
+      const badge = document.getElementById('perfBadge');
+      if (pct >= 90)      { badge.textContent = '🏆 Excellent!';     badge.style.background = '#16a34a'; }
+      else if (pct >= 70) { badge.textContent = '👍 Good job!';      badge.style.background = '#2563eb'; }
+      else if (pct >= 50) { badge.textContent = '💪 Keep practising';badge.style.background = '#d97706'; }
+      else                { badge.textContent = '📚 More prep needed';badge.style.background = '#dc2626'; }
+      badge.classList.remove('hidden');
+      updateStatus('Interview completed!');
+      speakText(`Interview complete! You answered ${state.answeredCount} out of ${total} questions. Great job!`);
+      // Use average AI score if available, otherwise fall back to completion %
+      const scorePct = aiScores.length > 0
+        ? Math.round((aiScores.reduce((a, b) => a + b, 0) / aiScores.length) / 5 * 100)
+        : pct;
+      saveSessionRecord({ mode: state.interviewType, topic: activeTopic, answered: state.answeredCount, total, pct: scorePct });
+      renderDashboard();
+    }
+
+    async function runMockEvaluation() {
+      const card = document.getElementById('mockReviewCard');
+      card.classList.remove('hidden');
+      setTimeout(() => card.scrollIntoView({ behavior: 'smooth' }), 100);
+
+      const total = sessionHistory.length;
+      document.getElementById('mockReviewMeta').textContent =
+        `${total} question${total !== 1 ? 's' : ''} answered — evaluating your responses with AI…`;
+
+      // Build skeleton entries
+      const entriesDiv = document.getElementById('mockReviewEntries');
+      entriesDiv.innerHTML = '';
+      sessionHistory.forEach((e, i) => {
+        const div = document.createElement('div');
+        div.className = 'mock-entry';
+        div.id = 'mockEntry' + i;
+        div.innerHTML =
+          `<div class="mock-entry-q-num">Question ${i + 1} of ${total}</div>` +
+          `<div class="mock-entry-question">${escapeHtml(e.question)}</div>` +
+          `<div class="mock-entry-answer-lbl">Your Answer</div>` +
+          `<div class="mock-entry-answer">${escapeHtml(e.answer) || '<em style="color:#aaa">No answer recorded</em>'}</div>` +
+          `<div class="mock-entry-feedback-lbl">🤖 AI Feedback</div>` +
+          `<div class="mock-entry-feedback pending" id="mockFeedback${i}">⏳ Evaluating…</div>`;
+        entriesDiv.appendChild(div);
+      });
+
+      const barWrap  = document.getElementById('mockEvalBarWrap');
+      const bar      = document.getElementById('mockEvalBar');
+      const statusEl = document.getElementById('mockEvalStatus');
+
+      if (isAOAIConfigured() && total > 0) {
+        barWrap.classList.remove('hidden');
+        for (let i = 0; i < total; i++) {
+          statusEl.textContent = `Evaluating ${i + 1} of ${total}…`;
+          bar.style.width = Math.round((i / total) * 100) + '%';
+          const feedbackEl = document.getElementById('mockFeedback' + i);
+          try {
+            const raw        = await callGeminiWithRetry(sessionHistory[i].question, sessionHistory[i].answer);
+            // Extract SCORE: X/5
+            const sm = raw.match(/SCORE:\s*([1-5])\/5/i);
+            const sc = sm ? parseInt(sm[1], 10) : null;
+            const cleaned = raw.replace(/\n?SCORE:\s*[1-5]\/5\s*/i, '').trim();
+            if (sc !== null) { aiScores.push(sc); sessionHistory[i].aiScore = sc; }
+            const rendered   = renderFeedback(cleaned);
+            feedbackEl.className = 'mock-entry-feedback';
+            if (sc !== null) {
+              const colors = { 1:'#dc2626',2:'#e67e22',3:'#d97706',4:'#2563eb',5:'#16a34a' };
+              const labels = { 1:'Needs work',2:'Vague',3:'Partial',4:'Good',5:'Excellent' };
+              const stars  = '★'.repeat(sc) + '☆'.repeat(5 - sc);
+              feedbackEl.innerHTML = `<div class="ai-score-pill"><span style="color:${colors[sc]};font-weight:800">${stars}</span>&nbsp;<strong style="color:${colors[sc]}">${sc}/5 — ${labels[sc]}</strong> <span style="color:#999;font-size:0.78rem;margin-left:0.4rem">AI-judged score</span></div>` + rendered;
+            } else {
+              feedbackEl.innerHTML = rendered;
+            }
+            sessionHistory[i].feedbackHtml = rendered;
+          } catch (err) {
+            feedbackEl.className = 'mock-entry-feedback';
+            feedbackEl.innerHTML = `<em style="color:#c62828">❌ ${escapeHtml(err.message)}</em>`;
+          }
+        }
+        bar.style.width = '100%';
+        statusEl.textContent = `✅ All ${total} responses evaluated`;
+        setTimeout(() => { barWrap.classList.add('hidden'); statusEl.textContent = ''; }, 2500);
+      } else {
+        for (let i = 0; i < total; i++) {
+          const feedbackEl = document.getElementById('mockFeedback' + i);
+          feedbackEl.className = 'mock-entry-feedback';
+          feedbackEl.innerHTML = '<em style="color:#aaa">Add your Gemini API key above for AI feedback.</em>';
+        }
+      }
+
+      document.getElementById('mockReviewMeta').textContent =
+        `${total} question${total !== 1 ? 's' : ''} answered`;
+      updateStatus('Mock interview complete!');
+      const mockScorePct = aiScores.length > 0
+        ? Math.round((aiScores.reduce((a, b) => a + b, 0) / aiScores.length) / 5 * 100)
+        : (total > 0 ? 100 : 0);
+      saveSessionRecord({ mode: 'mock', topic: activeTopic, answered: total, total, pct: mockScorePct });
+      renderDashboard();
     }
 
     function resetInterview() {
@@ -1856,7 +2932,11 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       state.lastHeard = '';
       state.interimBuffer = '';
       sessionHistory = [];
+      aiScores        = [];
+      _filteredQuestions = null;
+      stopQuestionTimer();
       document.getElementById('downloadBtn').classList.add('hidden');
+      document.getElementById('micErrorCard').classList.add('hidden');
       clearInterval(state.micHeartbeat);
       state.micHeartbeat = null;
       clearTimeout(state.sessionRestartTimer);
@@ -1865,17 +2945,105 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       if (state.recognition) state.recognition.stop();
       window.speechSynthesis.cancel();
 
-      ['questionBox', 'answerBox', 'feedbackBox', 'summaryCard'].forEach(id =>
+      ['questionBox', 'answerBox', 'feedbackBox', 'summaryCard', 'mockReviewCard'].forEach(id =>
         document.getElementById(id).classList.add('hidden'));
+      document.getElementById('mockReviewEntries').innerHTML = '';
+      document.getElementById('mockEvalStatus').textContent  = '';
+      document.getElementById('mockEvalBarWrap').classList.add('hidden');
+      document.getElementById('mockEvalBar').style.width = '0%';
+
+      // Reset progress bar + timer + kb hint + badge
+      const pbWrap = document.getElementById('progressBarWrap');
+      if (pbWrap) pbWrap.style.display = 'none';
+      const pbFill = document.getElementById('progressBarFill');
+      if (pbFill) pbFill.style.width = '0%';
+      const qtEl = document.getElementById('questionTimer');
+      if (qtEl)  qtEl.classList.add('hidden');
+      const kbEl = document.getElementById('kbHint');
+      if (kbEl)  kbEl.classList.add('hidden');
+      const badge = document.getElementById('perfBadge');
+      if (badge) badge.classList.add('hidden');
+      const sp = document.getElementById('scorePercent');
+      if (sp)    sp.textContent = '';
 
       document.getElementById('startBtn').classList.remove('hidden');
       document.getElementById('submitBtn').classList.add('hidden');
       document.getElementById('resetBtn').disabled = true;
       setNavButtons({ nextDisabled: true, skipDisabled: true, retryDisabled: true });
 
-      document.getElementById('progress').textContent = 'Click "Start Interview" to begin';
+      document.getElementById('progress').textContent = 'Select a mode above and click Start';
       updateStatus('Ready to start');
       updateMicButton();
+    }
+
+    // ─── Performance Dashboard ────────────────────────────────────────────────
+
+    const DASH_KEY = 'devops_perf_history';
+
+    function loadHistory() {
+      try { return JSON.parse(localStorage.getItem(DASH_KEY) || '[]'); }
+      catch { return []; }
+    }
+
+    function saveSessionRecord({ mode, topic, answered, total, pct }) {
+      const history = loadHistory();
+      history.unshift({ date: new Date().toLocaleString(), mode, topic, answered, total, pct });
+      localStorage.setItem(DASH_KEY, JSON.stringify(history.slice(0, 100)));
+    }
+
+    function renderDashboard() {
+      const history = loadHistory();
+      const tbody   = document.getElementById('dashTableBody');
+      const statsEl = document.getElementById('dashStats');
+      if (!tbody) return;
+
+      if (history.length === 0) {
+        statsEl.innerHTML = '';
+        tbody.innerHTML = '<tr><td colspan="6" class="dash-empty">No sessions yet — complete a practice or mock to see your history here.</td></tr>';
+        return;
+      }
+
+      const avgPct  = Math.round(history.reduce((s, r) => s + r.pct, 0) / history.length);
+      const best    = Math.max(...history.map(r => r.pct));
+      const topicCounts = {};
+      history.forEach(r => { topicCounts[r.topic] = (topicCounts[r.topic] || 0) + 1; });
+      const topTopic = Object.entries(topicCounts).sort((a,b) => b[1]-a[1])[0]?.[0] || '—';
+
+      statsEl.innerHTML = `
+        <div class="dash-stat"><div class="dash-stat-val">${history.length}</div><div class="dash-stat-lbl">Sessions</div></div>
+        <div class="dash-stat"><div class="dash-stat-val">${avgPct}%</div><div class="dash-stat-lbl">Avg Score</div></div>
+        <div class="dash-stat"><div class="dash-stat-val">${best}%</div><div class="dash-stat-lbl">Best Score</div></div>
+        <div class="dash-stat"><div class="dash-stat-val" style="font-size:1rem">${topTopic}</div><div class="dash-stat-lbl">Top Topic</div></div>
+      `;
+
+      const badgeColor = p => p >= 90 ? '#16a34a' : p >= 70 ? '#2563eb' : p >= 50 ? '#d97706' : '#dc2626';
+      const badgeLabel = p => p >= 90 ? '🏆 Excellent' : p >= 70 ? '👍 Good' : p >= 50 ? '💪 Keep going' : '📚 More prep';
+      const modeLabel  = m => m === 'mock' ? '🎯 Mock' : m === 'practice-overall' ? '🌐 Overall' : '📚 Topic';
+
+      tbody.innerHTML = history.map(r => `
+        <tr>
+          <td>${r.date}</td>
+          <td>${modeLabel(r.mode)}</td>
+          <td>${r.topic}</td>
+          <td>${r.answered}/${r.total}</td>
+          <td><strong>${r.pct}%</strong></td>
+          <td><span class="dash-badge" style="background:${badgeColor(r.pct)}">${badgeLabel(r.pct)}</span></td>
+        </tr>`).join('');
+    }
+
+    function toggleDashboard() {
+      const body = document.getElementById('dashboardBody');
+      const icon = document.getElementById('dashToggleIcon');
+      const opening = body.style.display === 'none';
+      body.style.display = opening ? 'block' : 'none';
+      icon.classList.toggle('open', opening);
+      if (opening) renderDashboard();
+    }
+
+    function clearDashboard() {
+      if (!confirm('Clear all session history?')) return;
+      localStorage.removeItem(DASH_KEY);
+      renderDashboard();
     }
 
     // ─── UI helpers ───────────────────────────────────────────────────────────
@@ -1924,7 +3092,151 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       document.getElementById('manualInput').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') submitAnswer();
       });
+
+      // Apply initial type so topic filter visibility is correct on first load
+      setInterviewType(state.interviewType);
+
+      // ── Keyboard shortcuts ─────────────────────────────────────────────────
+      // Space = toggle mic | N or ArrowRight = next question | S = skip | R = retry
+      document.addEventListener('keydown', (e) => {
+        // Don't intercept when typing in an input / textarea / select
+        if (e.target.matches('input, textarea, select, button')) return;
+        if (!state.isInterviewActive) return;
+
+        switch (e.code) {
+          case 'Space':
+            e.preventDefault();
+            if (document.getElementById('interviewMode').value === 'voice') toggleVoice();
+            break;
+          case 'KeyN':
+          case 'ArrowRight':
+            if (!document.getElementById('nextBtn').disabled) nextQuestion();
+            break;
+          case 'KeyS':
+            if (!document.getElementById('skipBtn').disabled) skipQuestion();
+            break;
+          case 'KeyR':
+            if (!document.getElementById('retryBtn').disabled) retryQuestion();
+            break;
+        }
+      });
     });
+  </script>
+
+  <!-- Floating feedback button -->
+  <button class="feedback-fab" onclick="openFeedbackModal()">
+    💬 Share Feedback
+  </button>
+
+  <!-- Feedback modal -->
+  <div class="fb-overlay" id="fbOverlay" onclick="closeFeedbackModal(event)">
+    <div class="fb-modal" id="fbModal">
+      <button class="fb-close" onclick="closeFeedbackModal()">&#x2715;</button>
+
+      <div id="fbForm">
+        <h3>💬 Share Your Feedback</h3>
+        <p class="fb-sub">Takes 30 seconds. Helps make this tool better.</p>
+
+        <label class="fb-label">How useful was this tool?</label>
+        <div class="fb-stars" id="fbStars">
+          <button type="button" onclick="setRating(1)" onmouseenter="hoverRating(1)" onmouseleave="resetHover()">⭐</button>
+          <button type="button" onclick="setRating(2)" onmouseenter="hoverRating(2)" onmouseleave="resetHover()">⭐</button>
+          <button type="button" onclick="setRating(3)" onmouseenter="hoverRating(3)" onmouseleave="resetHover()">⭐</button>
+          <button type="button" onclick="setRating(4)" onmouseenter="hoverRating(4)" onmouseleave="resetHover()">⭐</button>
+          <button type="button" onclick="setRating(5)" onmouseenter="hoverRating(5)" onmouseleave="resetHover()">⭐</button>
+        </div>
+
+        <label class="fb-label">What did you like most?</label>
+        <textarea id="fbLike" placeholder="e.g. The AI feedback was really helpful..."></textarea>
+
+        <label class="fb-label">What would you improve?</label>
+        <textarea id="fbImprove" placeholder="e.g. I wish it had..."></textarea>
+
+        <button class="fb-submit" onclick="submitFeedback()">Send Feedback →</button>
+      </div>
+
+      <div class="fb-thankyou hidden" id="fbThankyou">
+        <div class="fb-big">🙏</div>
+        <h4>Thank you for your feedback!</h4>
+        <p>It genuinely helps improve this tool for everyone.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let fbRating = 0;
+
+    function openFeedbackModal() {
+      document.getElementById('fbOverlay').classList.add('open');
+      document.getElementById('fbForm').classList.remove('hidden');
+      document.getElementById('fbThankyou').classList.add('hidden');
+      fbRating = 0;
+      setRating(0);
+    }
+
+    function closeFeedbackModal(e) {
+      if (!e || e.target === document.getElementById('fbOverlay') || !e.target.closest) {
+        document.getElementById('fbOverlay').classList.remove('open');
+      } else if (!e.target.closest('#fbModal')) {
+        document.getElementById('fbOverlay').classList.remove('open');
+      }
+    }
+
+    function setRating(val) {
+      fbRating = val;
+      document.querySelectorAll('#fbStars button').forEach((btn, i) => {
+        btn.classList.toggle('active', i < val);
+      });
+    }
+
+    function hoverRating(val) {
+      document.querySelectorAll('#fbStars button').forEach((btn, i) => {
+        btn.style.opacity = i < val ? '1' : '0.25';
+      });
+    }
+
+    function resetHover() {
+      document.querySelectorAll('#fbStars button').forEach((btn, i) => {
+        btn.style.opacity = i < fbRating ? '1' : '0.25';
+      });
+    }
+
+    async function submitFeedback() {
+      const rating  = fbRating ? '⭐'.repeat(fbRating) + ` (${fbRating}/5)` : 'Not rated';
+      const liked   = document.getElementById('fbLike').value.trim()    || 'Not provided';
+      const improve = document.getElementById('fbImprove').value.trim() || 'Not provided';
+
+      const submitBtn = document.querySelector('.fb-submit');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+
+      try {
+        const response = await fetch('https://formspree.io/f/maqkzpvl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            rating,
+            'What they liked': liked,
+            'What to improve': improve
+          })
+        });
+
+        if (!response.ok) {
+          const data = await response.json().catch(() => ({}));
+          throw new Error(data?.error || `HTTP ${response.status}`);
+        }
+
+        document.getElementById('fbForm').classList.add('hidden');
+        document.getElementById('fbThankyou').classList.remove('hidden');
+        document.getElementById('fbLike').value    = '';
+        document.getElementById('fbImprove').value = '';
+      } catch (err) {
+        submitBtn.textContent = '❌ Failed to send — try again';
+        console.error('Feedback error:', err);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    }
   </script>
 </body>
 </html>
