@@ -4,6 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rajasekhar - Your Devops Interviewer</title>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4618CEMV8C"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4618CEMV8C');
+  </script>
   <!-- PDF text extraction -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <!-- DOCX text extraction -->
@@ -3227,8 +3235,8 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         <label class="fb-label">What did you like most?</label>
         <textarea id="fbLike" placeholder="e.g. The AI feedback was really helpful..."></textarea>
 
-        <label class="fb-label">What would you improve?</label>
-        <textarea id="fbImprove" placeholder="e.g. I wish it had..."></textarea>
+        <label class="fb-label">Any features or topics you'd like me to add?</label>
+        <textarea id="fbImprove" placeholder="e.g. More Kubernetes questions, dark mode, ability to upload my own questions…"></textarea>
 
         <button class="fb-submit" onclick="submitFeedback()">Send Feedback →</button>
       </div>
