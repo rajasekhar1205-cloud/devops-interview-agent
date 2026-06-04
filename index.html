@@ -225,6 +225,25 @@
       line-height: 1.6;
     }
 
+    .voice-replay-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .voice-replay-label {
+      font-size: 0.8rem;
+      color: #555;
+      white-space: nowrap;
+    }
+    .voice-replay-audio {
+      height: 36px;
+      flex: 1;
+      min-width: 200px;
+      max-width: 420px;
+    }
+
     .feedback-box {
       background: #fff3cd;
       border-left: 4px solid #ffc107;
@@ -1394,6 +1413,9 @@
     let jdQuestions     = null;   // JD mode — takes priority over resume when both are set
     let sessionHistory  = [];     // [{question, answer, feedbackHtml}] for report download
     let aiScores        = [];     // AI scores (1-5) per answered question this session
+    let mediaRecorder   = null;   // MediaRecorder instance for voice replay
+    let audioChunks     = [];     // raw audio chunks for current question
+    let lastAudioURL    = null;   // object URL of last recorded answer
 
     // Returns whichever question list is currently active.
     // Priority: JD > Resume > topic-filtered / shuffled built-in bank
@@ -1842,14 +1864,14 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       clearInterval(timerInterval);
       timerSeconds = 0;
       const el = document.getElementById('questionTimer');
-      el.textContent = '⏱ 0:00';
+      el.textContent = '🎙 0:00';
       el.className = 'question-timer';
       el.classList.remove('hidden');
       timerInterval = setInterval(() => {
         timerSeconds++;
         const m = Math.floor(timerSeconds / 60);
         const s = timerSeconds % 60;
-        el.textContent = `⏱ ${m}:${s.toString().padStart(2, '0')}`;
+        el.textContent = `🎙 ${m}:${s.toString().padStart(2, '0')}`;
         if (timerSeconds >= 120)      el.className = 'question-timer alert';
         else if (timerSeconds >= 60)  el.className = 'question-timer warn';
       }, 1000);
@@ -2468,22 +2490,25 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       document.getElementById('progressBarFill').style.width = pct + '%';
       document.getElementById('progressBarWrap').style.display = 'block';
 
-      // Keyboard hint + per-question timer
+      // Keyboard hint
       document.getElementById('kbHint').classList.remove('hidden');
-      startQuestionTimer();
 
       updateStatus('Reading question…');
 
       if (state.mode === 'voice') {
         speakText(question, () => {
           if (!state.answerSubmitted) {
+            startQuestionTimer();
             updateStatus('🔴 Listening — speak your full answer, then click Submit');
             if (state.recognition && !state.isListening) startListening();
           }
         });
       } else {
         speakText(question, () => {
-          if (!state.answerSubmitted) updateStatus('Type your answer and press Enter or Submit');
+          if (!state.answerSubmitted) {
+            startQuestionTimer();
+            updateStatus('Type your answer and press Enter or Submit');
+          }
         });
       }
     }
@@ -2543,6 +2568,16 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       state.recognitionStarting = false; // clear any stale pending flag
       _startRecognition();
 
+      // Start MediaRecorder for voice replay (only if not already recording)
+      if (!mediaRecorder || mediaRecorder.state === 'inactive') {
+        navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
+          audioChunks = [];
+          mediaRecorder = new MediaRecorder(stream);
+          mediaRecorder.ondataavailable = e => { if (e.data.size > 0) audioChunks.push(e.data); };
+          mediaRecorder.start();
+        }).catch(() => { /* mic permission already handled by SpeechRecognition */ });
+      }
+
       // Heartbeat as safety net — fires if onend-restart silently fails.
       // 1500ms is short enough to catch gaps without causing extra noise.
       if (!state.micHeartbeat) {
@@ -2590,6 +2625,32 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
 
     // ─── Answer handling + Gemini feedback ─────────────────────────────────────
 
+    function _stopRecorderAndAttachPlayer() {
+      if (!mediaRecorder || mediaRecorder.state !== 'recording') return;
+      mediaRecorder.stop();
+      mediaRecorder.onstop = () => {
+        // Revoke previous blob URL to avoid memory leaks
+        if (lastAudioURL) { URL.revokeObjectURL(lastAudioURL); lastAudioURL = null; }
+        const mimeType = audioChunks.length && audioChunks[0].type ? audioChunks[0].type : 'audio/webm';
+        const blob = new Blob(audioChunks, { type: mimeType });
+        lastAudioURL = URL.createObjectURL(blob);
+        audioChunks = [];
+        // Stop all mic tracks from this MediaRecorder stream
+        if (mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(t => t.stop());
+        // Inject / update the replay player inside answerBox
+        const answerBox = document.getElementById('answerBox');
+        let player = answerBox.querySelector('.voice-replay-wrap');
+        if (!player) {
+          player = document.createElement('div');
+          player.className = 'voice-replay-wrap';
+          answerBox.appendChild(player);
+        }
+        player.innerHTML =
+          `<span class="voice-replay-label">🎙 Your recorded answer:</span>` +
+          `<audio class="voice-replay-audio" src="${lastAudioURL}" controls></audio>`;
+      };
+    }
+
     async function handleAnswer(answer) {
       if (state.answerSubmitted) return; // prevent double-submission
       state.answerSubmitted = true;
@@ -2599,6 +2660,9 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
 
       document.getElementById('answerBox').classList.remove('hidden');
       document.getElementById('answerText').textContent = answer;
+
+      // Stop recording and attach replay player (voice mode only)
+      if (state.mode === 'voice') _stopRecorderAndAttachPlayer();
 
       // Do NOT call stopListening() here — keeping the mic session alive for the
       // whole interview prevents Chrome from re-prompting "Use your microphone"
@@ -2786,7 +2850,13 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
     }
 
     function retryAnswer() {
+      // Revoke audio blob from previous attempt
+      if (lastAudioURL) { URL.revokeObjectURL(lastAudioURL); lastAudioURL = null; }
+      audioChunks = [];
+      mediaRecorder = null;
       document.getElementById('answerBox').classList.add('hidden');
+      const prevPlayer = document.getElementById('answerBox').querySelector('.voice-replay-wrap');
+      if (prevPlayer) prevPlayer.remove();
       document.getElementById('feedbackBox').classList.add('hidden');
       const input = document.getElementById('manualInput');
       if (input) input.value = '';
@@ -2934,6 +3004,14 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       sessionHistory = [];
       aiScores        = [];
       _filteredQuestions = null;
+      // Clean up audio recorder
+      if (lastAudioURL) { URL.revokeObjectURL(lastAudioURL); lastAudioURL = null; }
+      audioChunks = [];
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+        if (mediaRecorder.stream) mediaRecorder.stream.getTracks().forEach(t => t.stop());
+      }
+      mediaRecorder = null;
       stopQuestionTimer();
       document.getElementById('downloadBtn').classList.add('hidden');
       document.getElementById('micErrorCard').classList.add('hidden');
