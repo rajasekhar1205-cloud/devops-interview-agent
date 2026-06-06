@@ -793,6 +793,104 @@
     .fb-thankyou h4 { color: #667eea; margin: 0.5rem 0 0.25rem; font-size: 1.1rem; }
     .fb-thankyou p { color: #777; font-size: 0.88rem; }
 
+    /* ─── Get Started Steps ───────────────────────────────────────────────── */
+    .steps-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .steps-card h2 {
+      text-align: center;
+      font-size: 1.25rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+    }
+    .steps-card h2 span {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .steps-row {
+      display: flex;
+      gap: 1rem;
+      align-items: stretch;
+    }
+    @media (max-width: 640px) {
+      .steps-row { flex-direction: column; }
+    }
+    .step-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 1.25rem 1rem;
+      background: #f8f9ff;
+      border: 1.5px solid #e8eaff;
+      border-radius: 12px;
+      position: relative;
+    }
+    .step-number {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      font-size: 1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+      flex-shrink: 0;
+      box-shadow: 0 3px 10px rgba(102,126,234,0.35);
+    }
+    .step-icon {
+      font-size: 1.6rem;
+      margin-bottom: 0.5rem;
+      line-height: 1;
+    }
+    .step-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 0.35rem;
+    }
+    .step-desc {
+      font-size: 0.8rem;
+      color: #777;
+      line-height: 1.5;
+    }
+    .step-desc a {
+      color: #4285f4;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .step-desc a:hover { text-decoration: underline; }
+    .step-arrow {
+      display: flex;
+      align-items: center;
+      color: #ccc;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      align-self: center;
+      padding: 0 0.25rem;
+    }
+    @media (max-width: 640px) {
+      .step-arrow { transform: rotate(90deg); align-self: center; }
+    }
+    .steps-note {
+      text-align: center;
+      margin-top: 1.1rem;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+    .steps-note strong { color: #667eea; }
+
     /* Browser warning banner */
     .browser-warning {
       background: linear-gradient(135deg, #e53935, #c62828);
@@ -1055,6 +1153,96 @@
       font-weight: 600;
     }
     .dash-clear-btn:hover { background: #fff0f0; }
+
+    /* ─── Demo CTA ───────────────────────────────────────────────────────────── */
+    .demo-cta {
+      text-align: center;
+      padding: 1.5rem 1.5rem 1.25rem;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #f0fff8, #e8f5ff);
+      border: 1.5px dashed #38ef7d;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 20px rgba(17,153,142,0.1);
+    }
+    .demo-cta-label {
+      font-size: 0.76rem;
+      color: #bbb;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.75rem;
+    }
+    .btn-demo {
+      background: linear-gradient(135deg, #11998e, #38ef7d);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 0.85rem 2rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 18px rgba(17,153,142,0.35);
+      transition: all 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-demo:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(17,153,142,0.45);
+    }
+    .demo-cta-note {
+      font-size: 0.76rem;
+      color: #bbb;
+      margin-top: 0.55rem;
+    }
+
+    /* ─── Demo Unlock Card ───────────────────────────────────────────────────── */
+    .demo-unlock-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem 2rem 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      border-top: 5px solid #667eea;
+    }
+    .demo-unlock-icon { font-size: 3rem; margin-bottom: 0.5rem; line-height: 1; }
+    .demo-unlock-card h3 { color: #333; font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .demo-unlock-card > p { color: #555; font-size: 0.95rem; margin-bottom: 1.25rem; line-height: 1.6; }
+    .demo-unlock-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .demo-unlock-feature {
+      background: #f0f4ff;
+      border: 1.5px solid #d8e3ff;
+      border-radius: 8px;
+      padding: 0.45rem 0.9rem;
+      font-size: 0.85rem;
+      color: #333;
+      font-weight: 500;
+    }
+    .btn-unlock-key {
+      display: inline-block;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      box-shadow: 0 4px 18px rgba(102,126,234,0.35);
+      transition: all 0.25s;
+      margin-bottom: 1rem;
+      display: block;
+      max-width: 320px;
+      margin: 0 auto 1rem;
+    }
+    .btn-unlock-key:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(102,126,234,0.45); }
+    .demo-unlock-note { font-size: 0.82rem; color: #888; margin: 0.6rem 0 1rem; line-height: 1.6; }
   </style>
 </head>
 <body>
@@ -1064,19 +1252,55 @@
       <p>Practice. Improve. Ace Interviews.</p>
     </div>
 
+    <!-- Try 3 Questions Free — top of page CTA -->
+    <div id="demoCta" class="demo-cta">
+      <button class="btn-demo" onclick="startDemoInterview()">⚡ Try 3 Questions Free — No API Key Needed</button>
+      <p class="demo-cta-note">Basic feedback &nbsp;·&nbsp; 3 questions &nbsp;·&nbsp; Takes 2 minutes &nbsp;·&nbsp; Completely free</p>
+    </div>
+
+    <!-- Get Started in 3 Steps -->
+    <div class="steps-card">
+      <h2>🚀 Get Started in <span>3 Simple Steps</span></h2>
+      <div class="steps-row">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-icon">🔑</div>
+          <div class="step-title">Get Your Free API Key</div>
+          <div class="step-desc">
+            Visit <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>,
+            sign in with Google and click <strong>"Create API key"</strong>.<br>
+            It's completely free — no credit card needed.
+          </div>
+        </div>
+        <div class="step-arrow">›</div>
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-icon">📋</div>
+          <div class="step-title">Paste Your API Key</div>
+          <div class="step-desc">
+            Copy your key (starts with <strong>AIzaSy…</strong>) and paste it into the
+            <strong>Gemini API Key</strong> box below.
+            It's saved automatically — you only do this once.
+          </div>
+        </div>
+        <div class="step-arrow">›</div>
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-icon">▶️</div>
+          <div class="step-title">Click Start Practice</div>
+          <div class="step-desc">
+            Choose a topic or mode, then hit
+            <strong>"Start Practice"</strong> and answer questions
+            by voice or text — Gemini scores every answer live.
+          </div>
+        </div>
+      </div>
+      <div class="steps-note">⏱ Takes less than <strong>2 minutes</strong> to set up &nbsp;·&nbsp; 🆓 Free tier: 1,500 requests/day &nbsp;·&nbsp; 🔒 Key stored only in your browser</div>
+    </div>
+
     <!-- Google Gemini Configuration -->
     <div class="config-card">
       <h3>⚡ Google Gemini Configuration</h3>
-      <p style="font-size:0.88rem;color:#555;margin:-0.25rem 0 1rem 0;line-height:1.6;">
-        This tool uses Google Gemini AI to give you detailed feedback on your answers.
-        The API key is <strong>completely free</strong> — no credit card, no billing.
-        It takes about 30 seconds to get one:
-        <a href="https://aistudio.google.com/app/apikey" target="_blank"
-           style="color:#4285f4;font-weight:600;text-decoration:none;white-space:nowrap;">
-          ➜ Get your free key at aistudio.google.com
-        </a>
-        &nbsp;→ sign in with Google → click <em>"Create API key"</em> → paste it below.
-      </p>
       <div class="config-grid" style="grid-template-columns: 2fr 1fr;">
         <div class="config-field">
           <label>Gemini API Key <span style="font-weight:400;color:#888;font-size:0.8rem;">(starts with AIzaSy…)</span></label>
@@ -1126,6 +1350,7 @@
         <button class="topic-btn" onclick="setTopic('azure')" id="topicAzure">Azure</button>
         <button class="topic-btn" onclick="setTopic('scenarios')" id="topicScenarios">🧩 Scenarios</button>
         <button class="topic-btn" onclick="setTopic('sysdesign')" id="topicSysdesign">🏗️ System Design</button>
+        <button class="topic-btn" onclick="setTopic('githubactions')" id="topicGithubactions">⚙️ GitHub Actions</button>
       </div>
     </div>
 
@@ -1247,6 +1472,7 @@
         <button class="btn-secondary" onclick="retryAnswer()" id="retryBtn" disabled>Retry Answer</button>
         <button class="btn-download hidden" onclick="downloadSession()" id="downloadBtn">💾 Download Report</button>
       </div>
+
       <div class="kb-hint hidden" id="kbHint">
         <kbd>Space</kbd> mic  ·  <kbd>Enter</kbd>&nbsp;/&nbsp;<kbd>N</kbd> next  ·  <kbd>S</kbd> skip
       </div>
@@ -1261,6 +1487,23 @@
       <p>Questions Answered</p>
       <button class="btn-primary" style="margin-top: 1rem;" onclick="resetInterview()">Start New Interview</button>
       <button class="btn-download" style="margin-top: 0.75rem;" onclick="downloadSession()">💾 Download Session Report</button>
+    </div>
+
+    <!-- Demo Unlock Prompt -->
+    <div class="demo-unlock-card hidden" id="demoUnlockCard">
+      <div class="demo-unlock-icon">🎉</div>
+      <h3>Great job completing the free preview!</h3>
+      <p>You just answered 3 DevOps interview questions. Add your free Gemini API key to unlock full AI feedback on every answer:</p>
+      <div class="demo-unlock-features">
+        <div class="demo-unlock-feature">✅ Detailed model answer for every question</div>
+        <div class="demo-unlock-feature">✅ AI score 1–5 with specific tips</div>
+        <div class="demo-unlock-feature">✅ Exact gaps in your answer identified</div>
+        <div class="demo-unlock-feature">✅ Unlimited questions &amp; sessions</div>
+        <div class="demo-unlock-feature">✅ Resume &amp; JD-based custom questions</div>
+      </div>
+      <a href="https://aistudio.google.com/app/apikey" target="_blank" class="btn-unlock-key">🔑 Get My Free API Key → (30 seconds)</a>
+      <p class="demo-unlock-note">Already have one? Paste it in the <strong>Gemini API Key</strong> box at the top of the page, then click <strong>▶ Start Practice</strong>.</p>
+      <button class="btn-secondary" onclick="resetInterview()" style="padding:0.6rem 1.2rem;font-size:0.88rem;">🔁 Try Again (basic feedback)</button>
     </div>
 
     <!-- Mock Interview Review (shown after mock interview ends) -->
@@ -1288,7 +1531,16 @@
       <span class="dashboard-toggle-icon" id="dashToggleIcon">▼</span>
     </div>
     <div class="dashboard-body" id="dashboardBody" style="display:none">
+      <!-- Option 10: Practised today badge -->
+      <div id="dashTodayBadge" style="display:none;padding:0.6rem 1rem;border-radius:8px;border:1.5px solid;font-size:0.88rem;margin-bottom:1rem;line-height:1.5;"></div>
+      <!-- Option 5: Weak topic recommendation -->
+      <div id="dashWeakTopic" style="display:none;padding:0.6rem 1rem;border-radius:8px;background:#f0f4ff;border:1.5px solid #d0d8ff;font-size:0.88rem;margin-bottom:1rem;line-height:1.5;color:#333;"></div>
       <div class="dashboard-stats" id="dashStats"></div>
+      <!-- Option 6: Score trend chart -->
+      <div id="dashTrendWrap" style="display:none;margin-bottom:1rem;">
+        <div style="font-size:0.75rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.4rem;">Score Trend (last 20 sessions)</div>
+        <canvas id="dashTrendCanvas" style="width:100%;height:90px;display:block;"></canvas>
+      </div>
       <div class="dashboard-table-wrap">
         <table class="dashboard-table">
           <thead>
@@ -1317,14 +1569,22 @@
       return document.getElementById('geminiKey').value.trim().length > 10;
     }
 
+    function setDemoCtaVisible(visible) {
+      const d1 = document.getElementById('demoCta');
+      const v  = visible ? '' : 'none';
+      if (d1) d1.style.display = v;
+    }
+
     function refreshConfigStatus() {
       const el = document.getElementById('configStatus');
       if (isAOAIConfigured()) {
         el.className = 'config-status ok';
         el.textContent = '✅ Gemini configured — AI feedback enabled';
+        if (!state.isInterviewActive) setDemoCtaVisible(false);
       } else {
         el.className = 'config-status not-set';
         el.textContent = '⚠️ Not configured — using basic keyword feedback';
+        if (!state.isInterviewActive) setDemoCtaVisible(true);
       }
     }
 
@@ -1424,6 +1684,8 @@
     let mediaRecorder   = null;   // MediaRecorder instance for voice replay
     let audioChunks     = [];     // raw audio chunks for current question
     let lastAudioURL    = null;   // object URL of last recorded answer
+    let demoMode        = false;  // true = 3-question free preview (no API key needed)
+    const DEMO_LIMIT    = 3;      // questions shown in the free demo
 
     // Returns whichever question list is currently active.
     // Priority: JD > Resume > topic-filtered / shuffled built-in bank
@@ -1432,7 +1694,12 @@
       if (!_filteredQuestions) {
         const range = TOPIC_RANGES[activeTopic];
         const pool  = range ? questions.slice(range[0], range[1]) : questions;
+        // Fisher-Yates shuffle so every session gets a different question order
         _filteredQuestions = [...pool];
+        for (let i = _filteredQuestions.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [_filteredQuestions[i], _filteredQuestions[j]] = [_filteredQuestions[j], _filteredQuestions[i]];
+        }
       }
       return _filteredQuestions;
     }
@@ -1848,21 +2115,22 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
 
     // Slice bounds for built-in question bank: [start, end] for questions.slice()
     const TOPIC_RANGES = {
-      all:        null,        // all 198 questions
-      cicd:       [0,   3],    // 3 General / CI-CD questions
-      terraform:  [3,   33],   // 30 Terraform questions
-      docker:     [33,  63],   // 30 Docker questions
-      kubernetes: [63,  93],   // 30 Kubernetes questions
-      azure:      [93,  113],  // 20 Azure questions
-      scenarios:  [113, 178],  // 65 Scenario-based questions
-      sysdesign:  [178, 198],  // 20 System Design questions
+      all:          null,        // all questions
+      cicd:         [0,   3],    // 3 General / CI-CD questions
+      terraform:    [3,   33],   // 30 Terraform questions
+      docker:       [33,  63],   // 30 Docker questions
+      kubernetes:   [63,  93],   // 30 Kubernetes questions
+      azure:        [93,  113],  // 20 Azure questions
+      scenarios:    [113, 178],  // 65 Scenario-based questions
+      sysdesign:    [178, 198],  // 20 System Design questions
+      githubactions:[198, 218],  // 20 GitHub Actions questions
     };
 
     function setTopic(t) {
       if (state && state.isInterviewActive) return;   // locked during interview
       activeTopic = t;
       _filteredQuestions = null;                      // invalidate cache
-      ['all', 'cicd', 'terraform', 'docker', 'kubernetes', 'azure', 'scenarios', 'sysdesign'].forEach(id => {
+      ['all', 'cicd', 'terraform', 'docker', 'kubernetes', 'azure', 'scenarios', 'sysdesign', 'githubactions'].forEach(id => {
         const el = document.getElementById('topic' + id.charAt(0).toUpperCase() + id.slice(1));
         if (el) el.classList.toggle('active', id === t);
       });
@@ -2098,7 +2366,28 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       "System Design: Design the infrastructure for a machine learning model training and serving platform on Azure, covering data pipelines, training clusters, model registry, and inference endpoints.",
       "System Design: Design a self-service Terraform module catalogue for a large enterprise so teams can provision approved Azure resources without writing Terraform from scratch.",
       "System Design: Design an incident management and on-call system for a DevOps team managing 30 microservices. Cover alerting, escalation, runbooks, and post-incident reviews.",
-      "System Design: Design the migration of a monolithic on-premises .NET application to Azure-native microservices over 12 months. What is your phased approach, and what risks do you mitigate?"
+      "System Design: Design the migration of a monolithic on-premises .NET application to Azure-native microservices over 12 months. What is your phased approach, and what risks do you mitigate?",
+      // ── GitHub Actions (indices 198-217) ──────────────────────────────────────────────────────────────────
+      "What is GitHub Actions and how does it differ from other CI/CD tools like Jenkins or Azure Pipelines?",
+      "Explain the structure of a GitHub Actions workflow YAML file — what are jobs, steps, and runners?",
+      "What are GitHub Actions triggers (events)? Give 5 examples and when you would use each.",
+      "What is the difference between a GitHub-hosted runner and a self-hosted runner? When would you use a self-hosted runner?",
+      "How do you store and access secrets securely in GitHub Actions?",
+      "What are GitHub Actions reusable workflows and composite actions? When do you use each?",
+      "How do you implement matrix builds in GitHub Actions to test across multiple OS or language versions?",
+      "Explain GitHub Actions environments and how you use them for deployment approvals and protection rules.",
+      "How do you cache dependencies in GitHub Actions to speed up builds?",
+      "What are GitHub Actions artifacts? How do you pass build outputs between jobs?",
+      "How do you implement a Docker build and push workflow in GitHub Actions?",
+      "Explain how to deploy to Azure from GitHub Actions without storing long-lived credentials.",
+      "How do you trigger a GitHub Actions workflow from another repository or workflow?",
+      "What is GITHUB_TOKEN and what are its permissions? How do you customise them?",
+      "How do you implement a release pipeline in GitHub Actions that builds, tests, creates a GitHub Release, and publishes a package?",
+      "Scenario: Your GitHub Actions workflow runs on every push but takes 25 minutes. How do you optimise it?",
+      "Scenario: A GitHub Actions workflow is failing with 'permission denied' when trying to push to a container registry. How do you diagnose and fix this?",
+      "Scenario: You need to run integration tests in GitHub Actions that require a live database. How do you set this up?",
+      "Scenario: Two teams are sharing a self-hosted runner pool and one team's jobs are starving the other. How do you fix this?",
+      "Scenario: You need to enforce that all pull requests to main must pass a security scan GitHub Actions workflow before merging. How do you implement this?"
     ];
 
     // ─── Speech recognition ───────────────────────────────────────────────────
@@ -2456,6 +2745,8 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       state.answeredCount = 0;
       _filteredQuestions = null;  // rebuild filtered list for this session
 
+      document.getElementById('demoCta').style.display = 'none';
+      document.getElementById('demoUnlockCard').classList.add('hidden');
       document.getElementById('summaryCard').classList.add('hidden');
       document.getElementById('startBtn').classList.add('hidden');
       document.getElementById('submitBtn').classList.remove('hidden');
@@ -2691,6 +2982,13 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       updateStatus('Evaluating answer…');
       await generateFeedback(activeQuestions()[state.currentIndex], answer);
       updateStatus('Answer recorded');
+
+      // After the DEMO_LIMIT-th demo answer, show the unlock card
+      if (demoMode && state.answeredCount >= DEMO_LIMIT) {
+        document.getElementById('demoUnlockCard').classList.remove('hidden');
+        setNavButtons({ nextDisabled: true, skipDisabled: true, retryDisabled: true });
+        setTimeout(() => document.getElementById('demoUnlockCard').scrollIntoView({ behavior: 'smooth', block: 'center' }), 350);
+      }
     }
 
     /**
@@ -2735,10 +3033,103 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         .replace(/\n/g, '<br>');
     }
 
+    // ─── Demo mode helpers ────────────────────────────────────────────────────
+
+    function demoFeedback(question, answer) {
+      const a = answer.toLowerCase().trim();
+      const wordCount = answer.trim().split(/\s+/).filter(Boolean).length;
+      const allKws = [
+        'terraform','docker','kubernetes','k8s','ci/cd','pipeline','jenkins','github actions',
+        'azure devops','container','image','pod','deployment','service','ingress','namespace',
+        'helm','kubectl','state','module','provider','apply','plan','destroy','iac',
+        'infrastructure as code','monitoring','logging','prometheus','grafana','alerting',
+        'metrics','elk','splunk','datadog','azure','aks','arm','bicep','key vault',
+        'service principal','managed identity','git','version control','rollback',
+        'replica','configmap','secret','persistent','probe','liveness','readiness',
+        'hpa','autoscal','rbac','network','volume','registry','multi-stage','compose',
+        'devops','cloud','automation','microservices','serverless','availability',
+        'scalability','security','redundancy','failover','load balanc','health check'
+      ];
+      const matched = allKws.filter(kw => a.includes(kw));
+
+      let score;
+      if (wordCount < 8)                               score = 1;
+      else if (wordCount < 20 || matched.length < 2)   score = 2;
+      else if (wordCount < 40 || matched.length < 3)   score = 3;
+      else if (wordCount < 70 || matched.length < 5)   score = 4;
+      else                                             score = 5;
+
+      const scoreColors = {1:'#dc2626',2:'#e67e22',3:'#d97706',4:'#2563eb',5:'#16a34a'};
+      const scoreLabels = {1:'Needs Work',2:'Too vague',3:'Partial answer',4:'Good',5:'Excellent'};
+      const stars = '★'.repeat(score) + '☆'.repeat(5 - score);
+
+      const wellItems = [];
+      if (matched.length >= 1) wellItems.push(`Mentioned relevant technical terms: <strong>${matched.slice(0,5).join(', ')}</strong>`);
+      if (wordCount >= 30) wellItems.push(`Gave a reasonably detailed response (${wordCount} words)`);
+      if (wordCount >= 60) wellItems.push('Answer shows good depth and engagement with the topic');
+      if (matched.length >= 4) wellItems.push('Covered multiple technical concepts');
+      if (wellItems.length === 0) wellItems.push('Made an attempt to answer — keep practising!');
+
+      const missingItems = [];
+      if (wordCount < 25) missingItems.push('Answer is too brief — aim for at least 4–5 sentences');
+      if (matched.length < 2) missingItems.push('Use specific technical terms relevant to the question');
+      if (!/example|e\.g|for instance|such as|in practice|like when/.test(a))
+        missingItems.push('Add a concrete real-world example or use case to strengthen your answer');
+      if (!/because|reason|benefit|advantage|why|purpose|allows|enables|helps/.test(a))
+        missingItems.push('Explain the <em>why</em> — the business or technical reason behind the concept');
+      if (missingItems.length === 0) missingItems.push('Solid answer — Gemini AI can pinpoint even deeper specific gaps');
+
+      return `
+        <div class="ai-score-pill">
+          <span style="color:${scoreColors[score]};font-weight:800;font-size:1.05rem">${stars}</span>&nbsp;
+          <strong style="color:${scoreColors[score]}">${score}/5 — ${scoreLabels[score]}</strong>
+          <span style="color:#999;font-size:0.78rem;margin-left:0.5rem">Keyword analysis · Demo mode</span>
+        </div>
+        <div style="margin-top:0.75em;font-weight:700">✅ WHAT YOU ANSWERED WELL:</div>
+        ${wellItems.map(i => `<div style="margin:0.3em 0 0 1em">• ${i}</div>`).join('')}
+        <div style="margin-top:0.9em;font-weight:700">⚠️ WHAT'S MISSING OR NEEDS IMPROVEMENT:</div>
+        ${missingItems.map(i => `<div style="margin:0.3em 0 0 1em">• ${i}</div>`).join('')}
+        <div style="margin-top:0.9em;font-weight:700">💡 UNLOCK FULL AI FEEDBACK:</div>
+        <div style="margin:0.5em 0 0;padding:0.85rem 1rem;background:#f0f4ff;border:1.5px dashed #667eea;border-radius:8px;font-size:0.88rem;line-height:1.7">
+          🤖 <strong>Gemini AI</strong> would write a full 6–8 sentence model answer, identify the exact
+          concepts missing from <em>your</em> answer, and score you with detailed reasoning — all free.<br><br>
+          <a href="https://aistudio.google.com/app/apikey" target="_blank"
+             style="color:#4285f4;font-weight:700;text-decoration:none">🔑 Get your free API key in 30 seconds →</a>
+          &nbsp; then paste it in the box at the top of the page.
+        </div>`;
+    }
+
+    function startDemoInterview() {
+      demoMode = true;
+      setMode('text');  // text mode is simpler for first-time users
+      setInterviewType('practice-topic');
+      setTopic('all');
+      startInterview();
+      // Auto-scroll to the interview panel so the question is immediately visible
+      setTimeout(() => {
+        const panel = document.getElementById('questionBox') ||
+                      document.getElementById('progress');
+        if (panel) panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 400);
+    }
+
+    // ─── generateFeedback ─────────────────────────────────────────────────────
+
     async function generateFeedback(question, answer) {
       const feedbackBox   = document.getElementById('feedbackBox');
       const feedbackLabel = document.getElementById('feedbackLabel');
       const feedbackText  = document.getElementById('feedbackText');
+
+      // Demo mode: use enhanced keyword-based feedback without any API call
+      if (demoMode) {
+        feedbackBox.className = 'feedback-box ai-powered';
+        feedbackLabel.textContent = '📊 Answer Analysis (Demo)';
+        feedbackBox.classList.remove('hidden');
+        feedbackText.innerHTML = demoFeedback(question, answer);
+        if (sessionHistory.length > 0)
+          sessionHistory[sessionHistory.length - 1].feedbackHtml = feedbackText.innerHTML;
+        return;
+      }
 
       feedbackBox.className = 'feedback-box ai-powered';
       feedbackLabel.textContent = '🤖 Gemini AI Feedback';
@@ -2844,6 +3235,13 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         updateStatus('Please submit your answer or click Skip Question.');
         return;
       }
+      // Demo mode: end the session after DEMO_LIMIT answered questions
+      if (demoMode && state.answeredCount >= DEMO_LIMIT) {
+        document.getElementById('demoUnlockCard').classList.remove('hidden');
+        setNavButtons({ nextDisabled: true, skipDisabled: true, retryDisabled: true });
+        setTimeout(() => document.getElementById('demoUnlockCard').scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
+        return;
+      }
       state.currentIndex++;
       showQuestion();
     }
@@ -2853,6 +3251,13 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       // Clearing the buffers in showQuestion() is sufficient.
       state.lastHeard = '';
       state.interimBuffer = '';
+      // Demo mode: skipping counts toward the limit
+      if (demoMode && state.currentIndex + 1 >= DEMO_LIMIT) {
+        document.getElementById('demoUnlockCard').classList.remove('hidden');
+        setNavButtons({ nextDisabled: true, skipDisabled: true, retryDisabled: true });
+        setTimeout(() => document.getElementById('demoUnlockCard').scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
+        return;
+      }
       state.currentIndex++;
       showQuestion();
     }
@@ -2919,6 +3324,12 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         : pct;
       saveSessionRecord({ mode: state.interviewType, topic: activeTopic, answered: state.answeredCount, total, pct: scorePct });
       renderDashboard();
+      // Auto-open dashboard to show weak topic + trend after session ends
+      const dashBody = document.getElementById('dashboardBody');
+      if (dashBody && dashBody.style.display === 'none') {
+        toggleDashboard();
+        setTimeout(() => document.getElementById('dashboardCard').scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+      }
     }
 
     async function runMockEvaluation() {
@@ -2999,6 +3410,11 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         : (total > 0 ? 100 : 0);
       saveSessionRecord({ mode: 'mock', topic: activeTopic, answered: total, total, pct: mockScorePct });
       renderDashboard();
+      const dashBody = document.getElementById('dashboardBody');
+      if (dashBody && dashBody.style.display === 'none') {
+        toggleDashboard();
+        setTimeout(() => document.getElementById('dashboardCard').scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+      }
     }
 
     function resetInterview() {
@@ -3060,6 +3476,11 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       document.getElementById('progress').textContent = 'Select a mode above and click Start';
       updateStatus('Ready to start');
       updateMicButton();
+
+      // Demo cleanup: reset flag and restore CTA visibility based on API key state
+      demoMode = false;
+      document.getElementById('demoUnlockCard').classList.add('hidden');
+      setDemoCtaVisible(!isAOAIConfigured());
     }
 
     // ─── Performance Dashboard ────────────────────────────────────────────────
@@ -3073,7 +3494,8 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
 
     function saveSessionRecord({ mode, topic, answered, total, pct }) {
       const history = loadHistory();
-      history.unshift({ date: new Date().toLocaleString(), mode, topic, answered, total, pct });
+      const today = new Date().toDateString();
+      history.unshift({ date: new Date().toLocaleString(), isoDate: today, mode, topic, answered, total, pct });
       localStorage.setItem(DASH_KEY, JSON.stringify(history.slice(0, 100)));
     }
 
@@ -3086,7 +3508,24 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       if (history.length === 0) {
         statsEl.innerHTML = '';
         tbody.innerHTML = '<tr><td colspan="6" class="dash-empty">No sessions yet — complete a practice or mock to see your history here.</td></tr>';
+        document.getElementById('dashTrendWrap') && (document.getElementById('dashTrendWrap').style.display = 'none');
+        document.getElementById('dashWeakTopic') && (document.getElementById('dashWeakTopic').style.display = 'none');
+        document.getElementById('dashTodayBadge') && (document.getElementById('dashTodayBadge').style.display = 'none');
         return;
+      }
+
+      // ─── Option 10: Practised Today badge ──────────────────────────────────────────────
+      const today = new Date().toDateString();
+      const practicedToday = history.some(r => r.isoDate === today);
+      const todayBadge = document.getElementById('dashTodayBadge');
+      if (todayBadge) {
+        todayBadge.style.display = '';
+        todayBadge.innerHTML = practicedToday
+          ? '✅ <strong>Practised today!</strong> Great work — keep the habit going.'
+          : '📅 <strong>Not practised today yet.</strong> Complete a session to keep your streak alive.';
+        todayBadge.style.background   = practicedToday ? '#e8f5e9' : '#fff8e1';
+        todayBadge.style.borderColor  = practicedToday ? '#4caf50' : '#ffc107';
+        todayBadge.style.color        = practicedToday ? '#2e7d32' : '#7c5c00';
       }
 
       const avgPct  = Math.round(history.reduce((s, r) => s + r.pct, 0) / history.length);
@@ -3101,6 +3540,77 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         <div class="dash-stat"><div class="dash-stat-val">${best}%</div><div class="dash-stat-lbl">Best Score</div></div>
         <div class="dash-stat"><div class="dash-stat-val" style="font-size:1rem">${topTopic}</div><div class="dash-stat-lbl">Top Topic</div></div>
       `;
+
+      // ─── Option 6: Score trend chart ───────────────────────────────────────────────────
+      const trendWrap = document.getElementById('dashTrendWrap');
+      if (trendWrap && history.length >= 2) {
+        trendWrap.style.display = '';
+        const canvas = document.getElementById('dashTrendCanvas');
+        const pts = [...history].reverse().slice(-20); // oldest first, max 20
+        const W = canvas.offsetWidth || 600, H = 90;
+        canvas.width = W; canvas.height = H;
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, W, H);
+        const pad = { l: 28, r: 10, t: 8, b: 22 };
+        const iW = W - pad.l - pad.r, iH = H - pad.t - pad.b;
+        // Grid lines
+        ctx.strokeStyle = '#f0f0f0'; ctx.lineWidth = 1;
+        [0, 25, 50, 75, 100].forEach(v => {
+          const y = pad.t + iH - (v / 100) * iH;
+          ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(pad.l + iW, y); ctx.stroke();
+          ctx.fillStyle = '#bbb'; ctx.font = '9px sans-serif'; ctx.textAlign = 'right';
+          ctx.fillText(v + '%', pad.l - 3, y + 3);
+        });
+        // Line
+        const xStep = pts.length > 1 ? iW / (pts.length - 1) : iW;
+        const toX = i => pad.l + i * xStep;
+        const toY = v => pad.t + iH - (v / 100) * iH;
+        ctx.beginPath();
+        ctx.strokeStyle = '#667eea'; ctx.lineWidth = 2.5; ctx.lineJoin = 'round';
+        pts.forEach((r, i) => i === 0 ? ctx.moveTo(toX(i), toY(r.pct)) : ctx.lineTo(toX(i), toY(r.pct)));
+        ctx.stroke();
+        // Fill under line
+        ctx.lineTo(toX(pts.length - 1), pad.t + iH);
+        ctx.lineTo(toX(0), pad.t + iH);
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(102,126,234,0.08)'; ctx.fill();
+        // Dots
+        pts.forEach((r, i) => {
+          ctx.beginPath();
+          ctx.arc(toX(i), toY(r.pct), 3.5, 0, Math.PI * 2);
+          ctx.fillStyle = '#667eea'; ctx.fill();
+          ctx.strokeStyle = 'white'; ctx.lineWidth = 1.5; ctx.stroke();
+        });
+        // X labels (session numbers)
+        ctx.fillStyle = '#bbb'; ctx.font = '9px sans-serif'; ctx.textAlign = 'center';
+        pts.forEach((_, i) => ctx.fillText(i + 1, toX(i), H - 4));
+      } else if (trendWrap) {
+        trendWrap.style.display = 'none';
+      }
+
+      // ─── Option 5: Weak topic recommendation ────────────────────────────────────────────────
+      const weakEl = document.getElementById('dashWeakTopic');
+      if (weakEl) {
+        const topicScores = {};
+        history.forEach(r => {
+          if (!r.topic || r.topic === 'all') return;
+          if (!topicScores[r.topic]) topicScores[r.topic] = [];
+          topicScores[r.topic].push(r.pct);
+        });
+        const topicAvgs = Object.entries(topicScores)
+          .filter(([, arr]) => arr.length >= 1)
+          .map(([t, arr]) => ({ topic: t, avg: Math.round(arr.reduce((a, b) => a + b, 0) / arr.length) }))
+          .sort((a, b) => a.avg - b.avg);
+        if (topicAvgs.length > 0) {
+          const weak = topicAvgs[0];
+          weakEl.style.display = '';
+          weakEl.innerHTML = `💡 <strong>Weak area spotted:</strong> Your lowest average score is in <strong>${weak.topic}</strong> (${weak.avg}%). 
+            <a href="#" onclick="document.getElementById('dashboardBody').scrollIntoView({behavior:'smooth'});setTopic('${weak.topic}');return false;" 
+               style="color:#667eea;font-weight:700;text-decoration:none;">→ Practise ${weak.topic} now</a>`;
+        } else {
+          weakEl.style.display = 'none';
+        }
+      }
 
       const badgeColor = p => p >= 90 ? '#16a34a' : p >= 70 ? '#2563eb' : p >= 50 ? '#d97706' : '#dc2626';
       const badgeLabel = p => p >= 90 ? '🏆 Excellent' : p >= 70 ? '👍 Good' : p >= 50 ? '💪 Keep going' : '📚 More prep';
