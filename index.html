@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rajasekhar - Your Devops Interviewer</title>
+  <title>DevOps AI Interviewer — AI-Powered Interview Practice</title>
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-4618CEMV8C"></script>
   <script>
@@ -658,6 +658,121 @@
       border-color: #e67e22;
     }
 
+    /* ─── Resume Builder Card ───────────────────────────────────────── */
+    .resume-builder-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      border-left: 5px solid #7c3aed;
+    }
+    .resume-builder-card h3 {
+      color: #7c3aed;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .resume-builder-card p.hint {
+      font-size: 0.82rem;
+      color: #666;
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+    .rb-textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid #e0d8ff;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      resize: vertical;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .rb-textarea:focus { outline: none; border-color: #7c3aed; }
+    .btn-purple {
+      background: linear-gradient(135deg, #7c3aed, #6d28d9);
+      color: white;
+      padding: 0.65rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 3px 10px rgba(124,58,237,0.3);
+    }
+    .btn-purple:hover { transform: translateY(-1px); box-shadow: 0 5px 15px rgba(124,58,237,0.4); }
+    .btn-purple:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+    .btn-outline-purple {
+      background: white;
+      color: #7c3aed;
+      border: 2px solid #7c3aed;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-outline-purple:hover { background: #f5f0ff; }
+    .btn-outline-purple:disabled { opacity: 0.5; cursor: not-allowed; }
+    .rbuilder-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .rbuilder-status { font-size:0.82rem; font-weight:600; padding:0.35rem 0.75rem; border-radius:6px; }
+    .rbuilder-status.loading { background:#fff3cd; color:#856404; }
+    .rbuilder-status.ok      { background:#e8f5e9; color:#2e7d32; }
+    .rbuilder-status.error   { background:#fdecea; color:#c62828; }
+    .ats-score-wrap {
+      display: flex;
+      gap: 0.65rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .ats-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.4rem 0.9rem;
+      border-radius: 99px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      border: 1.5px solid;
+    }
+    .ats-pill.before { background:#fff3e0; border-color:#ffb74d; color:#7c4200; }
+    .ats-pill.after  { background:#e8f5e9; border-color:#66bb6a; color:#1b5e20; }
+    .ats-pill.single { background:#f3e5f5; border-color:#ab47bc; color:#4a148c; }
+    .resume-preview-wrap {
+      border: 1.5px solid #e0d8ff;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .resume-preview-header {
+      background: #f5f0ff;
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #7c3aed;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+    .resume-preview-toggle { font-size:0.75rem; color:#aaa; transition:transform 0.2s; }
+    .resume-preview-toggle.open { transform: rotate(180deg); }
+    .rbuilder-download-row { display:flex; gap:0.75rem; flex-wrap:wrap; }
+
     /* Download Report button */
     .btn-download {
       background: linear-gradient(135deg, #1565c0, #0d47a1);
@@ -1157,43 +1272,37 @@
     /* ─── Demo CTA ───────────────────────────────────────────────────────────── */
     .demo-cta {
       text-align: center;
-      padding: 1.5rem 1.5rem 1.25rem;
+      padding: 2rem 1.5rem 1.5rem;
       border-radius: 16px;
       background: linear-gradient(135deg, #f0fff8, #e8f5ff);
-      border: 1.5px dashed #38ef7d;
+      border: 2px solid #38ef7d;
       margin-bottom: 1.5rem;
-      box-shadow: 0 4px 20px rgba(17,153,142,0.1);
-    }
-    .demo-cta-label {
-      font-size: 0.76rem;
-      color: #bbb;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.75rem;
+      box-shadow: 0 6px 28px rgba(17,153,142,0.18);
     }
     .btn-demo {
       background: linear-gradient(135deg, #11998e, #38ef7d);
       color: white;
       border: none;
-      border-radius: 10px;
-      padding: 0.85rem 2rem;
-      font-size: 1rem;
-      font-weight: 700;
+      border-radius: 12px;
+      padding: 1.1rem 2.8rem;
+      font-size: 1.25rem;
+      font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 4px 18px rgba(17,153,142,0.35);
+      box-shadow: 0 6px 24px rgba(17,153,142,0.4);
       transition: all 0.25s;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      letter-spacing: 0.01em;
     }
     .btn-demo:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(17,153,142,0.45);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(17,153,142,0.5);
     }
     .demo-cta-note {
-      font-size: 0.76rem;
-      color: #bbb;
-      margin-top: 0.55rem;
+      font-size: 0.82rem;
+      color: #888;
+      margin-top: 0.65rem;
     }
 
     /* ─── Demo Unlock Card ───────────────────────────────────────────────────── */
@@ -1248,14 +1357,15 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>Rajasekhar - Your Devops Interviewer</h1>
+      <h1>DevOps AI Interviewer</h1>
       <p>Practice. Improve. Ace Interviews.</p>
+      <p style="font-size:1rem;opacity:0.85;margin-top:0.35rem;font-weight:500;">Built by Rajasekhar</p>
     </div>
 
-    <!-- Try 3 Questions Free — top of page CTA -->
+    <!-- Try 10 Questions Free — top of page CTA -->
     <div id="demoCta" class="demo-cta">
-      <button class="btn-demo" onclick="startDemoInterview()">⚡ Try 3 Questions Free — No API Key Needed</button>
-      <p class="demo-cta-note">Basic feedback &nbsp;·&nbsp; 3 questions &nbsp;·&nbsp; Takes 2 minutes &nbsp;·&nbsp; Completely free</p>
+      <button class="btn-demo" onclick="startDemoInterview()">⚡ Try 10 Questions Free — No API Key Needed</button>
+      <p class="demo-cta-note">Instant feedback &nbsp;·&nbsp; 10 questions &nbsp;·&nbsp; Takes 5 minutes &nbsp;·&nbsp; Completely free</p>
     </div>
 
     <!-- Get Started in 3 Steps -->
@@ -1311,7 +1421,7 @@
           <input type="text" id="geminiModel" placeholder="gemini-2.5-flash">
         </div>
       </div>
-      <div id="configStatus" class="config-status not-set">
+      <div id="configStatus" class="config-status not-set" style="display:none">
         ⚠️ Not configured — using basic keyword feedback
       </div>
     </div>
@@ -1412,6 +1522,58 @@
       </div>
     </div>
 
+    <!-- Resume Builder & ATS Tailoring -->
+    <div class="resume-builder-card">
+      <h3>📝 Resume Builder &amp; ATS Tailoring <span style="font-weight:400;font-size:0.82rem;color:#555;">— Tailor your resume to match JD keywords or generate a starter</span></h3>
+      <p class="hint">
+        <strong>Have a resume?</strong> Paste it in Step 1 + the JD in Step 2, then click <strong>Tailor My Resume</strong> — Gemini rewrites your bullets using exact JD keywords while keeping all your real experience.<br>
+        <strong>No resume yet?</strong> Paste just the JD in Step 2 and click <strong>Generate Starter Resume</strong> to get a structured template to personalise.
+      </p>
+
+      <div style="margin-bottom:1rem;">
+        <label style="display:block;font-size:0.8rem;font-weight:700;color:#7c3aed;margin-bottom:0.4rem;">
+          📄 Step 1 — Your Current Resume
+          <span style="font-weight:400;color:#999;">(optional — leave blank to generate from scratch)</span>
+        </label>
+        <textarea id="rbResumeText" class="rb-textarea" rows="7"
+          placeholder="Paste your current resume here…&#10;&#10;DevOps Engineer | 5 years experience | AWS, Kubernetes, Terraform, CI/CD…"></textarea>
+      </div>
+
+      <div style="margin-bottom:1rem;">
+        <label style="display:block;font-size:0.8rem;font-weight:700;color:#7c3aed;margin-bottom:0.4rem;">
+          💼 Step 2 — Job Description
+          <span style="font-weight:400;color:#c62828;">* required</span>
+        </label>
+        <textarea id="rbJdText" class="rb-textarea" rows="7"
+          placeholder="Paste the job description here…&#10;&#10;Senior DevOps Engineer — AWS, Kubernetes, Terraform, CI/CD pipelines…&#10;Responsibilities: Design and implement CI/CD pipelines, manage cloud infrastructure…"></textarea>
+      </div>
+
+      <div style="font-size:0.8rem;font-weight:700;color:#7c3aed;margin-bottom:0.6rem;">⚡ Step 3 — Generate</div>
+      <div class="rbuilder-actions">
+        <button class="btn-purple" id="tailorResumeBtn" onclick="runResumeTailor()">✨ Tailor My Resume to This JD</button>
+        <button class="btn-outline-purple" id="generateStarterBtn" onclick="runGenerateStarter()">📄 Generate Starter Resume</button>
+        <span class="rbuilder-status" id="rBuilderStatus" style="display:none"></span>
+      </div>
+
+      <div id="rBuilderResult" style="display:none;margin-top:1rem;">
+        <div class="ats-score-wrap" id="atsScoreWrap"></div>
+        <!-- Download buttons ABOVE preview so they're always visible -->
+        <div class="rbuilder-download-row" style="margin-bottom:0.75rem;">
+          <button class="btn-purple" onclick="downloadResume()">💾 Download Resume (.html)</button>
+          <button class="btn-outline-purple" id="copyResumeBtn" onclick="copyResumeText()">📋 Copy Plain Text</button>
+        </div>
+        <div class="resume-preview-wrap">
+          <div class="resume-preview-header" onclick="toggleResumePreview()">
+            📄 Resume Preview
+            <span class="resume-preview-toggle" id="resumePreviewToggle">▼</span>
+          </div>
+          <iframe id="resumePreviewFrame"
+            style="display:none;width:100%;height:540px;border:none;"
+            sandbox="allow-same-origin"></iframe>
+        </div>
+      </div>
+    </div>
+
     <!-- Interview Panel -->
     <div class="card">
       <div class="progress" id="progress">Select a mode above and click Start</div>
@@ -1493,7 +1655,7 @@
     <div class="demo-unlock-card hidden" id="demoUnlockCard">
       <div class="demo-unlock-icon">🎉</div>
       <h3>Great job completing the free preview!</h3>
-      <p>You just answered 3 DevOps interview questions. Add your free Gemini API key to unlock full AI feedback on every answer:</p>
+      <p>You just answered 10 DevOps interview questions. Add your free Gemini API key to unlock full AI feedback on every answer:</p>
       <div class="demo-unlock-features">
         <div class="demo-unlock-feature">✅ Detailed model answer for every question</div>
         <div class="demo-unlock-feature">✅ AI score 1–5 with specific tips</div>
@@ -1580,10 +1742,11 @@
       if (isAOAIConfigured()) {
         el.className = 'config-status ok';
         el.textContent = '✅ Gemini configured — AI feedback enabled';
+        el.style.display = '';
         if (!state.isInterviewActive) setDemoCtaVisible(false);
       } else {
-        el.className = 'config-status not-set';
-        el.textContent = '⚠️ Not configured — using basic keyword feedback';
+        // Hide the status entirely when not configured — no confusing warning shown
+        el.style.display = 'none';
         if (!state.isInterviewActive) setDemoCtaVisible(true);
       }
     }
@@ -1597,8 +1760,10 @@
     (function() {
       const k = localStorage.getItem('devops_gemini_key');
       const m = localStorage.getItem('devops_gemini_model');
-      if (k) { document.getElementById('geminiKey').value   = k; refreshConfigStatus(); }
-      if (m)   document.getElementById('geminiModel').value = m;
+      // NOTE: refreshConfigStatus() is NOT called here because `state` is declared
+      // later in the script (TDZ). It is called inside DOMContentLoaded instead.
+      if (k) document.getElementById('geminiKey').value   = k;
+      if (m) document.getElementById('geminiModel').value = m;
     })();
     document.getElementById('geminiKey').addEventListener('change', () =>
       localStorage.setItem('devops_gemini_key',   document.getElementById('geminiKey').value.trim()));
@@ -1685,7 +1850,7 @@
     let audioChunks     = [];     // raw audio chunks for current question
     let lastAudioURL    = null;   // object URL of last recorded answer
     let demoMode        = false;  // true = 3-question free preview (no API key needed)
-    const DEMO_LIMIT    = 3;      // questions shown in the free demo
+    const DEMO_LIMIT    = 10;     // questions shown in the free demo
 
     // Returns whichever question list is currently active.
     // Priority: JD > Resume > topic-filtered / shuffled built-in bank
@@ -3692,6 +3857,9 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       // Apply initial type so topic filter visibility is correct on first load
       setInterviewType(state.interviewType);
 
+      // Refresh config status now that `state` is fully initialised
+      refreshConfigStatus();
+
       // ── Keyboard shortcuts ─────────────────────────────────────────────────
       // Space = toggle mic | N or ArrowRight = next question | S = skip | R = retry
       document.addEventListener('keydown', (e) => {
@@ -3702,7 +3870,7 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         switch (e.code) {
           case 'Space':
             e.preventDefault();
-            if (document.getElementById('interviewMode').value === 'voice') toggleVoice();
+            if (state.mode === 'voice') toggleVoice();
             break;
           case 'KeyN':
           case 'ArrowRight':
@@ -3712,11 +3880,306 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
             if (!document.getElementById('skipBtn').disabled) skipQuestion();
             break;
           case 'KeyR':
-            if (!document.getElementById('retryBtn').disabled) retryQuestion();
+            if (!document.getElementById('retryBtn').disabled) retryAnswer();
             break;
         }
       });
     });
+
+    // ─── Resume Builder & ATS Tailoring ────────────────────────────────────
+
+    // Module-level so downloadResume() and copyResumeText() can access them
+    var _resumeBuilderHTML  = '';
+    var _resumeBuilderPlain = '';
+
+    // Strips <style> block CONTENTS from an HTML string using indexOf loops.
+    // No regex, no DOM. The close-tag is built from parts so it never appears
+    // as a raw literal (which would confuse some HTML editors/linters).
+    function _stripStyleBlocks(src) {
+      var result   = '';
+      var s        = src;
+      var openTag  = '<style';
+      var closeTag = '</' + 'style>';   // built in two parts — safe in any context
+      while (s.length > 0) {
+        var sl      = s.toLowerCase();
+        var openIdx = sl.indexOf(openTag);
+        if (openIdx < 0) { result += s; break; }           // no more <style>
+        var tagEnd  = sl.indexOf('>', openIdx);
+        if (tagEnd  < 0) { result += s; break; }           // malformed tag
+        result += s.slice(0, tagEnd + 1);                  // keep <style ...>
+        var closeIdx = sl.indexOf(closeTag, tagEnd);
+        if (closeIdx < 0) break;                           // unclosed block
+        result += s.slice(closeIdx, closeIdx + closeTag.length); // keep </style>
+        s = s.slice(closeIdx + closeTag.length);           // advance past block
+      }
+      return result;
+    }
+
+    // ATS-score keywords from a JD against a Gemini HTML resume.
+    // Uses indexOf-based style stripping so CSS text is excluded.
+    // Searches the remaining HTML directly — DevOps keywords like "kubernetes",
+    // "terraform", "docker" appear as visible text, never inside CSS.
+    function _atsFromHtml(jdText, htmlStr) {
+      return _atsScore(jdText, _stripStyleBlocks(htmlStr));
+    }
+
+    function _htmlToPlainText(htmlStr) {
+      // Pure regex extraction — no DOMParser, no TreeWalker, no silent failures.
+      // Steps:
+      //  1. Remove full <style>…<\/style> and <script>…<\/script> blocks so that
+      //     CSS class names / JS strings don't pollute the keyword search.
+      //  2. Strip every remaining HTML tag (including multi-line attributes).
+      //  3. Decode the most common HTML entities.
+      //  4. Collapse whitespace.
+      return htmlStr
+        .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+        .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/&nbsp;/gi, ' ')
+        .replace(/&amp;/gi, '&')
+        .replace(/&lt;/gi, '<')
+        .replace(/&gt;/gi, '>')
+        .replace(/&[a-z#0-9]+;/gi, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    // Counts how many unique meaningful JD keywords appear in resumeText
+    function _atsScore(jdText, resumeText) {
+      const stop = new Set([
+        'the','and','for','with','this','that','have','will','from','your',
+        'are','has','all','can','not','been','their','they','into','more',
+        'also','about','other','some','such','when','which','each','both',
+        'than','then','there','these','those','what','where','while','must',
+        'should','would','could','very','well','any','our','you','its','how',
+        'new','use','using','used','work','working','strong','good','team',
+        'role','help','make','need','required','experience','skills','ability',
+        'knowledge','responsibilities','requirements','position','candidate'
+      ]);
+      const keywords = [...new Set(
+        jdText.toLowerCase()
+          .replace(/[^a-z0-9#+.\s/-]/g, ' ')
+          .split(/\s+/)
+          .filter(w => w.length > 3 && !stop.has(w))
+      )];
+      const body = resumeText.toLowerCase();
+      const matched = keywords.filter(w => body.includes(w));
+      return {
+        matched: matched.length,
+        total:   keywords.length,
+        pct:     keywords.length > 0
+          ? Math.round((matched.length / keywords.length) * 100) : 0
+      };
+    }
+
+    function _setRbStatus(cls, msg) {
+      const el = document.getElementById('rBuilderStatus');
+      el.className = 'rbuilder-status ' + cls;
+      el.textContent = msg;
+      el.style.display = msg ? '' : 'none';
+    }
+
+    async function _callGeminiForResume(prompt) {
+      const apiKey = document.getElementById('geminiKey').value.trim();
+      const model  = document.getElementById('geminiModel').value.trim() || 'gemini-2.5-flash';
+      const url    = `https://generativelanguage.googleapis.com/v1beta/models/` +
+                     `${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+      const resp = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ role: 'user', parts: [{ text: prompt }] }],
+          generationConfig: { maxOutputTokens: 8192, temperature: 0.3 }
+        })
+      });
+      if (!resp.ok) {
+        const e = await resp.json().catch(() => ({}));
+        throw new Error(e?.error?.message || `HTTP ${resp.status}`);
+      }
+      const data = await resp.json();
+      let html = (data.candidates[0].content.parts[0].text || '').trim();
+      // Strip leading/trailing markdown code fences
+      html = html.replace(/^```(?:html)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
+      // If Gemini added preamble text (e.g. "Here is your resume:"), extract
+      // starting from the first DOCTYPE or <html tag so we only score the HTML.
+      var htmlStart = html.search(/<!DOCTYPE\s+html|<html[\s>]/i);
+      if (htmlStart > 0) html = html.slice(htmlStart);
+      // Trim any trailing text/backticks after closing </html>
+      var closeIdx = html.toLowerCase().lastIndexOf('<\/html>');
+      if (closeIdx >= 0) html = html.slice(0, closeIdx + 7);
+      return html.trim();
+    }
+
+    async function runResumeTailor() {
+      const jd     = document.getElementById('rbJdText').value.trim();
+      const resume = document.getElementById('rbResumeText').value.trim();
+      if (!jd) { alert('Please paste a Job Description in Step 2.'); return; }
+      if (!resume) {
+        alert('Please paste your current resume in Step 1.\n\nIf you don\'t have one yet, use "Generate Starter Resume" instead.');
+        return;
+      }
+      if (!isAOAIConfigured()) { alert('Please enter your Gemini API key first.'); return; }
+
+      document.getElementById('tailorResumeBtn').disabled    = true;
+      document.getElementById('generateStarterBtn').disabled = true;
+      document.getElementById('rBuilderResult').style.display = 'none';
+      _setRbStatus('loading', '⏳ Tailoring resume to JD…');
+
+      // Score the original resume against the JD (plain text, no HTML parsing needed)
+      const before = _atsScore(jd, resume);
+
+      try {
+        const html = await _callGeminiForResume(
+`You are a professional resume writer specialising in DevOps and Cloud engineering.
+
+TASK: Rewrite the candidate's resume to be ATS-optimised for the job description below.
+
+STRICT RULES:
+- Keep ALL real information (companies, titles, dates, projects) — do NOT fabricate anything
+- Reword bullet points to use EXACT keywords, tools, and terminology from the JD
+- Reorder bullets within each role so the most JD-relevant items appear first
+- Incorporate JD keywords that are strongly implied by the candidate's existing experience
+- Structure: Contact Info → Professional Summary → Technical Skills → Experience → Education → Certifications
+- Output ONLY a complete self-contained HTML document with inline CSS — no markdown, no code fences
+
+RESUME:
+${resume}
+
+JOB DESCRIPTION:
+${jd}
+
+Output (HTML only):`);
+
+        const afterText = _htmlToPlainText(html);
+        const after     = _atsScore(jd, afterText);
+        _resumeBuilderHTML  = html;
+        _resumeBuilderPlain = afterText;
+        _showResumeResult(before, after, html, 'tailor');
+        _setRbStatus('ok', `✅ Resume tailored — ATS match: ${before.pct}% → ${after.pct}%`);
+      } catch (err) {
+        _setRbStatus('error', '❌ ' + err.message);
+      } finally {
+        document.getElementById('tailorResumeBtn').disabled    = false;
+        document.getElementById('generateStarterBtn').disabled = false;
+      }
+    }
+
+    async function runGenerateStarter() {
+      const jd = document.getElementById('rbJdText').value.trim();
+      if (!jd) { alert('Please paste a Job Description in Step 2.'); return; }
+      if (!isAOAIConfigured()) { alert('Please enter your Gemini API key first.'); return; }
+
+      document.getElementById('tailorResumeBtn').disabled    = true;
+      document.getElementById('generateStarterBtn').disabled = true;
+      document.getElementById('rBuilderResult').style.display = 'none';
+      _setRbStatus('loading', '⏳ Generating starter resume…');
+
+      try {
+        const html = await _callGeminiForResume(
+`You are a professional resume writer specialising in DevOps and Cloud engineering.
+
+TASK: Generate a realistic ATS-optimised DevOps resume TEMPLATE for the job description below.
+
+RULES:
+- Use placeholders: [YOUR NAME], [EMAIL], [PHONE], [LINKEDIN], [LOCATION]
+- Use [Company Name] / [Job Title] with date placeholders like [Jan 2022 – Present]
+- Write 5–6 strong quantified bullet points per role using EXACT JD keywords and tools
+- Cover all major technologies and methodologies mentioned in the JD
+- Structure: Contact Info → Professional Summary (3–4 sentences) → Technical Skills → Work Experience (3 roles) → Education → Certifications
+- Output ONLY a complete self-contained HTML document with inline CSS — no markdown, no code fences
+
+JOB DESCRIPTION:
+${jd}
+
+Output (HTML only):`);
+
+        const genText = _htmlToPlainText(html);
+        const score   = _atsScore(jd, genText);
+        _resumeBuilderHTML  = html;
+        _resumeBuilderPlain = genText;
+        _showResumeResult(null, score, html, 'generate');
+        _setRbStatus('ok', `✅ Starter resume generated — ATS match: ${score.pct}%`);
+      } catch (err) {
+        _setRbStatus('error', '❌ ' + err.message);
+      } finally {
+        document.getElementById('tailorResumeBtn').disabled    = false;
+        document.getElementById('generateStarterBtn').disabled = false;
+      }
+    }
+
+    function _showResumeResult(before, after, html, mode) {
+      // ATS score pills
+      const atsWrap = document.getElementById('atsScoreWrap');
+      if (mode === 'tailor' && before) {
+        const delta = after.pct - before.pct;
+        const arrow = delta > 0 ? `↑ +${delta}%` : delta < 0 ? `↓ ${delta}%` : '→ unchanged';
+        atsWrap.innerHTML =
+          `<span style="font-size:0.82rem;font-weight:700;color:#555;">ATS Keyword Score:</span>` +
+          `<span class="ats-pill before">Before &nbsp;${before.pct}% &nbsp;(${before.matched}/${before.total})</span>` +
+          `<span class="ats-pill after">After &nbsp;${after.pct}% &nbsp;(${after.matched}/${after.total}) &nbsp;${arrow}</span>`;
+      } else {
+        atsWrap.innerHTML =
+          `<span style="font-size:0.82rem;font-weight:700;color:#555;">ATS Keyword Score:</span>` +
+          `<span class="ats-pill single">${after.pct}% &nbsp;(${after.matched}/${after.total} JD keywords matched)</span>`;
+      }
+      // Render inside iframe so the resume's own CSS is fully applied
+      const frame = document.getElementById('resumePreviewFrame');
+      frame.srcdoc = html;
+      frame.style.display = 'block';
+      document.getElementById('resumePreviewToggle').classList.add('open');
+      document.getElementById('rBuilderResult').style.display = 'block';
+      setTimeout(() =>
+        document.getElementById('rBuilderResult').scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
+    }
+
+    function toggleResumePreview() {
+      const frame  = document.getElementById('resumePreviewFrame');
+      const toggle = document.getElementById('resumePreviewToggle');
+      const isOpen = frame.style.display !== 'none';
+      frame.style.display = isOpen ? 'none' : 'block';
+      toggle.classList.toggle('open', !isOpen);
+    }
+
+    function downloadResume() {
+      if (!_resumeBuilderHTML) { alert('No resume generated yet.'); return; }
+      let htmlContent = _resumeBuilderHTML.trim();
+      // Ensure file opens correctly: must start with DOCTYPE and have charset meta
+      if (!htmlContent.toLowerCase().startsWith('<!doctype')) {
+        if (htmlContent.toLowerCase().startsWith('<html')) {
+          htmlContent = '<!DOCTYPE html>\n' + htmlContent;
+        } else {
+          htmlContent = '<!DOCTYPE html>\n<html><head><meta charset="utf-8"></head><body>\n'
+                      + htmlContent + '\n</body></html>';
+        }
+      }
+      // Inject charset meta if not present so special characters render correctly
+      if (!htmlContent.toLowerCase().includes('charset')) {
+        htmlContent = htmlContent.replace(/<head([^>]*)>/i, '<head$1><meta charset="utf-8">');
+      }
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = Object.assign(document.createElement('a'), {
+        href: url,
+        download: `devops-resume-${new Date().toISOString().slice(0, 10)}.html`
+      });
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+    }
+
+    function copyResumeText() {
+      if (!_resumeBuilderPlain) { alert('No resume generated yet.'); return; }
+      const btn = document.getElementById('copyResumeBtn');
+      navigator.clipboard.writeText(_resumeBuilderPlain.replace(/\s{3,}/g, '\n\n').trim())
+        .then(() => {
+          const orig = btn.textContent;
+          btn.textContent = '✅ Copied!';
+          setTimeout(() => { btn.textContent = orig; }, 2000);
+        })
+        .catch(() => alert('Copy failed — please select the preview text and copy manually.'));
+    }
+
   </script>
 
   <!-- Floating feedback button -->
