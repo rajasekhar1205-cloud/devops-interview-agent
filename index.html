@@ -1462,6 +1462,8 @@
         <button class="topic-btn" onclick="setTopic('scenarios')" id="topicScenarios">🧩 Scenarios</button>
         <button class="topic-btn" onclick="setTopic('sysdesign')" id="topicSysdesign">🏗️ System Design</button>
         <button class="topic-btn" onclick="setTopic('githubactions')" id="topicGithubactions">⚙️ GitHub Actions</button>
+        <button class="topic-btn" onclick="setTopic('aws')" id="topicAws">☁️ AWS</button>
+        <button class="topic-btn" onclick="setTopic('awsscenarios')" id="topicAwsscenarios">🧩 AWS Scenarios</button>
       </div>
     </div>
 
@@ -1853,6 +1855,9 @@
     let demoMode        = false;  // true = 3-question free preview (no API key needed)
     const DEMO_LIMIT    = 10;     // questions shown in the free demo
 
+    // Topics that should NOT be shuffled — they are pre-ordered easy → medium → hard
+    const NO_SHUFFLE_TOPICS = new Set(['aws', 'awsscenarios']);
+
     // Returns whichever question list is currently active.
     // Priority: JD > Resume > topic-filtered / shuffled built-in bank
     function activeQuestions() {
@@ -1860,11 +1865,16 @@
       if (!_filteredQuestions) {
         const range = TOPIC_RANGES[activeTopic];
         const pool  = range ? questions.slice(range[0], range[1]) : questions;
-        // Fisher-Yates shuffle so every session gets a different question order
-        _filteredQuestions = [...pool];
-        for (let i = _filteredQuestions.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [_filteredQuestions[i], _filteredQuestions[j]] = [_filteredQuestions[j], _filteredQuestions[i]];
+        if (NO_SHUFFLE_TOPICS.has(activeTopic)) {
+          // Keep difficulty order intact — no shuffle
+          _filteredQuestions = [...pool];
+        } else {
+          // Fisher-Yates shuffle so every session gets a different question order
+          _filteredQuestions = [...pool];
+          for (let i = _filteredQuestions.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [_filteredQuestions[i], _filteredQuestions[j]] = [_filteredQuestions[j], _filteredQuestions[i]];
+          }
         }
       }
       return _filteredQuestions;
@@ -2267,6 +2277,7 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       isInterviewActive: false,
       answerSubmitted: false,
       micHeartbeat: null,
+      micPermissionConfirmed: false,  // true once onstart fires — guards heartbeat/onend restarts
       sessionRestartTimer: null,   // proactive restart before Chrome's ~60s kill
       permissionAttempts: 0,       // retry counter for not-allowed errors
       recognitionStarting: false   // true while .start() called but onstart not yet fired
@@ -2290,16 +2301,23 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       scenarios:    [113, 178],  // 65 Scenario-based questions
       sysdesign:    [178, 198],  // 20 System Design questions
       githubactions:[198, 218],  // 20 GitHub Actions questions
+      aws:          [218, 290],  // 72 AWS questions (Compute, VPC, LB, IAM, Storage, DB, CI/CD, EKS, Monitoring)
+      awsscenarios: [290, 304],  // 14 AWS Scenario & Project questions
     };
 
     function setTopic(t) {
       if (state && state.isInterviewActive) return;   // locked during interview
       activeTopic = t;
       _filteredQuestions = null;                      // invalidate cache
-      ['all', 'cicd', 'terraform', 'docker', 'kubernetes', 'azure', 'scenarios', 'sysdesign', 'githubactions'].forEach(id => {
+      ['all', 'cicd', 'terraform', 'docker', 'kubernetes', 'azure', 'scenarios', 'sysdesign', 'githubactions', 'aws', 'awsscenarios'].forEach(id => {
         const el = document.getElementById('topic' + id.charAt(0).toUpperCase() + id.slice(1));
         if (el) el.classList.toggle('active', id === t);
       });
+      // Scroll to Start Practice button so the user sees it
+      const startBtn = document.getElementById('startBtn');
+      if (startBtn && !startBtn.classList.contains('hidden')) {
+        setTimeout(() => startBtn.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+      }
     }
 
     function startQuestionTimer() {
@@ -2553,7 +2571,101 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       "Scenario: A GitHub Actions workflow is failing with 'permission denied' when trying to push to a container registry. How do you diagnose and fix this?",
       "Scenario: You need to run integration tests in GitHub Actions that require a live database. How do you set this up?",
       "Scenario: Two teams are sharing a self-hosted runner pool and one team's jobs are starving the other. How do you fix this?",
-      "Scenario: You need to enforce that all pull requests to main must pass a security scan GitHub Actions workflow before merging. How do you implement this?"
+      "Scenario: You need to enforce that all pull requests to main must pass a security scan GitHub Actions workflow before merging. How do you implement this?",
+
+      // ── AWS EASY — Definitions & Core Concepts (indices 218-237) ─────────────────────────────────────────
+      "What is the difference between an AWS Region and an Availability Zone? How do Edge Locations fit into the global infrastructure?",
+      "What is the difference between EC2, ECS, EKS, and Lambda? When would you choose each for running applications?",
+      "What are the different EC2 instance families and types? Give examples of workloads suited to each family.",
+      "What is the difference between On-Demand Instances, Reserved Instances, Spot Instances, and Savings Plans? How do you decide which to use?",
+      "What is an AMI (Amazon Machine Image)? How do you create a custom AMI and share it across AWS accounts?",
+      "Explain the architecture of a VPC. What are subnets, route tables, internet gateways, and NAT gateways?",
+      "What is a NAT Gateway and why is it used? How does it differ from a NAT Instance?",
+      "What is the difference between an Internet Gateway and a NAT Gateway in a VPC?",
+      "What is the difference between Security Groups and Network ACLs (NACLs)? How do they work together to control traffic?",
+      "What is AWS IAM? Explain users, groups, roles, and policies and how they differ from each other.",
+      "What is the difference between IAM Roles and IAM Users? When do you use a role instead of a user?",
+      "What are IAM Policies? Explain the difference between identity-based and resource-based policies.",
+      "What are the S3 storage classes? Explain Standard, Intelligent-Tiering, Standard-IA, Glacier, and Deep Archive.",
+      "What is the practical difference between S3 Standard-IA, Glacier Instant Retrieval, and Deep Archive in terms of cost and retrieval time?",
+      "What is S3 Versioning? How does it protect against accidental deletion and how do you recover a deleted object?",
+      "What is the difference between EBS, EFS, and S3? When do you use each type of storage?",
+      "What is the difference between ALB, NLB, and CLB? When would you use each?",
+      "What is the difference between RDS and DynamoDB? When would you choose a relational vs NoSQL database on AWS?",
+      "What is the difference between AWS CodeBuild, CodeDeploy, and CodePipeline? How do they work together?",
+      "How do you monitor AWS resources? Describe your overall observability strategy.",
+
+      // ── AWS MEDIUM — Implementation & Configuration (indices 238-261) ─────────────────────────────────────
+      "How do you design a highly available application on AWS? Walk me through the key components and architecture decisions.",
+      "What happens when an EC2 instance fails? How does AWS handle automatic recovery and how do you design for instance failure?",
+      "How would you configure a private EC2 instance to access the internet without making it publicly accessible?",
+      "What is VPC Peering? What are its limitations compared to Transit Gateway?",
+      "Explain Route Tables with a practical example. What is the purpose of the default route 0.0.0.0/0?",
+      "How do health checks work in an AWS Load Balancer? What happens when a target fails a health check?",
+      "What happens if all targets in a target group become unhealthy? How does the Load Balancer behave?",
+      "How does EC2 Auto Scaling work end-to-end? Explain scale-out and scale-in events and cooldown periods.",
+      "What scaling policies have you used? Describe target tracking, step scaling, and scheduled scaling with examples.",
+      "How do EC2 instances access S3 without storing access keys? Explain IAM instance profiles and roles.",
+      "Explain AssumeRole in AWS. How does cross-account access work using IAM roles?",
+      "How do you encrypt data at rest and in transit in AWS? Give specific examples for S3, RDS, and EBS.",
+      "What is AWS Secrets Manager? How do you rotate secrets automatically and access them from applications?",
+      "What is the difference between AWS Secrets Manager and SSM Parameter Store? When do you choose each?",
+      "What is S3 Cross-Region Replication (CRR)? When would you enable it and what are the prerequisites?",
+      "How do you recover a deleted object from S3 when versioning is enabled? Walk me through the steps.",
+      "What is an S3 Lifecycle Policy? Give a practical example of transitioning objects between storage classes to reduce costs.",
+      "How do you resize an EBS volume attached to a running EC2 instance without causing downtime?",
+      "What is Multi-AZ deployment in RDS? How does it provide high availability and what is the failover process?",
+      "What is the difference between an RDS Read Replica and Multi-AZ deployment? When do you use each?",
+      "How do you perform database backups in AWS? Explain automated backups, manual snapshots, and retention policies.",
+      "How does RDS handle automatic failover in a Multi-AZ setup? What is the typical failover time?",
+      "What monitoring metrics do you check for RDS performance and health? How do you respond to high CPU or slow queries?",
+      "What is AWS CodePipeline and how have you used it? Walk me through setting up a pipeline.",
+
+      // ── AWS HARD — Architecture, Security & Advanced (indices 262-289) ──────────────────────────────────
+      "How do you perform blue-green deployment in AWS? What services are involved and how does traffic switching work?",
+      "How would you architect an AWS solution to handle sudden unpredictable traffic spikes?",
+      "How do you troubleshoot connectivity issues between two EC2 instances in the same VPC?",
+      "How do you connect an on-premises data center to AWS? Compare Site-to-Site VPN, Direct Connect, and Transit Gateway.",
+      "What is AWS Transit Gateway? How does it simplify connecting multiple VPCs and on-premises networks?",
+      "What is AWS KMS? How do you manage encryption keys and control who can use them?",
+      "How do you secure a production AWS environment? Walk me through your security hardening checklist.",
+      "How do you integrate Jenkins with AWS? What AWS services does Jenkins typically interact with?",
+      "Explain your CI/CD pipeline architecture on AWS end-to-end. What services are involved from code commit to production?",
+      "How do you automate deployments to EC2, ECS, or Lambda using AWS native tools?",
+      "What deployment strategies have you implemented on AWS — rolling, blue/green, canary? How does CodeDeploy support them?",
+      "How do you roll back a failed deployment in AWS? What are the different rollback mechanisms available?",
+      "What is AWS Config? How does it detect configuration drift and help with compliance?",
+      "How do you centralise logs from multiple AWS services and EC2 instances? What tools and approaches do you use?",
+      "How do you troubleshoot high CPU utilisation on an EC2 instance? Walk me through your investigation steps.",
+      "What metrics do you monitor for EC2 instances? What is the difference between basic and detailed monitoring?",
+      "How do CloudWatch Alarms work? How do you set thresholds and avoid false positives and alert fatigue?",
+      "What is the difference between CloudWatch and CloudTrail? What does each service track?",
+      "Explain the architecture of Amazon EKS. How does it differ from self-managed Kubernetes?",
+      "What is the difference between a Pod, Deployment, ReplicaSet, and StatefulSet in Kubernetes?",
+      "What is a Kubernetes Service? Explain the difference between ClusterIP, NodePort, and LoadBalancer service types.",
+      "What is a Kubernetes Ingress Controller? How does the AWS Load Balancer Controller work with EKS?",
+      "How do you perform rolling updates in Kubernetes? How do you configure the update strategy?",
+      "What is a DaemonSet in Kubernetes? Give practical use cases in an AWS environment.",
+      "How do you troubleshoot a pod in CrashLoopBackOff state in EKS? Walk me through your steps.",
+      "How do you scale applications in Kubernetes? Explain HPA, VPA, and Cluster Autoscaler.",
+      "What is the difference between EKS managed node groups and self-managed node groups?",
+      "How do you configure IAM Roles for Service Accounts (IRSA) in EKS to give pods access to AWS services?",
+
+      // ── AWS Scenarios & Project Questions (indices 290-303) ──────────────────────────────────────────────
+      "Scenario: A production website is down. Walk me through your complete troubleshooting process from Route 53 to the application layer.",
+      "Scenario: EC2 instance CPU utilisation suddenly reached 95%. How do you diagnose the cause and resolve it?",
+      "Scenario: A Terraform deployment failed halfway through. How do you identify what was created, fix the issue, and safely reapply?",
+      "Scenario: A pod in EKS is not starting and shows ImagePullBackOff. How do you diagnose and fix this?",
+      "Scenario: Developers are getting access denied errors when trying to access an S3 bucket. How do you diagnose the IAM and bucket policy configuration?",
+      "Tell me about your current DevOps project end-to-end. What is the architecture and what is your role in it?",
+      "What AWS services are you currently using in your project and why were they chosen over alternatives?",
+      "How does code move from a Git commit to production in your current project? Walk me through the full pipeline.",
+      "How do you perform deployments in your project? What deployment strategy do you use and why?",
+      "How do you handle a rollback in your project when a deployment causes issues in production?",
+      "How do you monitor applications and infrastructure in your current project? What alerts do you have configured?",
+      "How do you manage and rotate secrets in your current project? What tools and practices do you follow?",
+      "How do you manage infrastructure as code in your project? What tools and branching/review practices do you follow?",
+      "What was the biggest production issue you faced in your project, and how did you diagnose and resolve it?"
     ];
 
     // ─── Speech recognition ───────────────────────────────────────────────────
@@ -2572,6 +2684,7 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
 
       recognition.onstart = () => {
         state.recognitionStarting = false;
+        state.micPermissionConfirmed = true;  // permission granted — allow heartbeat/onend restarts
         state.permissionAttempts = 0;  // permission confirmed working — reset retry counter
         state.isListening = true;
         updateMicButton();
@@ -2648,7 +2761,9 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         }
         // Restart after a short delay to let Chrome fully release the audio resource.
         // Calling .start() immediately after onend on file:// causes InvalidStateError.
-        if (state.wantListening && !state.answerSubmitted && !state.isSpeaking) {
+        // Only restart if permission was already confirmed — prevents hammering the
+        // browser with new permission requests before the user has responded.
+        if (state.wantListening && !state.answerSubmitted && !state.isSpeaking && state.micPermissionConfirmed) {
           setTimeout(() => {
             if (state.wantListening && !state.answerSubmitted && !state.isSpeaking) {
               _startRecognition();
@@ -2907,9 +3022,16 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
     // ─── Interview flow ───────────────────────────────────────────────────────
 
     function startInterview() {
+      demoMode = !isAOAIConfigured();
+      _startInterviewWithDemoMode(demoMode);
+    }
+
+    function _startInterviewWithDemoMode(dm) {
+      demoMode = dm;
       state.currentIndex = 0;
       state.answeredCount = 0;
       _filteredQuestions = null;  // rebuild filtered list for this session
+      // Enforce demo limit whenever there is no API key, regardless of entry point
 
       document.getElementById('demoCta').style.display = 'none';
       document.getElementById('demoUnlockCard').classList.add('hidden');
@@ -3044,11 +3166,11 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       }
 
       // Heartbeat as safety net — fires if onend-restart silently fails.
-      // 1500ms is short enough to catch gaps without causing extra noise.
+      // Only fires after micPermissionConfirmed to avoid repeated permission popups.
       if (!state.micHeartbeat) {
         state.micHeartbeat = setInterval(() => {
           if (state.wantListening && !state.isListening && !state.recognitionStarting &&
-              !state.isSpeaking && !state.answerSubmitted) {
+              !state.isSpeaking && !state.answerSubmitted && state.micPermissionConfirmed) {
             _startRecognition();
           }
         }, 1500);
@@ -3057,6 +3179,7 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
 
     function stopListening() {
       state.wantListening = false;
+      state.micPermissionConfirmed = false;
       state.recognitionStarting = false;
       clearInterval(state.micHeartbeat);
       state.micHeartbeat = null;
@@ -3267,10 +3390,9 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
 
     function startDemoInterview() {
       demoMode = true;
-      setMode('text');  // text mode is simpler for first-time users
       setInterviewType('practice-topic');
       setTopic('all');
-      startInterview();
+      _startInterviewWithDemoMode(true);
       // Auto-scroll to the interview panel so the question is immediately visible
       setTimeout(() => {
         const panel = document.getElementById('questionBox') ||
