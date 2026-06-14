@@ -4464,28 +4464,32 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
     }
 
     function _htmlToPlainText(htmlStr) {
-      // Use the browser's DOMParser — the only 100% reliable way to extract
-      // plain text from complex HTML with heavy inline CSS.
-      // DOMParser correctly handles all tag nesting, inline styles, entities, etc.
+      if (!htmlStr) return '';
+      // Strategy 1: div.innerHTML — most reliable in real browser context.
+      // Extract only the <body> content first so <html>/<head> tags (invalid
+      // inside a <div>) don't confuse the parser, then let the browser's own
+      // HTML engine turn it into a DOM and grab textContent.
       try {
-        const doc = new DOMParser().parseFromString(htmlStr, 'text/html');
-        // Remove style and script elements so their text content is excluded
-        doc.querySelectorAll('style, script').forEach(function(el) { el.remove(); });
-        const text = (doc.body ? (doc.body.textContent || doc.body.innerText || '') : '');
-        return text.replace(/\s+/g, ' ').trim();
-      } catch (e) {
-        // Fallback: regex-based stripping
-        return htmlStr
-          .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-          .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-          .replace(/\s+style\s*=\s*"[^"]*"/gi, ' ')
-          .replace(/\s+style\s*=\s*'[^']*'/gi, ' ')
-          .replace(/<[^>]*>/g, ' ')
-          .replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&')
-          .replace(/&lt;/gi, '<').replace(/&gt;/gi, '>')
-          .replace(/&[a-z#0-9]+;/gi, ' ')
-          .replace(/\s+/g, ' ').trim();
-      }
+        const bodyM = htmlStr.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+        const inner = bodyM ? bodyM[1] : htmlStr;
+        const div   = document.createElement('div');
+        div.innerHTML = inner;
+        // Remove style/script nodes so their source text is excluded
+        div.querySelectorAll('style, script').forEach(function(el) { el.remove(); });
+        const text = (div.textContent || div.innerText || '').replace(/\s+/g, ' ').trim();
+        if (text.length > 30) return text;
+      } catch(e) { /* fall through */ }
+      // Strategy 2: regex strip — last resort, works without a live DOM.
+      return htmlStr
+        .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+        .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+        .replace(/style\s*=\s*"[^"]*"/gi, ' ')
+        .replace(/style\s*=\s*'[^']*'/gi, ' ')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&')
+        .replace(/&lt;/gi, '<').replace(/&gt;/gi, '>')
+        .replace(/&[a-z#0-9]+;/gi, ' ')
+        .replace(/\s+/g, ' ').trim();
     }
 
     // Counts how many unique meaningful JD keywords appear in resumeText
@@ -4520,6 +4524,40 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       const matched = keywords.filter(w => body.includes(w));
       return {
         matched: matched.length,
+        total:   keywords.length,
+        pct:     keywords.length > 0
+          ? Math.round((matched.length / keywords.length) * 100) : 0
+      };
+    }
+
+    // Like _atsScore but also returns the lists of matched and missing keywords.
+    function _atsScoreDetailed(jdText, resumeText) {
+      const stop = new Set([
+        'the','and','for','with','this','that','have','will','from','your',
+        'are','has','all','can','not','been','their','they','into','more',
+        'also','about','other','some','such','when','which','each','both',
+        'than','then','there','these','those','what','where','while','must',
+        'should','would','could','very','well','any','our','you','its','how',
+        'new','use','using','used','work','working','strong','good','team',
+        'role','help','make','need','required','experience','skills','ability',
+        'knowledge','responsibilities','requirements','position','candidate',
+        'etc','per','via','i.e','e.g','inc','ltd','llc',
+        'sans','serif','none','auto','block','inline','normal','bold','solid',
+        'relative','absolute','hidden','visible','center','left','right',
+        'padding','margin','border','color','background','font','size','width',
+        'height','display','flex','grid','rgba','true','false','null','px','em'
+      ]);
+      const keywords = [...new Set(
+        jdText.toLowerCase()
+          .replace(/[^a-z0-9#+.\s/-]/g, ' ')
+          .split(/\s+/)
+          .filter(w => w.length >= 2 && !stop.has(w))
+      )];
+      const body    = resumeText.toLowerCase();
+      const matched = keywords.filter(w => body.includes(w));
+      const missing = keywords.filter(w => !body.includes(w));
+      return {
+        matched, missing,
         total:   keywords.length,
         pct:     keywords.length > 0
           ? Math.round((matched.length / keywords.length) * 100) : 0
@@ -4582,6 +4620,12 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       // Score the original resume against the JD (plain text, no HTML parsing needed)
       const before = _atsScore(jd, resume);
 
+      // Compute which JD keywords are currently MISSING from the resume so we
+      // can inject them explicitly into the prompt — forcing Gemini to include
+      // every single one, not just the ones it guesses are relevant.
+      const beforeAll  = _atsScoreDetailed(jd, resume);
+      const missingKws = beforeAll.missing.join(', ');
+
       try {
         const html = await _callGeminiForResume(
 `You are a professional resume writer specialising in DevOps and Cloud engineering.
@@ -4592,9 +4636,15 @@ STRICT RULES:
 - Keep ALL real information (companies, titles, dates, projects) — do NOT fabricate anything
 - Reword bullet points to use EXACT keywords, tools, and terminology from the JD
 - Reorder bullets within each role so the most JD-relevant items appear first
-- Incorporate JD keywords that are strongly implied by the candidate's existing experience
 - Structure: Contact Info → Professional Summary → Technical Skills → Experience → Education → Certifications
 - Output ONLY a complete self-contained HTML document with inline CSS — no markdown, no code fences
+
+CRITICAL — MISSING KEYWORDS (currently absent from resume):
+The following ${beforeAll.missing.length} keywords from the JD do NOT appear in the resume yet.
+You MUST incorporate every single one of these into the rewritten resume — add them to the
+Technical Skills section, weave them naturally into bullet points, or include them in the summary.
+Do NOT skip any keyword from this list:
+${missingKws}
 
 RESUME:
 ${resume}
@@ -4604,11 +4654,17 @@ ${jd}
 
 Output (HTML only):`);
 
-        const afterText = _htmlToPlainText(html);
-        const after     = _atsScore(jd, afterText);
+        const plainText = _htmlToPlainText(html);  // used for clipboard copy
         _resumeBuilderHTML  = html;
-        _resumeBuilderPlain = afterText;
-        _showResumeResult(before, after, html, 'tailor');
+        _resumeBuilderPlain = plainText;
+
+        // Score by loading HTML into the iframe and reading its rendered DOM.
+        // This is the only 100% reliable method — the browser has already
+        // parsed and rendered the HTML, so textContent is the exact visible text.
+        const frame = document.getElementById('resumePreviewFrame');
+        frame.srcdoc = html;
+        const after = await _scoreFromFrame(frame, jd, plainText);
+        _showResumeResult(before, after, html, 'tailor', true /* srcdoc already set */);
         _setRbStatus('ok', `✅ Resume tailored — ATS match: ${before.pct}% → ${after.pct}%`);
       } catch (err) {
         _setRbStatus('error', '❌ ' + err.message);
@@ -4647,11 +4703,14 @@ ${jd}
 
 Output (HTML only):`);
 
-        const genText = _htmlToPlainText(html);
-        const score   = _atsScore(jd, genText);
+        const genText = _htmlToPlainText(html);  // used for clipboard copy
         _resumeBuilderHTML  = html;
         _resumeBuilderPlain = genText;
-        _showResumeResult(null, score, html, 'generate');
+
+        const frame = document.getElementById('resumePreviewFrame');
+        frame.srcdoc = html;
+        const score = await _scoreFromFrame(frame, jd, genText);
+        _showResumeResult(null, score, html, 'generate', true /* srcdoc already set */);
         _setRbStatus('ok', `✅ Starter resume generated — ATS match: ${score.pct}%`);
       } catch (err) {
         _setRbStatus('error', '❌ ' + err.message);
@@ -4661,7 +4720,35 @@ Output (HTML only):`);
       }
     }
 
-    function _showResumeResult(before, after, html, mode) {
+    // Score jdText against the text rendered by an iframe (most reliable).
+    // Falls back to regexText if the iframe DOM is not accessible.
+    function _scoreFromFrame(frame, jdText, regexText) {
+      return new Promise(function(resolve) {
+        var settled = false;
+        function finish(text) {
+          if (settled) return;
+          settled = true;
+          frame.onload = null;
+          resolve(_atsScore(jdText, text));
+        }
+        frame.onload = function() {
+          try {
+            var rdoc = frame.contentDocument ||
+                       (frame.contentWindow && frame.contentWindow.document);
+            if (rdoc && rdoc.body) {
+              rdoc.querySelectorAll('style,script').forEach(function(n) { n.remove(); });
+              var t = rdoc.body.textContent.replace(/\s+/g, ' ').trim();
+              if (t.length > 30) return finish(t);
+            }
+          } catch(e) { /* cross-origin or sandboxed — use fallback */ }
+          finish(regexText);
+        };
+        // Safety timeout: if onload never fires, fall back to regex text
+        setTimeout(function() { finish(regexText); }, 6000);
+      });
+    }
+
+    function _showResumeResult(before, after, html, mode, skipSrcdoc) {
       // ATS score pills
       const atsWrap = document.getElementById('atsScoreWrap');
       if (mode === 'tailor' && before) {
@@ -4676,9 +4763,10 @@ Output (HTML only):`);
           `<span style="font-size:0.82rem;font-weight:700;color:#555;">ATS Keyword Score:</span>` +
           `<span class="ats-pill single">${after.pct}% &nbsp;(${after.matched}/${after.total} JD keywords matched)</span>`;
       }
-      // Render inside iframe so the resume's own CSS is fully applied
+      // Render inside iframe so the resume's own CSS is fully applied.
+      // skipSrcdoc=true means callers already set frame.srcdoc (to avoid a second load).
       const frame = document.getElementById('resumePreviewFrame');
-      frame.srcdoc = html;
+      if (!skipSrcdoc) frame.srcdoc = html;
       frame.style.display = 'block';
       document.getElementById('resumePreviewToggle').classList.add('open');
       document.getElementById('rBuilderResult').style.display = 'block';
