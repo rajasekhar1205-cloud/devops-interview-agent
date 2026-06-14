@@ -2694,13 +2694,13 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       cicd:         [0,   3],    // 3 General / CI-CD questions
       terraform:    [3,   33],   // 30 Terraform questions
       docker:       [33,  63],   // 30 Docker questions
-      kubernetes:   [63,  93],   // 30 Kubernetes questions
-      azure:        [93,  113],  // 20 Azure questions
-      scenarios:    [113, 178],  // 65 Scenario-based questions
-      sysdesign:    [178, 198],  // 20 System Design questions
-      githubactions:[198, 218],  // 20 GitHub Actions questions
-      aws:          [218, 290],  // 72 AWS questions (Compute, VPC, LB, IAM, Storage, DB, CI/CD, EKS, Monitoring)
-      awsscenarios: [290, 304],  // 14 AWS Scenario & Project questions
+      kubernetes:   [63,  108],  // 30 Kubernetes + 15 AKS Scenario questions
+      azure:        [108, 128],  // 20 Azure questions
+      scenarios:    [128, 193],  // 65 Scenario-based questions
+      sysdesign:    [193, 213],  // 20 System Design questions
+      githubactions:[213, 233],  // 20 GitHub Actions questions
+      aws:          [233, 305],  // 72 AWS questions (Compute, VPC, LB, IAM, Storage, DB, CI/CD, EKS, Monitoring)
+      awsscenarios: [305, 319],  // 14 AWS Scenario & Project questions
     };
 
     function setTopic(t) {
@@ -2836,7 +2836,23 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       "Explain Kubernetes RBAC.",
       "Difference between DaemonSet and Deployment?",
       "Explain Kubernetes security best practices.",
-      // ── Azure (indices 93-112) ──────────────────────────────────────────────
+      // ── AKS Scenario-based (indices 93-107) ───────────────────────────────
+      "Scenario: Your AKS pods are in CrashLoopBackOff after a deployment. Walk me through how you diagnose and resolve the issue step by step.",
+      "Scenario: An AKS node pool is running at 95% CPU utilisation during peak hours, causing pods to be evicted. How do you address this immediately and prevent it long-term?",
+      "Scenario: You need to upgrade your AKS cluster from Kubernetes 1.26 to 1.28 with zero downtime for production workloads. What is your upgrade strategy?",
+      "Scenario: A microservice deployed on AKS cannot connect to an Azure SQL database. The connection works locally but fails in the cluster. How do you troubleshoot this?",
+      "Scenario: You are asked to implement workload identity on AKS so pods can access Azure Key Vault secrets without storing credentials in code or Kubernetes Secrets. How do you set this up?",
+      "Scenario: Your AKS cluster's node pool only has 3 nodes and a sudden traffic spike causes all pods to be Pending due to insufficient capacity. What autoscaling options do you configure and how?",
+      "Scenario: A team reports that one namespace on a shared AKS cluster is consuming all cluster resources, starving other teams' workloads. How do you implement fair resource allocation?",
+      "Scenario: You need to deploy a stateful application (e.g. Redis) on AKS with persistent storage that survives pod restarts and node failures. What storage class and manifest configuration do you use?",
+      "Scenario: Your AKS Ingress controller is returning 502 errors for one specific service while all others work fine. How do you isolate and fix the issue?",
+      "Scenario: You need to implement blue-green deployments on AKS using Kubernetes Services, with the ability to instantly switch traffic back if the new version fails. How do you design this?",
+      "Scenario: A security audit finds that several pods in your AKS cluster are running as root and have privileged access. How do you remediate this and enforce it going forward using Azure Policy and Pod Security Standards?",
+      "Scenario: You need to expose an AKS workload externally with TLS termination, custom domain, and rate limiting without managing a public IP on every service. What is your architecture?",
+      "Scenario: Your CI/CD pipeline deploys to AKS using kubectl apply, but the team wants GitOps-style deployments where the cluster self-reconciles from a Git repo. How do you migrate to this model using Flux or ArgoCD?",
+      "Scenario: An AKS cluster in one region needs to fail over to a standby cluster in another region within 5 minutes of a regional outage. How do you architect and test this?",
+      "Scenario: You notice that image pull times on AKS nodes are very slow, causing pods to stay in ContainerCreating for over 3 minutes. What are the likely causes and how do you fix them?",
+      // ── Azure (indices 108-127) ────────────────────────────────────────────
       "What is Azure DevOps and what are its main components?",
       "Explain the difference between Azure Pipelines and GitHub Actions.",
       "What is an Azure Pipeline YAML definition and how is it structured?",
@@ -4448,29 +4464,34 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
     }
 
     function _htmlToPlainText(htmlStr) {
-      // Pure regex extraction — no DOMParser, no TreeWalker, no silent failures.
-      // Steps:
-      //  1. Remove full <style>…<\/style> and <script>…<\/script> blocks so that
-      //     CSS class names / JS strings don't pollute the keyword search.
-      //  2. Strip every remaining HTML tag (including multi-line attributes).
-      //  3. Decode the most common HTML entities.
-      //  4. Collapse whitespace.
-      return htmlStr
-        .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-        .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-        .replace(/<[^>]*>/g, ' ')
-        .replace(/&nbsp;/gi, ' ')
-        .replace(/&amp;/gi, '&')
-        .replace(/&lt;/gi, '<')
-        .replace(/&gt;/gi, '>')
-        .replace(/&[a-z#0-9]+;/gi, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
+      // Use the browser's DOMParser — the only 100% reliable way to extract
+      // plain text from complex HTML with heavy inline CSS.
+      // DOMParser correctly handles all tag nesting, inline styles, entities, etc.
+      try {
+        const doc = new DOMParser().parseFromString(htmlStr, 'text/html');
+        // Remove style and script elements so their text content is excluded
+        doc.querySelectorAll('style, script').forEach(function(el) { el.remove(); });
+        const text = (doc.body ? (doc.body.textContent || doc.body.innerText || '') : '');
+        return text.replace(/\s+/g, ' ').trim();
+      } catch (e) {
+        // Fallback: regex-based stripping
+        return htmlStr
+          .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+          .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+          .replace(/\s+style\s*=\s*"[^"]*"/gi, ' ')
+          .replace(/\s+style\s*=\s*'[^']*'/gi, ' ')
+          .replace(/<[^>]*>/g, ' ')
+          .replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&')
+          .replace(/&lt;/gi, '<').replace(/&gt;/gi, '>')
+          .replace(/&[a-z#0-9]+;/gi, ' ')
+          .replace(/\s+/g, ' ').trim();
+      }
     }
 
     // Counts how many unique meaningful JD keywords appear in resumeText
     function _atsScore(jdText, resumeText) {
       const stop = new Set([
+        // Common English stop words
         'the','and','for','with','this','that','have','will','from','your',
         'are','has','all','can','not','been','their','they','into','more',
         'also','about','other','some','such','when','which','each','both',
@@ -4478,13 +4499,22 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         'should','would','could','very','well','any','our','you','its','how',
         'new','use','using','used','work','working','strong','good','team',
         'role','help','make','need','required','experience','skills','ability',
-        'knowledge','responsibilities','requirements','position','candidate'
+        'knowledge','responsibilities','requirements','position','candidate',
+        'etc','per','via','i.e','e.g','inc','ltd','llc',
+        // CSS/HTML noise words
+        'sans','serif','none','auto','block','inline','normal','bold','solid',
+        'relative','absolute','hidden','visible','center','left','right',
+        'padding','margin','border','color','background','font','size','width',
+        'height','display','flex','grid','rgba','true','false','null','px','em'
       ]);
       const keywords = [...new Set(
         jdText.toLowerCase()
           .replace(/[^a-z0-9#+.\s/-]/g, ' ')
           .split(/\s+/)
-          .filter(w => w.length > 3 && !stop.has(w))
+          // Include words 2+ chars so 3-letter acronyms (AWS, AKS, GCP, EKS,
+          // IAM, VPC, SRE, RDS, ECS, CLI, IaC) are counted — these are
+          // critical DevOps keywords that w.length > 3 was silently dropping.
+          .filter(w => w.length >= 2 && !stop.has(w))
       )];
       const body = resumeText.toLowerCase();
       const matched = keywords.filter(w => body.includes(w));
