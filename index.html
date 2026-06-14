@@ -1353,6 +1353,226 @@
     }
     .btn-unlock-key:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(102,126,234,0.45); }
     .demo-unlock-note { font-size: 0.82rem; color: #888; margin: 0.6rem 0 1rem; line-height: 1.6; }
+
+    /* ─── Practice Space ─────────────────────────────────────────────────────── */
+    .practice-section { margin-top: 2rem; }
+    .practice-header { text-align: center; color: white; margin-bottom: 1.5rem; }
+    .practice-header h2 { font-size: 2rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin-bottom: 0.4rem; }
+    .practice-header p { font-size: 1rem; opacity: 0.88; }
+    .practice-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .practice-tabs {
+      display: flex;
+      background: #f4f6ff;
+      border-bottom: 2px solid #e8eaff;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .practice-tabs::-webkit-scrollbar { display: none; }
+    .practice-tab-btn {
+      flex-shrink: 0;
+      padding: 0.9rem 1.3rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #888;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      margin-bottom: -2px;
+    }
+    .practice-tab-btn:hover { color: #667eea; background: #eef0ff; }
+    .practice-tab-btn.active { color: #667eea; border-bottom-color: #667eea; background: white; }
+    .practice-panel { display: none; padding: 1.5rem 2rem 2rem; }
+    .practice-panel.active { display: block; }
+    .practice-panel-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .practice-panel-title { font-size: 1rem; font-weight: 700; color: #333; flex: 1; }
+    .practice-panel-desc {
+      font-size: 0.82rem;
+      color: #777;
+      margin-bottom: 1rem;
+      line-height: 1.6;
+      padding: 0.65rem 1rem;
+      background: #f8f9ff;
+      border-left: 4px solid #667eea;
+      border-radius: 0 8px 8px 0;
+    }
+    .practice-select {
+      padding: 0.45rem 0.75rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      color: #333;
+      background: white;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .practice-select:focus { outline: none; border-color: #667eea; }
+    .practice-editor {
+      width: 100%;
+      min-height: 260px;
+      padding: 1rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 10px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', 'Monaco', monospace;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      resize: vertical;
+      color: #1a1a2e;
+      background: #fafbff;
+      transition: border-color 0.2s;
+      tab-size: 2;
+    }
+    .practice-editor:focus { outline: none; border-color: #667eea; background: #fff; }
+    .practice-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 0.85rem;
+    }
+    .btn-analyze {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 0.65rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 3px 10px rgba(102,126,234,0.3);
+    }
+    .btn-analyze:hover { transform: translateY(-1px); box-shadow: 0 5px 15px rgba(102,126,234,0.4); }
+    .btn-analyze:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+    .btn-clear-practice {
+      background: white;
+      color: #888;
+      border: 1.5px solid #e0e0e0;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-clear-practice:hover { border-color: #e53935; color: #e53935; background: #fff5f5; }
+    .practice-status {
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+    }
+    .practice-status.loading { background: #fff3cd; color: #856404; }
+    .practice-status.ok      { background: #e8f5e9; color: #2e7d32; }
+    .practice-status.error   { background: #fdecea; color: #c62828; }
+    .practice-output {
+      display: none;
+      margin-top: 1.25rem;
+      border: 1.5px solid #e8eaff;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .practice-output.visible { display: block; }
+    .practice-output-header {
+      background: linear-gradient(135deg, #667eea18, #764ba218);
+      padding: 0.65rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #667eea;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid #e8eaff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .practice-copy-btn {
+      cursor: pointer;
+      font-size: 0.75rem;
+      color: #aaa;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      background: white;
+      transition: all 0.15s;
+    }
+    .practice-copy-btn:hover { color: #667eea; border-color: #667eea; }
+    .practice-output-body {
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: #333;
+      word-break: break-word;
+    }
+    .practice-output-body h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 1.1rem 0 0.35rem;
+      color: #222;
+    }
+    .practice-output-body h4 {
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin: 0.9rem 0 0.3rem;
+      color: #333;
+    }
+    .practice-output-body p { margin: 0.4rem 0; }
+    .practice-output-body ul, .practice-output-body ol {
+      margin: 0.3rem 0 0.3rem 1.4rem;
+      padding: 0;
+    }
+    .practice-output-body li { margin-bottom: 0.3rem; }
+    .practice-output-body code {
+      background: #f0f2ff;
+      border: 1px solid #dde0f5;
+      border-radius: 4px;
+      padding: 0.1em 0.4em;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85em;
+      color: #5c35a8;
+    }
+    .practice-output-body pre {
+      background: #1e1e2e;
+      border-radius: 8px;
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+      margin: 0.6rem 0 0.9rem;
+    }
+    .practice-output-body pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: #cdd6f4;
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+    .practice-output-body strong { font-weight: 700; color: #111; }
+    .practice-output-body hr { border: none; border-top: 1px solid #eee; margin: 1rem 0; }
+    .practice-output-body blockquote {
+      border-left: 4px solid #667eea;
+      margin: 0.5rem 0;
+      padding: 0.3rem 0.9rem;
+      background: #f4f6ff;
+      color: #555;
+      border-radius: 0 6px 6px 0;
+    }
   </style>
 </head>
 <body>
@@ -1366,7 +1586,7 @@
     <!-- Try 10 Questions Free — top of page CTA -->
     <div id="demoCta" class="demo-cta">
       <button class="btn-demo" onclick="startDemoInterview()">⚡ Try 10 Questions Free — No API Key Needed</button>
-      <p class="demo-cta-note">Instant feedback &nbsp;·&nbsp; 10 questions &nbsp;·&nbsp; Takes 5 minutes &nbsp;·&nbsp; Completely free</p>
+      <p class="demo-cta-note">Instant feedback &nbsp;·&nbsp; 10 questions &nbsp;·&nbsp; Completely free</p>
     </div>
 
     <!-- Get Started in 3 Steps -->
@@ -1538,6 +1758,23 @@
           📄 Step 1 — Your Current Resume
           <span style="font-weight:400;color:#999;">(optional — leave blank to generate from scratch)</span>
         </label>
+
+        <!-- File upload area -->
+        <div class="resume-upload-area" id="rbDropZone"
+          style="border-color:#e0d8ff;background:#faf8ff;"
+          onclick="document.getElementById('rbFileInput').click()"
+          ondragover="event.preventDefault();this.classList.add('drag-over')"
+          ondragleave="this.classList.remove('drag-over')"
+          ondrop="handleRbDrop(event)">
+          <div class="upload-icon">📎</div>
+          <div class="upload-text" id="rbUploadText">Click to attach resume <span style="color:#aaa;font-size:0.8rem;">or drag &amp; drop</span></div>
+          <div class="upload-hint">PDF, DOCX, or TXT — text extracted automatically</div>
+          <input type="file" id="rbFileInput" accept=".pdf,.docx,.doc,.txt" style="display:none" onchange="handleRbFile(this.files[0])">
+        </div>
+        <div id="rbFileStatus" class="resume-file-status hidden" style="margin-bottom:0.5rem;"></div>
+
+        <div style="text-align:center;font-size:0.82rem;color:#aaa;margin:0.5rem 0;letter-spacing:0.05em;">— OR PASTE BELOW —</div>
+
         <textarea id="rbResumeText" class="rb-textarea" rows="7"
           placeholder="Paste your current resume here…&#10;&#10;DevOps Engineer | 5 years experience | AWS, Kubernetes, Terraform, CI/CD…"></textarea>
       </div>
@@ -1726,6 +1963,167 @@
       </div>
     </div>
   </div>
+
+  <!-- ─── Practice Space ──────────────────────────────────────────────────── -->
+  <div class="container">
+    <div class="practice-section">
+      <div class="practice-header">
+        <h2>🛠️ Practice Space</h2>
+        <p>Code practice across Python, Bash, JavaScript/Node.js, Go, PowerShell, Ruby, YAML, Terraform, Shell Scripts &amp; Dockerfiles — instant AI feedback on every submission</p>
+      </div>
+
+      <div class="practice-card">
+
+        <!-- Tab Bar -->
+        <div class="practice-tabs">
+          <button class="practice-tab-btn active" onclick="switchPracticeTab('code')"      id="psTab-code">💻 Code</button>
+          <button class="practice-tab-btn"        onclick="switchPracticeTab('yaml')"      id="psTab-yaml">📄 YAML</button>
+          <button class="practice-tab-btn"        onclick="switchPracticeTab('terraform')" id="psTab-terraform">🏗️ Terraform</button>
+          <button class="practice-tab-btn"        onclick="switchPracticeTab('shell')"     id="psTab-shell">⚡ Shell Script</button>
+          <button class="practice-tab-btn"        onclick="switchPracticeTab('dockerfile')" id="psTab-dockerfile">🐳 Dockerfile</button>
+        </div>
+
+        <!-- ── Code Practice ── -->
+        <div class="practice-panel active" id="ps-code">
+          <p class="practice-panel-desc">Write or paste code and get AI feedback on correctness, best practices, security, and DevOps relevance. Ideal for practising automation scripts and tooling.</p>
+          <div class="practice-panel-header">
+            <span class="practice-panel-title">Code Practice</span>
+            <select class="practice-select" id="codeLang">
+              <option value="Python">Python</option>
+              <option value="Bash">Bash</option>
+              <option value="JavaScript / Node.js">JavaScript / Node.js</option>
+              <option value="Go">Go</option>
+              <option value="PowerShell">PowerShell</option>
+              <option value="Ruby">Ruby</option>
+            </select>
+          </div>
+          <textarea class="practice-editor" id="codeEditor"
+            placeholder="# Paste or write your code here…&#10;&#10;def deploy_to_k8s(image, namespace):&#10;    # Your code here&#10;    pass"></textarea>
+          <div class="practice-actions">
+            <button class="btn-analyze" id="codeAnalyzeBtn" onclick="runPracticeAnalysis('code')">🔍 Analyze Code</button>
+            <button class="btn-clear-practice" onclick="clearPracticePanel('code')">✕ Clear</button>
+            <span class="practice-status" id="codeStatus" style="display:none"></span>
+          </div>
+          <div class="practice-output" id="codeOutput">
+            <div class="practice-output-header">
+              AI Feedback
+              <button class="practice-copy-btn" onclick="copyPracticeOutput('code')">📋 Copy</button>
+            </div>
+            <div class="practice-output-body" id="codeOutputBody"></div>
+          </div>
+        </div>
+
+        <!-- ── YAML Practice ── -->
+        <div class="practice-panel" id="ps-yaml">
+          <p class="practice-panel-desc">Write or paste YAML and get AI feedback on syntax, indentation, structure, and semantic correctness for the chosen context. Catches common pitfalls before they hit production.</p>
+          <div class="practice-panel-header">
+            <span class="practice-panel-title">YAML Practice &amp; Editor</span>
+            <select class="practice-select" id="yamlContext">
+              <option value="General YAML">General YAML</option>
+              <option value="Kubernetes manifest">Kubernetes Manifest</option>
+              <option value="GitHub Actions workflow">GitHub Actions Workflow</option>
+              <option value="Docker Compose">Docker Compose</option>
+              <option value="Ansible playbook">Ansible Playbook</option>
+              <option value="Helm values file">Helm Values File</option>
+            </select>
+          </div>
+          <textarea class="practice-editor" id="yamlEditor"
+            placeholder="# Paste or write your YAML here…&#10;&#10;apiVersion: apps/v1&#10;kind: Deployment&#10;metadata:&#10;  name: my-app&#10;spec:&#10;  replicas: 2"></textarea>
+          <div class="practice-actions">
+            <button class="btn-analyze" id="yamlAnalyzeBtn" onclick="runPracticeAnalysis('yaml')">🔍 Review YAML</button>
+            <button class="btn-clear-practice" onclick="clearPracticePanel('yaml')">✕ Clear</button>
+            <span class="practice-status" id="yamlStatus" style="display:none"></span>
+          </div>
+          <div class="practice-output" id="yamlOutput">
+            <div class="practice-output-header">
+              AI Feedback
+              <button class="practice-copy-btn" onclick="copyPracticeOutput('yaml')">📋 Copy</button>
+            </div>
+            <div class="practice-output-body" id="yamlOutputBody"></div>
+          </div>
+        </div>
+
+        <!-- ── Terraform Practice ── -->
+        <div class="practice-panel" id="ps-terraform">
+          <p class="practice-panel-desc">Write or paste Terraform HCL (providers, resources, modules, variables, outputs) and get AI feedback on syntax, naming conventions, security misconfigurations, and IaC best practices.</p>
+          <div class="practice-panel-header">
+            <span class="practice-panel-title">Terraform / HCL Practice</span>
+            <select class="practice-select" id="tfProvider">
+              <option value="AWS">AWS</option>
+              <option value="Azure">Azure</option>
+              <option value="GCP">GCP</option>
+              <option value="General / Any">General / Any</option>
+            </select>
+          </div>
+          <textarea class="practice-editor" id="terraformEditor"
+            placeholder="# Paste or write your Terraform HCL here…&#10;&#10;resource &quot;aws_s3_bucket&quot; &quot;my_bucket&quot; {&#10;  bucket = &quot;my-app-bucket&quot;&#10;  acl    = &quot;public-read&quot;&#10;}"></textarea>
+          <div class="practice-actions">
+            <button class="btn-analyze" id="tfAnalyzeBtn" onclick="runPracticeAnalysis('terraform')">🔍 Review Terraform</button>
+            <button class="btn-clear-practice" onclick="clearPracticePanel('terraform')">✕ Clear</button>
+            <span class="practice-status" id="tfStatus" style="display:none"></span>
+          </div>
+          <div class="practice-output" id="terraformOutput">
+            <div class="practice-output-header">
+              AI Feedback
+              <button class="practice-copy-btn" onclick="copyPracticeOutput('terraform')">📋 Copy</button>
+            </div>
+            <div class="practice-output-body" id="terraformOutputBody"></div>
+          </div>
+        </div>
+
+        <!-- ── Shell Script Practice ── -->
+        <div class="practice-panel" id="ps-shell">
+          <p class="practice-panel-desc">Write or paste a shell script and get AI feedback on correctness, error handling, security issues (unquoted variables, injection risks), and idiomatic style for the selected shell.</p>
+          <div class="practice-panel-header">
+            <span class="practice-panel-title">Shell Scripting Practice</span>
+            <select class="practice-select" id="shellType">
+              <option value="Bash">Bash</option>
+              <option value="sh (POSIX)">sh (POSIX)</option>
+              <option value="Zsh">Zsh</option>
+              <option value="PowerShell">PowerShell</option>
+            </select>
+          </div>
+          <textarea class="practice-editor" id="shellEditor"
+            placeholder="#!/bin/bash&#10;# Paste or write your shell script here…&#10;&#10;set -euo pipefail&#10;&#10;DEPLOY_ENV=$1&#10;echo &quot;Deploying to $DEPLOY_ENV&quot;"></textarea>
+          <div class="practice-actions">
+            <button class="btn-analyze" id="shellAnalyzeBtn" onclick="runPracticeAnalysis('shell')">🔍 Review Script</button>
+            <button class="btn-clear-practice" onclick="clearPracticePanel('shell')">✕ Clear</button>
+            <span class="practice-status" id="shellStatus" style="display:none"></span>
+          </div>
+          <div class="practice-output" id="shellOutput">
+            <div class="practice-output-header">
+              AI Feedback
+              <button class="practice-copy-btn" onclick="copyPracticeOutput('shell')">📋 Copy</button>
+            </div>
+            <div class="practice-output-body" id="shellOutputBody"></div>
+          </div>
+        </div>
+
+        <!-- ── Dockerfile Practice ── -->
+        <div class="practice-panel" id="ps-dockerfile">
+          <p class="practice-panel-desc">Write or paste a Dockerfile and get AI feedback on layer caching, image size optimisation, security (non-root user, secrets), multi-stage build opportunities, and official best practices.</p>
+          <div class="practice-panel-header">
+            <span class="practice-panel-title">Dockerfile Practice</span>
+          </div>
+          <textarea class="practice-editor" id="dockerfileEditor"
+            placeholder="# Paste or write your Dockerfile here…&#10;&#10;FROM node:18&#10;WORKDIR /app&#10;COPY . .&#10;RUN npm install&#10;EXPOSE 3000&#10;CMD [&quot;node&quot;, &quot;index.js&quot;]"></textarea>
+          <div class="practice-actions">
+            <button class="btn-analyze" id="dockerfileAnalyzeBtn" onclick="runPracticeAnalysis('dockerfile')">🔍 Review Dockerfile</button>
+            <button class="btn-clear-practice" onclick="clearPracticePanel('dockerfile')">✕ Clear</button>
+            <span class="practice-status" id="dockerfileStatus" style="display:none"></span>
+          </div>
+          <div class="practice-output" id="dockerfileOutput">
+            <div class="practice-output-header">
+              AI Feedback
+              <button class="practice-copy-btn" onclick="copyPracticeOutput('dockerfile')">📋 Copy</button>
+            </div>
+            <div class="practice-output-body" id="dockerfileOutputBody"></div>
+          </div>
+        </div>
+
+      </div><!-- /.practice-card -->
+    </div><!-- /.practice-section -->
+  </div><!-- /.container -->
 
   <script>
     // ─── Gemini helpers ───────────────────────────────────────────────────────
@@ -3042,8 +3440,12 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       setNavButtons({ nextDisabled: true, skipDisabled: false, retryDisabled: true });
 
       if (state.mode === 'voice') {
-        state.recognition = initSpeechRecognition();
-        if (!state.recognition) return;
+        // Reuse an existing instance — creating a new SpeechRecognition() each time
+        // causes Edge to show the "Use your microphone" permission popup repeatedly.
+        if (!state.recognition) {
+          state.recognition = initSpeechRecognition();
+          if (!state.recognition) return;
+        }
       }
 
       state.isInterviewActive = true;
@@ -3128,23 +3530,22 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
         state.recognition.start();
         // recognitionStarting is cleared by recognition.onstart
       } catch (e) {
-        // On file:// Chrome cannot reuse an ended session — create a fresh instance.
-        console.warn('Speech reuse failed, creating new instance:', e.message);
-        state.recognition = initSpeechRecognition();
+        // .start() threw (e.g. InvalidStateError) — wait and retry on the SAME instance.
+        // Never create a new SpeechRecognition() here: Edge shows the permission
+        // popup for every new instance, causing the repeated "Use your microphone" dialog.
+        console.warn('Speech .start() failed, will retry in 400ms:', e.message);
+        state.recognitionStarting = false;
         setTimeout(() => {
-          if (!state.wantListening || state.isListening || state.answerSubmitted) {
-            state.recognitionStarting = false;
-            return;
-          }
+          if (!state.wantListening || state.isListening || state.answerSubmitted) return;
+          state.recognitionStarting = true;
           try {
             state.recognition.start();
           } catch (e2) {
-            console.error('Speech start retry failed:', e2.message);
+            console.warn('Speech .start() retry failed:', e2.message);
             state.recognitionStarting = false;
-            state.recognition = null;
-            // The 1500ms heartbeat will pick this up
+            // The 1500ms heartbeat will try again — do NOT null recognition here
           }
-        }, 300);
+        }, 400);
       }
     }
 
@@ -3582,7 +3983,7 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       state.micHeartbeat = null;
       stopQuestionTimer();
       document.getElementById('submitBtn').classList.add('hidden');
-      if (state.recognition) state.recognition.stop();
+      if (state.recognition && state.isListening) state.recognition.stop();
       window.speechSynthesis.cancel();
       setNavButtons({ nextDisabled: true, skipDisabled: true, retryDisabled: true });
 
@@ -3732,7 +4133,7 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       clearTimeout(state.sessionRestartTimer);
       state.sessionRestartTimer = null;
 
-      if (state.recognition) state.recognition.stop();
+      if (state.recognition && state.isListening) state.recognition.stop();
       window.speechSynthesis.cancel();
 
       ['questionBox', 'answerBox', 'feedbackBox', 'summaryCard', 'mockReviewCard'].forEach(id =>
@@ -4291,6 +4692,57 @@ Output (HTML only):`);
       setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
     }
 
+    // ─── Resume Builder file upload ─────────────────────────────────────────
+    function handleRbDrop(event) {
+      event.preventDefault();
+      document.getElementById('rbDropZone').classList.remove('drag-over');
+      const file = event.dataTransfer.files[0];
+      if (file) handleRbFile(file);
+    }
+
+    async function handleRbFile(file) {
+      if (!file) return;
+      const statusEl = document.getElementById('rbFileStatus');
+      const name = file.name.toLowerCase();
+      statusEl.textContent = '⏳ Reading ' + file.name + '…';
+      statusEl.className = 'resume-file-status loading';
+      statusEl.classList.remove('hidden');
+      document.getElementById('rbUploadText').textContent = '📄 ' + file.name;
+      try {
+        let text = '';
+        if (name.endsWith('.txt')) {
+          text = await file.text();
+        } else if (name.endsWith('.pdf')) {
+          if (typeof pdfjsLib === 'undefined') throw new Error('PDF library not loaded — check internet connection.');
+          const arrayBuffer = await file.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+          const pages = [];
+          for (let p = 1; p <= pdf.numPages; p++) {
+            const page = await pdf.getPage(p);
+            const content = await page.getTextContent();
+            pages.push(content.items.map(i => i.str).join(' '));
+          }
+          text = pages.join('\n');
+        } else if (name.endsWith('.docx') || name.endsWith('.doc')) {
+          if (typeof mammoth === 'undefined') throw new Error('DOCX library not loaded — check internet connection.');
+          const arrayBuffer = await file.arrayBuffer();
+          const result = await mammoth.extractRawText({ arrayBuffer });
+          text = result.value;
+        } else {
+          throw new Error('Unsupported file type. Please use PDF, DOCX, or TXT.');
+        }
+        text = text.replace(/\s{3,}/g, '\n').trim();
+        if (!text) throw new Error('No text could be extracted from this file.');
+        document.getElementById('rbResumeText').value = text;
+        statusEl.textContent = '✅ ' + file.name + ' loaded (' + text.length.toLocaleString() + ' chars)';
+        statusEl.className = 'resume-file-status ok';
+      } catch (err) {
+        statusEl.textContent = '❌ ' + err.message;
+        statusEl.className = 'resume-file-status error';
+        document.getElementById('rbUploadText').textContent = 'Click to attach resume';
+      }
+    }
+
     function copyResumeText() {
       if (!_resumeBuilderPlain) { alert('No resume generated yet.'); return; }
       const btn = document.getElementById('copyResumeBtn');
@@ -4419,6 +4871,334 @@ Output (HTML only):`);
         submitBtn.disabled = false;
       }
     }
+  </script>
+
+  <script>
+    // ─── Practice Space ───────────────────────────────────────────────────────
+
+    const PS_TABS = ['code', 'yaml', 'terraform', 'shell', 'dockerfile'];
+
+    const PS_EDITORS = {
+      code:       'codeEditor',
+      yaml:       'yamlEditor',
+      terraform:  'terraformEditor',
+      shell:      'shellEditor',
+      dockerfile: 'dockerfileEditor'
+    };
+    const PS_BTNS = {
+      code:       'codeAnalyzeBtn',
+      yaml:       'yamlAnalyzeBtn',
+      terraform:  'tfAnalyzeBtn',
+      shell:      'shellAnalyzeBtn',
+      dockerfile: 'dockerfileAnalyzeBtn'
+    };
+    const PS_STATUS = {
+      code:       'codeStatus',
+      yaml:       'yamlStatus',
+      terraform:  'tfStatus',
+      shell:      'shellStatus',
+      dockerfile: 'dockerfileStatus'
+    };
+    const PS_OUTPUT = {
+      code:       'codeOutput',
+      yaml:       'yamlOutput',
+      terraform:  'terraformOutput',
+      shell:      'shellOutput',
+      dockerfile: 'dockerfileOutput'
+    };
+    const PS_BODY = {
+      code:       'codeOutputBody',
+      yaml:       'yamlOutputBody',
+      terraform:  'terraformOutputBody',
+      shell:      'shellOutputBody',
+      dockerfile: 'dockerfileOutputBody'
+    };
+
+    function switchPracticeTab(tab) {
+      PS_TABS.forEach(t => {
+        document.getElementById('psTab-' + t).classList.toggle('active', t === tab);
+        document.getElementById('ps-' + t).classList.toggle('active', t === tab);
+      });
+    }
+
+    function clearPracticePanel(tab) {
+      const ed = document.getElementById(PS_EDITORS[tab]);
+      if (ed) ed.value = '';
+      const out = document.getElementById(PS_OUTPUT[tab]);
+      if (out) out.classList.remove('visible');
+      const st = document.getElementById(PS_STATUS[tab]);
+      if (st) { st.style.display = 'none'; st.textContent = ''; st.className = 'practice-status'; }
+    }
+
+    function copyPracticeOutput(tab) {
+      const el = document.getElementById(PS_BODY[tab]);
+      if (!el || !el.textContent.trim()) return;
+      navigator.clipboard.writeText(el.textContent.trim()).then(() => {
+        const btn = document.querySelector('#ps-' + tab + ' .practice-copy-btn');
+        if (btn) { const orig = btn.textContent; btn.textContent = '✅ Copied!'; setTimeout(() => { btn.textContent = orig; }, 2000); }
+      }).catch(() => {});
+    }
+
+    function psPrompt(tab, code) {
+      const lines = code.split('\n').filter(l => l.trim()).length;
+      const sizeHint = lines <= 5
+        ? 'The input is short. Be concise but still cover every section that applies — do not skip sections just because the input is short.'
+        : lines <= 30
+        ? 'The input is moderate length. Be direct and practical.'
+        : 'The input is substantial. Be thorough.';
+
+      const globalRules = `
+STRICT RULES — follow all of these:
+1. Use the EXACT section headings given (### ✅ What is correct, ### 🔒 Security issues, etc.) — do NOT number them.
+2. Only omit a section if it has genuinely zero relevance to the submitted code.
+3. Every suggestion MUST include a concrete code example — show the CURRENT code then the CORRECTED version with a reason. Never describe a fix without showing actual code.
+4. NEVER use markdown tables (no pipe | characters). Use bullet points with inline code snippets instead.
+5. Always include "### ✨ Improved Version" at the end with a COMPLETE, ready-to-use file in a fenced code block. Every changed or added line must have an inline comment explaining why.
+6. NEVER give hypothetical advice about code NOT in the submitted input. Only review what was actually written.
+7. For "### 💡 Key improvements" — only include points that were NOT already covered in earlier sections. If everything was already addressed, omit this section entirely.
+8. Be THOROUGH. For each issue found, explain the real-world consequence (e.g. what breaks, what gets exploited, what slows down) — not just what to change.
+9. ${sizeHint}`;
+
+      switch (tab) {
+        case 'code': {
+          const lang = document.getElementById('codeLang').value;
+          return `You are a senior ${lang} engineer doing a production code review. Provide specific, actionable feedback with real code examples.
+
+Use these exact section headings (omit only if genuinely nothing applies):
+
+### ✅ What is correct
+### 🐛 Bugs or logic errors
+### ⚠️ Best practice violations
+### 🔒 Security issues
+### 💡 Key improvements
+### ✨ Improved Version
+${globalRules}
+
+For each issue: show the current code then the corrected version with a reason.
+The ✨ Improved Version must be the COMPLETE corrected file in a \`\`\`${lang.toLowerCase()}\`\`\` block.
+
+Code (${lang}):
+\`\`\`
+${code}
+\`\`\``;
+        }
+        case 'yaml': {
+          const ctx = document.getElementById('yamlContext').value;
+          return `You are a senior DevOps engineer expert in ${ctx} YAML. Review the YAML with precision.
+
+Use these exact section headings (omit only if genuinely nothing applies):
+
+### ✅ What is correct
+### 🐛 Syntax or structural errors
+### ⚠️ Schema issues for ${ctx}
+### 🔒 Security misconfigurations
+### 💡 Key improvements
+### ✨ Improved Version
+${globalRules}
+
+For each issue: show the incorrect YAML then the corrected version with a reason.
+The ✨ Improved Version must be the COMPLETE corrected YAML in a \`\`\`yaml\`\`\` block.
+
+YAML (${ctx}):
+\`\`\`yaml
+${code}
+\`\`\``;
+        }
+        case 'terraform': {
+          const prov = document.getElementById('tfProvider').value;
+          return `You are a senior Terraform engineer for ${prov}. Review the HCL as if it is going to production.
+
+Use these exact section headings (omit only if genuinely nothing applies):
+
+### ✅ What is correct
+### 🐛 Syntax or config errors
+### ⚠️ Structure and naming issues
+### 🔒 Security misconfigurations
+### 💡 Key improvements
+### ✨ Improved Version
+${globalRules}
+
+For each issue: show the current HCL then the corrected version with a reason.
+The ✨ Improved Version must be the COMPLETE corrected HCL in a \`\`\`hcl\`\`\` block.
+
+Terraform HCL (${prov}):
+\`\`\`hcl
+${code}
+\`\`\``;
+        }
+        case 'shell': {
+          const sh = document.getElementById('shellType').value;
+          return `You are a senior Linux/DevOps engineer writing production-grade ${sh} scripts. Review the script for reliability and security.
+
+Use these exact section headings (omit only if genuinely nothing applies):
+
+### ✅ What is correct
+### 🐛 Bugs or logic errors
+### ⚠️ Missing robustness
+### 🔒 Security issues
+### 💡 Key improvements
+### ✨ Improved Version
+${globalRules}
+
+For each issue: show the problematic line then the corrected version with a reason.
+The ✨ Improved Version must be the COMPLETE corrected script in a \`\`\`bash\`\`\` block.
+
+${sh} Script:
+\`\`\`bash
+${code}
+\`\`\``;
+        }
+        case 'dockerfile': {
+          return `You are a senior Docker/container engineer with deep expertise in building production CI/CD images. Review this Dockerfile thoroughly.
+
+Use these exact section headings (omit only if genuinely nothing applies):
+
+### ✅ What is correct
+### 🐛 Errors or incorrect instructions
+### 🔒 Security issues
+### 📦 Image size
+### ⚡ Layer caching issues
+### 💡 Key improvements
+### ✨ Improved Version
+${globalRules}
+
+For each issue: show the CURRENT instruction, then the CORRECTED version, then explain the real-world impact of NOT fixing it (build failure, security breach, slow CI, etc.).
+
+For ### ⚡ Layer caching issues: ONLY include this section if the submitted Dockerfile actually contains COPY or RUN instructions that have ordering problems. If there are no COPY/RUN instructions present, skip this section entirely — do NOT speculate about what might happen.
+
+For ### ✨ Improved Version — this is the most important section:
+- Write a COMPLETE, production-ready Node.js Dockerfile — include ALL standard instructions even if the user only wrote 1 or 2 lines.
+- Must include ALL of these: pinned Alpine base image (e.g. node:18.20-alpine), WORKDIR, layer-cached dependency install (COPY package*.json ./ then RUN npm ci then COPY . .), non-root USER, EXPOSE 3000, HEALTHCHECK, and CMD.
+- Add a .dockerignore note as a comment at the top.
+- Every single line without exception must have an inline comment explaining exactly what it does and why.
+- Minimum 15 lines. The output must be something a developer can copy-paste directly into a real project and use immediately.
+
+Dockerfile:
+\`\`\`dockerfile
+${code}
+\`\`\``;
+        }
+      }
+    }
+
+    async function runPracticeAnalysis(tab) {
+      const code = (document.getElementById(PS_EDITORS[tab]).value || '').trim();
+      if (!code) { alert('Please enter some code to analyze.'); return; }
+
+      const btn    = document.getElementById(PS_BTNS[tab]);
+      const st     = document.getElementById(PS_STATUS[tab]);
+      const outEl  = document.getElementById(PS_OUTPUT[tab]);
+      const bodyEl = document.getElementById(PS_BODY[tab]);
+
+      if (!isAOAIConfigured()) {
+        outEl.classList.add('visible');
+        bodyEl.textContent = '⚠️ Please enter your Gemini API key at the top of the page to use AI feedback.';
+        return;
+      }
+
+      btn.disabled = true;
+      st.style.display = '';
+      st.className = 'practice-status loading';
+      st.textContent = '⏳ Analyzing…';
+      outEl.classList.remove('visible');
+
+      try {
+        const apiKey = document.getElementById('geminiKey').value.trim();
+        const model  = document.getElementById('geminiModel').value.trim() || 'gemini-2.5-flash';
+        const url    = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+
+        const payload = {
+          contents: [{ role: 'user', parts: [{ text: psPrompt(tab, code) }] }],
+          generationConfig: { maxOutputTokens: 8000, temperature: 0.2 }
+        };
+
+        const resp = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resp.ok) {
+          const err = await resp.json().catch(() => ({}));
+          throw new Error(err?.error?.message || `HTTP ${resp.status}`);
+        }
+
+        const data = await resp.json();
+        const text = (data.candidates?.[0]?.content?.parts?.[0]?.text || '').trim();
+        if (!text) throw new Error('No feedback received. Please try again.');
+
+        bodyEl.innerHTML = renderPracticeMarkdown(text);
+        outEl.classList.add('visible');
+        st.className = 'practice-status ok';
+        st.textContent = '✅ Done';
+      } catch (err) {
+        st.className = 'practice-status error';
+        st.textContent = '❌ ' + err.message;
+        bodyEl.textContent = '❌ ' + err.message;
+        outEl.classList.add('visible');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    // ─── Lightweight markdown renderer for practice output ──────────────────
+    function renderPracticeMarkdown(md) {
+      // Escape HTML in code blocks first, then process markdown
+      const codeBlocks = [];
+      let s = md.replace(/```([\w]*)?\n([\s\S]*?)```/g, (_, lang, code) => {
+        const escaped = code.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        codeBlocks.push(`<pre><code class="lang-${lang||''}">${escaped}</code></pre>`);
+        return `\x00CODE${codeBlocks.length - 1}\x00`;
+      });
+      // Inline code
+      s = s.replace(/`([^`]+)`/g, (_, c) =>
+        `<code>${c.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</code>`);
+      // Strip table rows (| ... |) — replace with nothing so they don't show raw pipes
+      s = s.replace(/^\|.*\|\s*$/gm, '');
+      s = s.replace(/^\s*[-|: ]+\s*$/gm, '');
+      // Headings
+      s = s.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+      s = s.replace(/^## (.+)$/gm, '<h3>$1</h3>');
+      s = s.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+      // HR
+      s = s.replace(/^---+$/gm, '<hr>');
+      // Bold
+      s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      // Blockquote
+      s = s.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+      // Unordered list items
+      s = s.replace(/^[ \t]*[*\-] (.+)$/gm, '<li>$1</li>');
+      s = s.replace(/(<li>.*<\/li>)/s, m => '<ul>' + m + '</ul>');
+      // wrap consecutive <li> runs in <ul>
+      s = s.replace(/(<li>[\s\S]*?<\/li>)(?=\s*<li>|\s*<\/ul>|\s*(?!<li>))/g, '$1');
+      s = s.replace(/((?:<li>[\s\S]*?<\/li>\s*)+)/g, '<ul>$1</ul>');
+      // Ordered list items
+      s = s.replace(/^[ \t]*\d+\.\s+(.+)$/gm, '<oli>$1</oli>');
+      s = s.replace(/((?:<oli>[\s\S]*?<\/oli>\s*)+)/g, '<ol>' + '$1'.replace(/<oli>/g,'<li>').replace(/<\/oli>/g,'</li>') + '</ol>');
+      s = s.replace(/<oli>/g,'<li>').replace(/<\/oli>/g,'</li>');
+      // Paragraphs — wrap non-tag lines
+      s = s.split('\n').map(line => {
+        const t = line.trim();
+        if (!t) return '';
+        if (/^<[houpbli]|^\x00CODE/.test(t)) return t;
+        return `<p>${t}</p>`;
+      }).join('\n');
+      // Restore code blocks
+      s = s.replace(/\x00CODE(\d+)\x00/g, (_, i) => codeBlocks[+i]);
+      return s;
+    }
+
+    // Allow Tab key to insert spaces inside practice editors
+    document.querySelectorAll('.practice-editor').forEach(function(ed) {
+      ed.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          var s = this.selectionStart, end = this.selectionEnd;
+          this.value = this.value.substring(0, s) + '  ' + this.value.substring(end);
+          this.selectionStart = this.selectionEnd = s + 2;
+        }
+      });
+    });
   </script>
 </body>
 </html>
