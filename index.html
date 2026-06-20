@@ -1573,6 +1573,575 @@
       color: #555;
       border-radius: 0 6px 6px 0;
     }
+
+    /* ─── Job Referral Board ──────────────────────────────────────────── */
+    .referral-section { margin-top: 0; }
+    .referral-header { text-align: center; color: white; margin-bottom: 1.5rem; }
+    .referral-header h2 { font-size: 2rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin-bottom: 0.4rem; }
+    .referral-header p  { font-size: 1rem; opacity: 0.88; }
+
+    .referral-post-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      border-left: 5px solid #0d9488;
+    }
+    .referral-post-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+    }
+    .referral-post-header h3 {
+      color: #0d9488;
+      font-size: 1rem;
+      margin: 0;
+    }
+    .referral-post-header span {
+      font-size: 0.8rem;
+      color: #0d9488;
+      font-weight: 600;
+      background: #f0fdfa;
+      border: 1.5px solid #99f6e4;
+      padding: 0.3rem 0.7rem;
+      border-radius: 6px;
+    }
+    .referral-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.75rem;
+    }
+    @media (max-width: 640px) { .referral-form-grid { grid-template-columns: 1fr; } }
+    .referral-field label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 0.3rem;
+    }
+    .referral-field input,
+    .referral-field select {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      background: white;
+    }
+    .referral-field input:focus,
+    .referral-field select:focus { outline: none; border-color: #0d9488; }
+
+    .btn-teal {
+      background: linear-gradient(135deg, #0d9488, #0f766e);
+      color: white;
+      padding: 0.65rem 1.4rem;
+      border-radius: 8px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 3px 10px rgba(13,148,136,0.3);
+    }
+    .btn-teal:hover { transform: translateY(-1px); box-shadow: 0 5px 15px rgba(13,148,136,0.4); }
+
+    .btn-outline-teal {
+      background: white;
+      color: #0d9488;
+      border: 1.5px solid #0d9488;
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      text-decoration: none;
+    }
+    .btn-outline-teal:hover { background: #f0fdfa; }
+
+    .referral-board-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.5rem 2rem 2rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    }
+    .referral-board-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .referral-board-top h3 { color: #333; font-size: 1rem; margin: 0; }
+    .referral-board-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+    .referral-filters {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+      align-items: center;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 0.65rem 0.85rem;
+    }
+    .referral-filters input,
+    .referral-filters select {
+      padding: 0.5rem 0.75rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      background: white;
+      transition: border-color 0.2s;
+    }
+    .referral-filters input:focus,
+    .referral-filters select:focus { outline: none; border-color: #0d9488; }
+    .btn-clear-filter {
+      background: white;
+      color: #888;
+      border: 1.5px solid #e0e0e0;
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .btn-clear-filter:hover { border-color: #e53935; color: #e53935; }
+
+    .job-board-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.1rem;
+    }
+    .job-card {
+      border: 1.5px solid #ebebeb;
+      border-radius: 14px;
+      padding: 0;
+      background: white;
+      transition: box-shadow 0.25s, transform 0.25s;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    .job-card:hover {
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      transform: translateY(-3px);
+    }
+    .job-card:hover .job-delete-btn { opacity: 1; }
+    /* Colored top accent bar */
+    .job-card::before {
+      content: '';
+      display: block;
+      height: 4px;
+      width: 100%;
+      flex-shrink: 0;
+    }
+    .job-card.accent-remote::before  { background: linear-gradient(90deg, #10b981, #34d399); }
+    .job-card.accent-hybrid::before  { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
+    .job-card.accent-onsite::before  { background: linear-gradient(90deg, #ef4444, #f87171); }
+    .job-card-inner { padding: 1.1rem 1.25rem 1rem; display: flex; flex-direction: column; gap: 0.55rem; flex: 1; }
+    .job-card-header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+    .job-card-header-text { flex: 1; min-width: 0; }
+    .job-card-title { font-size: 1rem; font-weight: 700; color: #111827; line-height: 1.35; }
+    .job-card-company { font-size: 0.85rem; font-weight: 600; color: #0d9488; margin-top: 0.2rem; }
+    /* Company avatar circle */
+    .job-card-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+      text-transform: uppercase;
+      letter-spacing: -0.03em;
+    }
+    .job-card-meta { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+    .job-badge {
+      display: inline-block;
+      padding: 0.22em 0.7em;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+    .job-badge.remote  { background: #dcfce7; color: #15803d; }
+    .job-badge.hybrid  { background: #fef9c3; color: #854d0e; }
+    .job-badge.onsite  { background: #fee2e2; color: #b91c1c; }
+    .job-badge.exp-0   { background: #ede9fe; color: #6d28d9; }
+    .job-badge.exp-2   { background: #e0f2fe; color: #0369a1; }
+    .job-badge.exp-5   { background: #fff7ed; color: #c2410c; }
+    .job-badge.exp-8   { background: #fdf4ff; color: #86198f; }
+    .job-location { font-size: 0.76rem; color: #9ca3af; display: flex; align-items: center; gap: 0.25rem; }
+    .job-skills-wrap { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .skill-tag {
+      background: #f5f3ff;
+      border: 1px solid #ddd6fe;
+      color: #5b21b6;
+      border-radius: 6px;
+      padding: 0.18em 0.65em;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .skill-tag.matched {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #166534;
+    }
+    .job-card-notes {
+      font-size: 0.79rem;
+      color: #6b7280;
+      line-height: 1.55;
+      background: #f9fafb;
+      border: 1px solid #f0f0f0;
+      padding: 0.45rem 0.7rem;
+      border-radius: 8px;
+      display: flex;
+      gap: 0.4rem;
+    }
+    .job-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.65rem 1.25rem 0.85rem;
+      border-top: 1px solid #f3f4f6;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+    .job-card-meta-bottom {
+      font-size: 0.72rem;
+      color: #9ca3af;
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 0.1rem;
+    }
+    .job-apply-btn {
+      background: #0d9488;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 0.5rem 1.1rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: 0.01em;
+    }
+    .job-apply-btn:hover { background: #0f766e; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(13,148,136,0.35); }
+    .job-delete-btn {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: rgba(255,255,255,0.85);
+      border: 1px solid #e5e7eb;
+      color: #9ca3af;
+      font-size: 0.78rem;
+      cursor: pointer;
+      padding: 0.2rem 0.45rem;
+      border-radius: 6px;
+      line-height: 1;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.2s, color 0.15s, background 0.15s;
+    }
+    .job-delete-btn:hover { color: #dc2626; background: #fef2f2; border-color: #fca5a5; }
+    .job-board-empty {
+      text-align: center;
+      color: #9ca3af;
+      padding: 3.5rem 1rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+    .board-import-note {
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      border-radius: 10px;
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+      color: #0f766e;
+      line-height: 1.6;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .board-import-note strong { color: #0d9488; }
+
+    /* ─── Board tabs (Live Feed / Community) ─────────────────────────── */
+    .board-tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 1.25rem;
+    }
+    .board-tab-btn {
+      padding: 0.7rem 1.4rem;
+      background: none;
+      border: none;
+      border-bottom: 3px solid transparent;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #9ca3af;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: -2px;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      white-space: nowrap;
+    }
+    .board-tab-btn:hover { color: #0d9488; }
+    .board-tab-btn.active { color: #0d9488; border-bottom-color: #0d9488; }
+    .board-tab-panel { display: none; }
+    .board-tab-panel.active { display: block; }
+
+    /* Live feed config card */
+    .live-config-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.25rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      border-left: 5px solid #6366f1;
+    }
+    .live-config-card h3 {
+      color: #6366f1;
+      font-size: 1rem;
+      margin: 0 0 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .live-config-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      align-items: end;
+    }
+    @media (max-width: 640px) { .live-config-grid { grid-template-columns: 1fr; } }
+    .live-config-grid label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #555;
+      margin-bottom: 0.3rem;
+    }
+    .live-config-grid input {
+      width: 100%;
+      padding: 0.6rem 0.8rem;
+      border: 1.5px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    .live-config-grid input:focus { outline: none; border-color: #6366f1; }
+    .live-source-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.22em 0.75em;
+      border-radius: 99px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      border: 1.5px solid;
+    }
+    .live-source-pill.remotive { background: #f0fdf4; border-color: #86efac; color: #15803d; }
+    .live-source-pill.jsearch  { background: #fefce8; border-color: #fde047; color: #854d0e; }
+    .live-source-pill.adzuna   { background: #fefce8; border-color: #fbbf24; color: #92400e; }
+    .live-source-pill.remoteok { background: #eff6ff; border-color: #93c5fd; color: #1d4ed8; }
+    .live-source-pill.inactive { background: #f9fafb; border-color: #e5e7eb; color: #9ca3af; }
+    .live-source-pill.source-clickable { cursor: pointer; transition: transform .15s, box-shadow .15s; user-select: none; }
+    .live-source-pill.source-clickable:hover { transform: translateY(-2px); box-shadow: 0 3px 10px rgba(0,0,0,.15); }
+    .live-source-pill.source-active { outline: 2.5px solid currentColor; outline-offset: 2px; box-shadow: 0 0 0 4px rgba(0,0,0,.06); }
+    .live-source-pill.source-active::after { content: ' ✓'; font-size: .7em; }
+
+    /* ── Job card enhancements ───────────────────────────────── */
+    .job-new-badge {
+      background: #dcfce7; color: #15803d; border: 1.5px solid #86efac;
+      padding: .1em .55em; border-radius: 99px; font-size: .62rem; font-weight: 800;
+      text-transform: uppercase; letter-spacing: .05em; vertical-align: middle;
+      animation: pulse-new 2s ease-in-out infinite;
+    }
+    @keyframes pulse-new {
+      0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,.4)} 60%{box-shadow:0 0 0 5px rgba(34,197,94,0)}
+    }
+    .job-practice-btn {
+      display: inline-flex; align-items: center; gap: .3rem; padding: .32em .8em;
+      background: linear-gradient(135deg,#6366f1,#8b5cf6); color: #fff; border: none;
+      border-radius: 6px; font-size: .7rem; font-weight: 700; cursor: pointer;
+      transition: opacity .15s, transform .12s; white-space: nowrap; flex-shrink: 0;
+    }
+    .job-practice-btn:hover { opacity: .88; transform: translateY(-1px); }
+    .job-match-score {
+      display: inline-flex; align-items: center; gap: .3rem; padding: .18em .65em;
+      border-radius: 99px; font-size: .7rem; font-weight: 800; border: 1.5px solid;
+    }
+    .job-match-score.match-high  { background:#dcfce7; border-color:#86efac; color:#166534; }
+    .job-match-score.match-mid   { background:#fef9c3; border-color:#fde047; color:#854d0e; }
+    .job-match-score.match-low   { background:#fee2e2; border-color:#fca5a5; color:#991b1b; }
+    /* ── Role preset buttons ─────────────────────────────────── */
+    .role-presets { display:flex; flex-wrap:wrap; gap:.4rem; padding:.55rem 0 .3rem; align-items:center; }
+    .role-preset-btn { padding:.28em .82em; border-radius:99px; font-size:.75rem; font-weight:700; cursor:pointer; border:1.5px solid #e0e0e0; background:#f8f9fa; color:#444; transition:all .15s; white-space:nowrap; }
+    .role-preset-btn:hover { border-color:#6366f1; color:#6366f1; background:#eef2ff; }
+    .role-preset-btn.active { background:#6366f1; color:#fff; border-color:#6366f1; }
+    /* ── Tailor Resume button ────────────────────────────────── */
+    .job-tailor-btn { display:inline-flex; align-items:center; gap:.3rem; padding:.32em .8em; background:linear-gradient(135deg,#0d9488,#059669); color:#fff; border:none; border-radius:6px; font-size:.7rem; font-weight:700; cursor:pointer; transition:opacity .15s,transform .12s; white-space:nowrap; flex-shrink:0; }
+    .job-tailor-btn:hover { opacity:.88; transform:translateY(-1px); }
+    /* ── Application Tracker ─────────────────────────────────── */
+    .job-tracker-wrap { display:flex; align-items:center; gap:.55rem; margin-top:.55rem; padding:.38rem .65rem; background:#f8f9fa; border-radius:8px; border:1px solid #e5e7eb; }
+    .job-tracker-label { font-size:.68rem; font-weight:700; color:#666; white-space:nowrap; }
+    .tracker-select { font-size:.72rem; font-weight:600; border:1.5px solid #e0e0e0; border-radius:6px; padding:.28em .55em; cursor:pointer; background:#fff; transition:all .15s; }
+    .tracker-select.ts-saved     { border-color:#94a3b8; color:#475569; }
+    .tracker-select.ts-applied   { border-color:#3b82f6; color:#1d4ed8; background:#eff6ff; }
+    .tracker-select.ts-interview { border-color:#f59e0b; color:#92400e; background:#fffbeb; }
+    .tracker-select.ts-offer     { border-color:#22c55e; color:#166534; background:#f0fdf4; }
+    .tracker-select.ts-rejected  { border-color:#ef4444; color:#991b1b; background:#fef2f2; }
+    .job-save-btn {
+      display: inline-flex; align-items: center; gap: .25rem; padding: .32em .7em;
+      background: #f8fafc; color: #64748b; border: 1.5px solid #e2e8f0;
+      border-radius: 6px; font-size: .7rem; font-weight: 700; cursor: pointer;
+      transition: all .15s; flex-shrink: 0;
+    }
+    .job-save-btn:hover { background: #fefce8; border-color: #fbbf24; color: #92400e; }
+    .job-save-btn.saved { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+    /* ── Saved Jobs view toggle ──────────────────────────────── */
+    .btn-saved-view { display:inline-flex; align-items:center; gap:.3rem; padding:.32em .85em; background:#f0fdf4; border:1.5px solid #86efac; color:#166534; border-radius:20px; font-size:.78rem; font-weight:700; cursor:pointer; transition:all .15s; white-space:nowrap; }
+    .btn-saved-view:hover { background:#dcfce7; border-color:#4ade80; }
+    .btn-saved-view.active { background:#166534; color:#fff; border-color:#166534; }
+    /* ── Copy Link button ──────────────────────────────────── */
+    .job-copy-btn { display:inline-flex; align-items:center; gap:.25rem; padding:.32em .7em; background:#f8fafc; color:#64748b; border:1.5px solid #e2e8f0; border-radius:6px; font-size:.7rem; font-weight:700; cursor:pointer; transition:all .15s; flex-shrink:0; }
+    .job-copy-btn:hover { background:#f0f9ff; border-color:#7dd3fc; color:#0369a1; }
+    .job-card-actions { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; margin-top: .1rem; }
+
+    /* ── Stats bar ───────────────────────────────────────────── */
+    .live-stats-bar {
+      display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: .75rem;
+      align-items: center; padding: .45rem .75rem; background: #f8fafc;
+      border-radius: 8px; border: 1px solid #e2e8f0;
+    }
+    .live-stat-pill { display: inline-flex; align-items: center; gap: .3rem; font-size: .75rem; color: #64748b; font-weight: 600; }
+    .live-stat-pill .sn { font-weight: 800; color: #1e293b; }
+    .live-stat-pill.sp-new .sn { color: #16a34a; }
+    .live-stat-sep { color: #cbd5e1; font-size: .9rem; }
+
+    /* Live feed toolbar */
+    .live-feed-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-bottom: 0.85rem;
+    }
+    .live-feed-sources { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+    .live-feed-meta { font-size: 0.78rem; color: #9ca3af; display: flex; align-items: center; gap: 0.5rem; }
+    .btn-refresh {
+      background: white;
+      color: #6366f1;
+      border: 1.5px solid #c7d2fe;
+      padding: 0.35rem 0.8rem;
+      border-radius: 7px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .btn-refresh:hover { background: #eef2ff; border-color: #6366f1; }
+    .btn-refresh:disabled { opacity: 0.5; cursor: not-allowed; }
+    .spin { display: inline-block; animation: spinAnim 0.9s linear infinite; }
+    @keyframes spinAnim { to { transform: rotate(360deg); } }
+
+    /* Job card source badge */
+    .job-source-badge {
+      position: absolute;
+      bottom: 0.6rem;
+      right: 4.5rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.1em 0.5em;
+      border-radius: 4px;
+      opacity: 0.6;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+    .job-source-badge.remotive  { background: #dcfce7; color: #166534; }
+    .job-source-badge.adzuna    { background: #fef9c3; color: #854d0e; }
+    .job-source-badge.remoteok  { background: #dbeafe; color: #1d4ed8; }
+
+    /* Live feed loading skeleton */
+    .live-feed-loading {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.1rem;
+    }
+    .skeleton-card {
+      border-radius: 14px;
+      background: white;
+      border: 1.5px solid #ebebeb;
+      padding: 0;
+      overflow: hidden;
+      height: 180px;
+    }
+    .skeleton-bar {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: 4px;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .skeleton-top { height: 4px; border-radius: 0; margin-bottom: 0; }
+    .skeleton-content { padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 0.65rem; }
+    .skeleton-line { height: 10px; }
+    .skeleton-line.title { width: 65%; height: 14px; }
+    .skeleton-line.sub   { width: 40%; }
+    .skeleton-line.tags  { width: 80%; height: 8px; }
+
+    /* Error state for live feed */
+    .live-feed-error {
+      background: #fff8f0;
+      border: 1.5px solid #fed7aa;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      color: #92400e;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+    }
+    .live-feed-error .err-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1; }
   </style>
 </head>
 <body>
@@ -1718,6 +2287,7 @@
           </select>
         </label>
         <button class="btn-secondary" id="clearResumeBtn" onclick="clearResumeQuestions()" style="padding:0.55rem 1rem;font-size:0.88rem;">&#x2715; Use Default Questions</button>
+        <button class="btn-secondary" id="downloadResumeQBtn" onclick="downloadQuestions('resume')" style="padding:0.55rem 1rem;font-size:0.88rem;display:none;background:#f0fdf4;border-color:#86efac;color:#166534;">&#x2B07; Download Questions</button>
         <span class="resume-status idle" id="resumeStatus">No resume loaded</span>
       </div>
     </div>
@@ -1741,6 +2311,7 @@
           </select>
         </label>
         <button class="btn-secondary" id="clearJDBtn" onclick="clearJDQuestions()" style="padding:0.55rem 1rem;font-size:0.88rem;">&#x2715; Clear JD Questions</button>
+        <button class="btn-secondary" id="downloadJDQBtn" onclick="downloadQuestions('jd')" style="padding:0.55rem 1rem;font-size:0.88rem;display:none;background:#f0fdf4;border-color:#86efac;color:#166534;">&#x2B07; Download Questions</button>
         <span class="resume-status idle" id="jdStatus">No JD loaded</span>
       </div>
     </div>
@@ -2125,6 +2696,222 @@
     </div><!-- /.practice-section -->
   </div><!-- /.container -->
 
+  <!-- ─── Job Referral Board ──────────────────────────────────────────────── -->
+  <div class="container" style="margin-top:2rem;padding-bottom:2rem;">
+    <div class="referral-section">
+
+      <div class="referral-header">
+        <h2>🤝 Job Referral Board</h2>
+        <p>Share openings from your company — let the community filter by skills &amp; experience and find their next role</p>
+      </div>
+
+      <!-- Post a Job Opening -->
+      <div class="referral-post-card">
+        <div class="referral-post-header" onclick="togglePostForm()">
+          <h3>📣 Post a Job Opening</h3>
+          <span id="postFormToggle">▼ Expand to post</span>
+        </div>
+
+        <div id="referralPostForm" style="display:none;margin-top:1.25rem;">
+          <div class="referral-form-grid">
+            <div class="referral-field">
+              <label>Job Title *</label>
+              <input type="text" id="rjTitle" placeholder="e.g. Senior DevOps Engineer">
+            </div>
+            <div class="referral-field">
+              <label>Company *</label>
+              <input type="text" id="rjCompany" placeholder="e.g. Centrica, HSBC, Amazon…">
+            </div>
+            <div class="referral-field">
+              <label>Work Type</label>
+              <select id="rjWorkType">
+                <option>Remote</option>
+                <option>Hybrid</option>
+                <option>On-site</option>
+              </select>
+            </div>
+            <div class="referral-field">
+              <label>Location</label>
+              <input type="text" id="rjLocation" placeholder="e.g. London, UK / US (Remote)">
+            </div>
+            <div class="referral-field">
+              <label>Experience Level *</label>
+              <select id="rjExpLevel">
+                <option value="">Select level…</option>
+                <option value="0-2">0–2 years (Junior)</option>
+                <option value="2-5">2–5 years (Mid)</option>
+                <option value="5-8">5–8 years (Senior)</option>
+                <option value="8+">8+ years (Principal / Lead)</option>
+              </select>
+            </div>
+            <div class="referral-field">
+              <label>Posted By (optional)</label>
+              <input type="text" id="rjPostedBy" placeholder="Your name or LinkedIn handle">
+            </div>
+          </div>
+
+          <div class="referral-field" style="margin-top:0.85rem;">
+            <label>Required Skills * <span style="font-weight:400;color:#999;font-size:0.78rem;">— comma-separated</span></label>
+            <input type="text" id="rjSkills" placeholder="e.g. Kubernetes, Terraform, AWS, CI/CD, Python, Azure…">
+          </div>
+
+          <div class="referral-field" style="margin-top:0.75rem;">
+            <label>Job Post URL *</label>
+            <input type="url" id="rjUrl" placeholder="https://www.linkedin.com/jobs/… or company careers page link">
+          </div>
+
+          <div class="referral-field" style="margin-top:0.75rem;">
+            <label>Notes (optional) <span style="font-weight:400;color:#999;font-size:0.78rem;">— referral contact, salary range, closing date…</span></label>
+            <textarea id="rjNotes" rows="2" placeholder="e.g. DM me on LinkedIn for a referral — @yourhandle. Closing 31 July." style="width:100%;padding:0.65rem 0.85rem;border:1.5px solid #e0e0e0;border-radius:8px;font-size:0.88rem;resize:vertical;font-family:inherit;transition:border-color 0.2s;"></textarea>
+          </div>
+
+          <div style="display:flex;gap:0.75rem;margin-top:1rem;flex-wrap:wrap;align-items:center;">
+            <button class="btn-teal" onclick="submitJobPosting()">📌 Post This Job</button>
+            <button onclick="clearJobForm()" style="background:white;border:1.5px solid #e0e0e0;color:#666;padding:0.6rem 1rem;border-radius:8px;font-size:0.88rem;font-weight:600;cursor:pointer;">✕ Clear</button>
+            <span id="postJobStatus" style="font-size:0.82rem;font-weight:600;display:none;padding:0.3rem 0.7rem;border-radius:6px;"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job Discovery Hub heading -->
+      <div class="referral-header" style="margin-top:2.5rem;margin-bottom:1rem;">
+        <h2>Job Discovery Hub</h2>
+        <p>Auto-fetches latest IT jobs · Filter by skills, city &amp; experience · Save and track your applications</p>
+      </div>
+
+      <!-- Live Feed API Config -->
+      <div class="live-config-card">
+        <div class="live-config-grid" style="grid-template-columns:1fr 1fr 1fr;">
+          <div>
+            <label>Adzuna App ID <span style="font-weight:400;color:#999;">— India IT jobs (free 250/day)</span></label>
+            <input type="text" id="adzunaAppId" placeholder="e.g. a1b2c3d4"
+              oninput="saveLiveConfig()" autocomplete="off">
+          </div>
+          <div>
+            <label>Adzuna API Key</label>
+            <input type="password" id="adzunaApiKey" placeholder="e.g. abcdef1234567890…"
+              oninput="saveLiveConfig()" autocomplete="off">
+          </div>
+          <div>
+            <label>My Skills <span style="font-weight:400;color:#999;">— for match score on cards</span></label>
+            <input type="text" id="mySkillsInput" placeholder="e.g. python, aws, kubernetes, docker"
+              oninput="saveMySkills()" autocomplete="off" style="font-size:0.82rem;">
+          </div>
+        </div>
+        <div style="margin-top:0.5rem;display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+          <div style="flex:1;min-width:180px;">
+            <label style="display:block;font-size:0.78rem;font-weight:700;color:#555;margin-bottom:0.3rem;">Country <span style="font-weight:400;color:#999;">— where to search</span></label>
+            <select id="adzunaCountry" onchange="saveLiveConfig()" style="width:100%;padding:0.6rem 0.8rem;border:1.5px solid #e0e0e0;border-radius:6px;font-size:0.88rem;font-family:inherit;background:white;">
+              <option value="in" selected>🇮🇳 India</option>
+              <option value="gb">🇬🇧 United Kingdom</option>
+              <option value="us">🇺🇸 United States</option>
+              <option value="au">🇦🇺 Australia</option>
+              <option value="ca">🇨🇦 Canada</option>
+              <option value="de">🇩🇪 Germany</option>
+              <option value="sg">🇸🇬 Singapore</option>
+            </select>
+          </div>
+          <div style="flex:2;min-width:220px;font-size:0.78rem;color:#777;line-height:1.65;padding-top:1.2rem;">
+            🔑 Register free at <a href="https://developer.adzuna.com/" target="_blank" style="color:#6366f1;font-weight:600;">developer.adzuna.com</a> → create an app → copy App ID &amp; API Key above. Free tier: <strong>250 calls/day</strong>. Fetches up to <strong>250 India IT jobs</strong> from last 3 days.
+          </div>
+        </div>
+      </div>
+
+      <!-- Browse / Filter Board (tabbed) -->
+      <div class="referral-board-card">
+        <div class="referral-board-top">
+          <div class="board-tabs">
+            <button class="board-tab-btn active" id="tabBtnLive"      onclick="switchBoardTab('live')">🛰️ Live Feed <span id="liveCountBadge" style="font-size:0.72rem;background:#eef2ff;color:#6366f1;padding:0.1em 0.5em;border-radius:99px;margin-left:0.2rem;"></span></button>
+            <button class="board-tab-btn"        id="tabBtnCommunity" onclick="switchBoardTab('community')">🤝 Community <span id="boardCountBadge" style="font-size:0.72rem;background:#f0fdfa;color:#0d9488;padding:0.1em 0.5em;border-radius:99px;margin-left:0.2rem;"></span></button>
+          </div>
+          <div class="referral-board-actions">
+            <button onclick="exportJobBoard()" class="btn-outline-teal" title="Export community board as JSON">⬇ Export</button>
+            <label class="btn-outline-teal" style="cursor:pointer;" title="Import a shared community board JSON file">
+              ⬆ Import
+              <input type="file" id="importBoardFile" accept=".json" style="display:none" onchange="importJobBoard(this)">
+            </label>
+          </div>
+        </div>
+
+        <!-- Role Preset Quick Filters -->
+        <div class="role-presets" id="rolePresets">
+          <span style="font-size:.72rem;font-weight:700;color:#999;">Quick:</span>
+          <button class="role-preset-btn" onclick="setRolePreset('devops')">⚙️ DevOps</button>
+          <button class="role-preset-btn" onclick="setRolePreset('sre')">🛡 SRE</button>
+          <button class="role-preset-btn" onclick="setRolePreset('cloud')">☁️ Cloud</button>
+          <button class="role-preset-btn" onclick="setRolePreset('kubernetes')">🐳 Kubernetes</button>
+          <button class="role-preset-btn" onclick="setRolePreset('aws')">🟠 AWS</button>
+          <button class="role-preset-btn" onclick="setRolePreset('azure')">🔵 Azure</button>
+          <button class="role-preset-btn" onclick="setRolePreset('java')">☕ Java</button>
+          <button class="role-preset-btn" onclick="setRolePreset('python')">🐍 Python</button>
+          <button class="role-preset-btn" onclick="setRolePreset('data')">📊 Data</button>
+          <button class="role-preset-btn" onclick="setRolePreset('fullstack')">🔀 Fullstack</button>
+          <button class="role-preset-btn" onclick="setRolePreset('security')">🔒 Security</button>
+        </div>
+
+        <!-- Shared filter bar -->
+        <div class="referral-filters">
+          <input type="text" id="skillFilterInput" placeholder="🔎 Filter by skill, title or company…" oninput="onFilterChange()" style="flex:2;min-width:180px;">
+          <select id="cityFilterSelect" onchange="onFilterChange()" style="flex:1;min-width:130px;">
+            <option value="">📍 All Cities</option>
+          </select>
+          <select id="expFilterSelect" onchange="onFilterChange()" style="flex:1;min-width:145px;">
+            <option value="">All Experience Levels</option>
+            <option value="0-2">0–2 yrs (Junior)</option>
+            <option value="2-5">2–5 yrs (Mid)</option>
+            <option value="5-8">5–8 yrs (Senior)</option>
+            <option value="8+">8+ yrs (Lead / Principal)</option>
+          </select>
+          <select id="workTypeFilterSelect" onchange="onFilterChange()" style="flex:1;min-width:115px;">
+            <option value="">All Work Types</option>
+            <option value="Remote">Remote</option>
+            <option value="Hybrid">Hybrid</option>
+            <option value="On-site">On-site</option>
+          </select>
+          <select id="sortJobsSelect" onchange="onFilterChange()" style="flex:1;min-width:150px;">
+            <option value="newest">⬆ Newest First</option>
+            <option value="match">🎯 Best Match</option>
+            <option value="skills">⭐ Most Skills</option>
+            <option value="company">🏢 Company A–Z</option>
+            <option value="exp">🎓 Experience ↑</option>
+          </select>
+          <button onclick="clearBoardFilters()" class="btn-clear-filter">✕ Clear</button>
+        </div>
+
+        <!-- ── LIVE FEED tab ── -->
+        <div class="board-tab-panel active" id="tabPanelLive">
+          <div class="live-feed-toolbar">
+            <div class="live-feed-sources" id="liveSources"></div>
+            <div class="live-feed-meta">
+              <button class="btn-saved-view" id="savedViewBtn" onclick="toggleSavedView()" title="Show only your saved jobs">💾 Saved (<span id="savedViewCount">0</span>)</button>
+              <span id="liveLastUpdated"></span>
+              <button class="btn-refresh" id="liveRefreshBtn" onclick="fetchLiveFeed(true)">🔄 Refresh</button>
+            </div>
+          </div>
+          <div id="liveFeedStats" style="font-size:0.8rem;color:#888;margin-bottom:0.9rem;min-height:1.2em;"></div>
+          <div id="liveStatsBar" class="live-stats-bar" style="display:none;"></div>
+          <div id="liveFeedContainer"></div>
+        </div>
+
+        <!-- ── COMMUNITY tab ── -->
+        <div class="board-tab-panel" id="tabPanelCommunity">
+          <div class="board-import-note">
+            <span>💡</span>
+            <span><strong>Saved locally in your browser.</strong> Use <strong>⬇ Export</strong> to share as JSON — teammates can <strong>⬆ Import</strong> to merge listings (no duplicates).</span>
+          </div>
+          <div id="boardStats" style="font-size:0.8rem;color:#888;margin-bottom:0.9rem;min-height:1.2em;"></div>
+          <div id="jobBoardGrid" class="job-board-grid"></div>
+          <div id="jobBoardEmpty" class="job-board-empty hidden">
+            <div style="font-size:2.5rem;margin-bottom:0.5rem;">📋</div>
+            <p>No community postings yet — expand the form above and be the first to share an opening!</p>
+          </div>
+        </div>
+
+      </div><!-- /.referral-board-card -->
+
+    </div><!-- /.referral-section -->
+  </div><!-- /.container referral -->
+
   <script>
     // ─── Gemini helpers ───────────────────────────────────────────────────────
 
@@ -2321,8 +3108,7 @@ Output (raw JSON array only):` }]
           }],
           generationConfig: {
             maxOutputTokens: Math.max(3500, questionCount * 180),
-            temperature: 0.6,
-            responseMimeType: 'application/json'
+            temperature: 0.6
           }
         };
 
@@ -2373,6 +3159,7 @@ Output (raw JSON array only):` }]
         status.className = 'resume-status ok';
         status.textContent = `✅ ${parsed.length} personalised questions ready`;
         document.getElementById('clearResumeBtn').style.display = '';
+        document.getElementById('downloadResumeQBtn').style.display = '';
       } catch (err) {
         status.className = 'resume-status error';
         status.textContent = '❌ ' + err.message;
@@ -2386,6 +3173,33 @@ Output (raw JSON array only):` }]
       resumeQuestions = null;
       document.getElementById('resumeStatus').className = 'resume-status idle';
       document.getElementById('resumeStatus').textContent = 'No resume loaded — using default questions';
+      document.getElementById('downloadResumeQBtn').style.display = 'none';
+    }
+
+    function downloadQuestions(type) {
+      const questions = type === 'jd' ? jdQuestions : resumeQuestions;
+      const label     = type === 'jd' ? 'JD' : 'Resume';
+      if (!questions || questions.length === 0) {
+        alert('No questions generated yet. Please generate questions first.');
+        return;
+      }
+      const date   = new Date().toISOString().slice(0, 10);
+      const header = type === 'jd'
+        ? `DevOps Interview Questions — Job Description Based\nGenerated: ${date}\n${'='.repeat(60)}\n`
+        : `DevOps Interview Questions — Resume Based\nGenerated: ${date}\n${'='.repeat(60)}\n`;
+      const body   = questions.map((q, i) => `${i + 1}. ${q}`).join('\n\n');
+      const footer = `\n\n${'='.repeat(60)}\nTotal: ${questions.length} questions\nGenerated by DevOps Interview Agent`;
+      const text   = header + '\n' + body + footer;
+      const blob   = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url    = URL.createObjectURL(blob);
+      const a      = Object.assign(document.createElement('a'), {
+        href: url,
+        download: `devops-interview-questions-${label.toLowerCase()}-${date}.txt`
+      });
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
     }
 
     // ─── Job Description Mode ──────────────────────────────────────────────────────────
@@ -2428,8 +3242,7 @@ Output (raw JSON array only):` }]
           }],
           generationConfig: {
             maxOutputTokens: Math.max(3500, questionCount * 180),
-            temperature: 0.6,
-            responseMimeType: 'application/json'
+            temperature: 0.6
           }
         };
 
@@ -2464,6 +3277,7 @@ Output (raw JSON array only):` }]
         status.className = 'resume-status ok';
         status.textContent = `✅ ${jdQuestions.length} JD questions ready (active)`;
         if (resumeQuestions) status.textContent += ' — overrides resume questions';
+        document.getElementById('downloadJDQBtn').style.display = '';
       } catch (err) {
         status.className = 'resume-status error';
         status.textContent = '❌ ' + err.message;
@@ -2478,6 +3292,7 @@ Output (raw JSON array only):` }]
       const st = document.getElementById('jdStatus');
       st.className = 'resume-status idle';
       st.textContent = resumeQuestions ? 'JD cleared — resume questions now active' : 'JD cleared — using default questions';
+      document.getElementById('downloadJDQBtn').style.display = 'none';
     }
 
     // ─── Session Download ───────────────────────────────────────────────────────────────────
@@ -4400,6 +5215,12 @@ Be technically precise. Use specific tool names, commands, or metrics where rele
       // Refresh config status now that `state` is fully initialised
       refreshConfigStatus();
 
+      // Initialise job referral board from localStorage
+      renderJobBoard();
+      // Kick off live feed fetch (uses 24h cache, so instant if cached)
+      fetchLiveFeed(false);
+      _updateSavedCount();
+
       // ── Keyboard shortcuts ─────────────────────────────────────────────────
       // Space = toggle mic | N or ArrowRight = next question | S = skip | R = retry
       document.addEventListener('keydown', (e) => {
@@ -5317,6 +6138,852 @@ ${code}
         }
       });
     });
+
+    // ─── Job Referral Board ──────────────────────────────────────────────────
+
+    const JOB_BOARD_KEY    = 'devops_job_board';
+    const LIVE_CACHE_KEY   = 'devops_live_feed_cache';
+    const LIVE_CACHE_TTL   = 24 * 60 * 60 * 1000;
+    var   _activeBoardTab      = 'live';
+    var   _liveJobs            = [];
+    var   _activeSourceFilter  = null;   // 'remotive' | 'adzuna' | null
+    var   _cachedSources       = [];
+    var   SAVED_JOBS_KEY       = 'devops_saved_jobs';
+    var   _savedJobIds         = new Set(JSON.parse(localStorage.getItem('devops_saved_jobs')||'[]'));
+    var   TRACKER_KEY          = 'devops_job_tracker';
+    var   _jobTracker          = (function(){ try{ return JSON.parse(localStorage.getItem('devops_job_tracker')||'{}'); }catch(_){ return {}; } })();
+    var   _activeRolePreset    = null;
+    var   _showSavedOnly       = false;
+
+    function _loadJobBoard() {
+      try { return JSON.parse(localStorage.getItem(JOB_BOARD_KEY) || '[]'); }
+      catch { return []; }
+    }
+    function _saveJobBoard(jobs) { localStorage.setItem(JOB_BOARD_KEY, JSON.stringify(jobs)); }
+
+    function _escHtml(str) {
+      return String(str)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    function saveLiveConfig() {
+      var id  = document.getElementById('adzunaAppId').value.trim();
+      var key = document.getElementById('adzunaApiKey').value.trim();
+      var country = document.getElementById('adzunaCountry').value;
+      if (id)  localStorage.setItem('devops_adzuna_id',  id);  else localStorage.removeItem('devops_adzuna_id');
+      if (key) localStorage.setItem('devops_adzuna_key', key); else localStorage.removeItem('devops_adzuna_key');
+      localStorage.setItem('devops_adzuna_country', country);
+    }
+    function saveMySkills() {
+      var v = document.getElementById('mySkillsInput').value.trim();
+      if (v) localStorage.setItem('devops_my_skills', v); else localStorage.removeItem('devops_my_skills');
+      if (_activeBoardTab === 'live' && _liveJobs.length) renderLiveFeed();
+    }
+    (function(){
+      var id  = localStorage.getItem('devops_adzuna_id');
+      var key = localStorage.getItem('devops_adzuna_key');
+      var country = localStorage.getItem('devops_adzuna_country') || 'in';
+      var mySkills = localStorage.getItem('devops_my_skills') || '';
+      if (id)  document.getElementById('adzunaAppId').value   = id;
+      if (key) document.getElementById('adzunaApiKey').value  = key;
+      document.getElementById('adzunaCountry').value = country;
+      if (mySkills) document.getElementById('mySkillsInput').value = mySkills;
+    })();
+
+    // ── Tab switching ────────────────────────────────────────────────────────
+    function switchBoardTab(tab) {
+      _activeBoardTab = tab;
+      document.getElementById('tabBtnLive').classList.toggle('active',      tab==='live');
+      document.getElementById('tabBtnCommunity').classList.toggle('active', tab==='community');
+      document.getElementById('tabPanelLive').classList.toggle('active',      tab==='live');
+      document.getElementById('tabPanelCommunity').classList.toggle('active', tab==='community');
+      onFilterChange();
+    }
+    function onFilterChange() {
+      if (_activeBoardTab === 'live') renderLiveFeed(); else renderJobBoard();
+    }
+
+    // ── Live Feed ────────────────────────────────────────────────────────────
+    function _timeAgo(iso) {
+      var m = Math.floor((Date.now()-new Date(iso).getTime())/60000);
+      if (m<2) return 'just now'; if (m<60) return m+'m ago';
+      var h = Math.floor(m/60); if (h<24) return h+'h ago';
+      return Math.floor(h/24)+'d ago';
+    }
+    function _updateLastRefreshed(iso) {
+      document.getElementById('liveLastUpdated').textContent = iso ? 'Updated '+_timeAgo(iso) : '';
+    }
+    function practiceInterviewForJob(jobId) {
+      var job = _liveJobs.find(function(j){ return j.id === jobId; });
+      if (!job) return;
+
+      var skillsList = (job.skills||[]).length
+        ? (job.skills||[]).join(', ')
+        : '⚠ Not auto-detected — please identify required skills from the job description below';
+      var expLabel   = job.expLevel === '0-2' ? '0–2 years (Junior)'
+                     : job.expLevel === '2-5' ? '2–5 years (Mid-level)'
+                     : job.expLevel === '5-8' ? '5–8 years (Senior)'
+                     : job.expLevel === '8+'  ? '8+ years (Lead/Principal/Architect)'
+                     : 'Mid-level';
+      var descSection = job.description
+        ? '\n\n=== ACTUAL JOB DESCRIPTION ===\n' + job.description
+        : '';
+
+      var prompt = [
+        '=== JOB DETAILS ===',
+        'Role            : ' + job.title,
+        'Company         : ' + (job.company || 'Not specified'),
+        'Location        : ' + (job.location || 'Not specified'),
+        'Work Type       : ' + (job.workType || 'Not specified'),
+        'Experience Level: ' + expLabel,
+        'Key Skills      : ' + skillsList,
+        descSection,
+        '',
+        '=== YOUR TASK ===',
+        'You are a senior technical interviewer. Generate 15 high-quality, role-specific interview questions for a candidate applying to this position.',
+        '',
+        'Structure the questions as follows:',
+        '• 5 deep technical questions on the key skills listed (include what concept/depth you are testing)',
+        '• 3 real-world scenario / problem-solving questions based on the job description',
+        '• 2 system design or architecture questions relevant to this role',
+        '• 2 questions about past experience and projects with these technologies',
+        '• 2 behavioural / situational questions specific to this role',
+        '• 1 question about the candidate\'s approach to learning new skills in this domain',
+        '',
+        'For each question, add a short [FOCUS] tag explaining what the question tests.',
+        'Make the questions progressively harder. Avoid generic questions — tailor every question to this specific role and tech stack.'
+      ].join('\n');
+
+      document.getElementById('resumeText').value = prompt;
+
+      // Scroll to the Generate Questions button and auto-trigger
+      var genBtn = document.getElementById('generateQuestionsBtn');
+      if (genBtn) {
+        genBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(function(){ generateResumeQuestions(); }, 600);
+      } else {
+        var card = document.querySelector('.resume-card');
+        if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    function setRolePreset(term) {
+      _activeRolePreset = (_activeRolePreset === term) ? null : term;
+      document.querySelectorAll('.role-preset-btn').forEach(function(btn) {
+        var match = btn.getAttribute('onclick') === "setRolePreset('" + term + "')";
+        btn.classList.toggle('active', match && _activeRolePreset !== null);
+      });
+      var inp = document.getElementById('skillFilterInput');
+      inp.value = _activeRolePreset ? term : '';
+      onFilterChange();
+    }
+    function tailorResumeForJob(jobId) {
+      var job = _liveJobs.find(function(j){ return j.id === jobId; });
+      if (!job) return;
+      var jdEl = document.getElementById('rbJdText');
+      if (!jdEl) return;
+
+      var desc = (job.description||'').trim();
+
+      // Skip aggregator-injected metadata (salary, experience, location, job type)
+      // that appears before the real JD content — jump to the first useful sentence
+      var contentIdx = desc.search(/(?:we\s+are\s+seek|we['\u2019\u2018]re\s+look|about\s+the\s+role|job\s+overview|the\s+ideal\s+cand|you\s+will\s+be\s+resp|responsibilities?:|requirements?:|key\s+resp|what\s+you.{0,5}ll\s+do|position\s+overview|role\s+summary|job\s+summary|the\s+role\s+involves|we\s+are\s+hiring|looking\s+for\s+a|seeking\s+a)/i);
+      if (contentIdx > 0) desc = desc.substring(contentIdx);
+
+      // Strip any remaining stray metadata phrases still in the text
+      desc = desc
+        .replace(/\bSalary\s*(?:range)?:\s*[^.]*?(?=\s+[A-Z]|$)/g, '')
+        .replace(/\bExperience:\s*\d+[^\s]*\s*/gi, '')
+        .replace(/\bJob\s*Type:\s*[\w\s-]+?(?=\s+[A-Z]|$)/gi, '')
+        .replace(/\bLocation:\s*[^.]*?(?=\s+[A-Z]|$)/gi, '')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+
+      jdEl.value = job.title + (job.company ? ' at ' + job.company : '') + '\n\n' + desc;
+
+      var rbCard = document.querySelector('.resume-builder-card');
+      if (rbCard) rbCard.scrollIntoView({ behavior:'smooth', block:'start' });
+      jdEl.style.transition = 'border .2s';
+      jdEl.style.border = '2px solid #0d9488';
+      setTimeout(function(){ jdEl.style.border = ''; }, 2200);
+    }
+    function setJobStatus(jobId, status) {
+      if (!_jobTracker[jobId]) _jobTracker[jobId] = {};
+      _jobTracker[jobId].status    = status;
+      _jobTracker[jobId].updatedAt = new Date().toISOString();
+      localStorage.setItem(TRACKER_KEY, JSON.stringify(_jobTracker));
+      var sel = document.querySelector('[data-tracker-id="' + jobId + '"]');
+      if (sel) sel.className = 'tracker-select ts-' + status;
+    }
+    function toggleSaveJob(jobId) {
+      if (_savedJobIds.has(jobId)) {
+        _savedJobIds.delete(jobId);
+        delete _jobTracker[jobId];
+      } else {
+        _savedJobIds.add(jobId);
+        _jobTracker[jobId] = { status:'saved', updatedAt: new Date().toISOString() };
+      }
+      localStorage.setItem(SAVED_JOBS_KEY, JSON.stringify(Array.from(_savedJobIds)));
+      localStorage.setItem(TRACKER_KEY,   JSON.stringify(_jobTracker));
+      _updateSavedCount();
+      renderLiveFeed();
+    }
+    function _updateSavedCount() {
+      var el = document.getElementById('savedViewCount');
+      if (el) el.textContent = _savedJobIds.size;
+    }
+    function toggleSavedView() {
+      _showSavedOnly = !_showSavedOnly;
+      var btn = document.getElementById('savedViewBtn');
+      if (btn) btn.classList.toggle('active', _showSavedOnly);
+      renderLiveFeed();
+    }
+    function copyJobLink(jobId, btn) {
+      var job = _liveJobs.find(function(j){ return String(j.id) === String(jobId); });
+      if (!job || !job.url) return;
+      var url = job.url;
+      var orig = btn.innerHTML;
+      var reset = function(){ btn.innerHTML = orig; btn.style.background = ''; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function(){
+          btn.innerHTML = '✅ Copied!'; btn.style.background = '#dcfce7';
+          setTimeout(reset, 2000);
+        }).catch(reset);
+      } else {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = url; ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+          document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+          document.body.removeChild(ta);
+          btn.innerHTML = '✅ Copied!'; btn.style.background = '#dcfce7';
+          setTimeout(reset, 2000);
+        } catch(_){}
+      }
+    }
+    function toggleSourceFilter(src) {
+      _activeSourceFilter = (_activeSourceFilter === src) ? null : src;
+      _setLiveSources(_cachedSources);
+      renderLiveFeed();
+    }
+    function _setLiveSources(sources) {
+      _cachedSources = sources;
+      document.getElementById('liveSources').innerHTML = sources.map(function(s){
+        var isClickable = (s.cls === 'remotive' || s.cls === 'adzuna' || s.cls === 'remoteok');
+        var isActive    = isClickable && _activeSourceFilter === s.cls;
+        var cls  = 'live-source-pill '+s.cls+(isClickable?' source-clickable':'')+(isActive?' source-active':'');
+        var attr = isClickable ? ' onclick="toggleSourceFilter(\''+s.cls+'\')" title="Click to show only these jobs; click again to clear"' : '';
+        return '<span class="'+cls+'"'+attr+'>'+s.icon+' '+s.label+'</span>';
+      }).join('');
+    }
+    function _guessExp(tagsArr) {
+      var t=(tagsArr||[]).join(' ').toLowerCase();
+      if (/principal|staff|lead|architect|head of|vp |director|manager/.test(t)) return '8+';
+      if (/senior|sr\.|sr /.test(t)) return '5-8';
+      if (/junior|jr\.|jr |entry|graduate|fresher|intern|trainee/.test(t)) return '0-2';
+      if (/mid[- ]|associate/.test(t)) return '2-5';
+      return '2-5';
+    }
+    function _normRemotive(j) {
+      // Remotive already provides tags — use them, and supplement from title if sparse
+      var rmTags = (j.tags||[]).map(function(t){ return t.toLowerCase(); });
+      if (rmTags.length < 3) {
+        // Extract extra skills from title when Remotive tags are thin
+        var rmTitle = (j.title||'').toLowerCase();
+        ['react','angular','vue','python','java','golang','node','typescript','javascript',
+         'kubernetes','docker','terraform','aws','azure','gcp','devops','flutter','swift',
+         'android','ios','scala','rust','kotlin','sql','mongodb','postgresql','redis',
+         'spark','kafka','airflow','dbt','snowflake','databricks','tensorflow','pytorch',
+         'django','flask','fastapi','spring','rails','laravel','express','nextjs','tailwind'
+        ].forEach(function(s){ if(rmTitle.includes(s) && !rmTags.includes(s)) rmTags.push(s); });
+      }
+      return { id:'rm_'+j.id, title:j.title||'', company:j.company_name||'',
+        workType:'Remote', location:j.candidate_required_location||'Worldwide',
+        expLevel:_guessExp(j.tags), skills:rmTags.slice(0,12),
+        url:j.url||'#', postedBy:'', notes:j.salary||'',
+        description: (j.description||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().substring(0,1500),
+        postedAt:j.publication_date||new Date().toISOString(), source:'remotive' };
+    }
+    function _normRemoteOK(j) {
+      // RemoteOK returns tags array and plain description
+      var tags = (j.tags||[]).map(function(t){ return t.toLowerCase().trim(); }).filter(Boolean);
+      var salary = (j.salary_min||j.salary_max)
+        ? '💰 $'+Math.round((j.salary_min||0)/1000)+'k–$'+Math.round((j.salary_max||j.salary_min)/1000)+'k/yr'
+        : '';
+      return {
+        id:          'rok_'+j.id,
+        title:       j.position||'',
+        company:     j.company||'',
+        workType:    'Remote',
+        location:    'Worldwide (Remote)',
+        expLevel:    _guessExp(tags.concat([j.position||''])),
+        skills:      tags.slice(0,12),
+        url:         j.url||'#',
+        postedBy:    '',
+        notes:       salary,
+        description: (j.description||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().substring(0,1500),
+        postedAt:    j.date || (j.epoch ? new Date(parseInt(j.epoch)*1000).toISOString() : new Date().toISOString()),
+        source:      'remoteok'
+      };
+    }
+    function _normAdzuna(j) {
+      // Strip HTML tags, then combine title + description for richer skill extraction
+      var rawDesc = (j.description||'').replace(/<[^>]+>/g,' ');
+      var fullText = ((j.title||'') + ' ' + rawDesc).toLowerCase();
+
+      // ── Multi-word phrases (substring match, longer phrases first) ──────────
+      var MULTI = [
+        'spring boot','azure data factory','azure synapse','azure devops','azure functions',
+        'azure cosmos','azure blob','microsoft fabric','power platform','power bi',
+        'asp.net','.net core','.net framework','sql server','ms sql',
+        'node.js','react.js','react js','react native','next.js','nuxt.js','vue.js','vue js',
+        'angular js','github actions','gitlab ci','google cloud','google bigquery',
+        'amazon s3','aws lambda','aws glue','aws redshift','aws rds',
+        'machine learning','deep learning','data science','data engineering','data warehouse',
+        'delta lake','apache spark','apache kafka','apache flink','apache airflow',
+        'kafka streams','rabbitmq','rabbit mq','activemq','ibm mq','mq series',
+        'elk stack','ci/cd','rest api','graphql api','grpc api','service mesh',
+        'android studio','react native','scikit-learn','scikit learn',
+        'hugging face','langchain','vector database','generative ai','large language model',
+        'full stack','fullstack','front end','frontend','back end','backend',
+        'workato','webmethods','web methods','boomi','tibco','mulesoft','apigee','wso2',
+        'talend','informatica','datastage','ssis','ssrs','ssas',
+        // Project / Product / People management
+        'project management','product management','program management','delivery management',
+        'risk management','change management','stakeholder management','vendor management',
+        'resource planning','capacity planning','budget management','release management',
+        'agile methodology','agile transformation','scrum master','product owner',
+        'people management','team management','engineering management',
+        'technical leadership','technical strategy','road map','roadmap'
+      ];
+      // ── Single-word skills (word-boundary regex — java won't match javascript) ─
+      var SINGLE = [
+        // Languages
+        'java','python','golang','scala','kotlin','rust','ruby','php','perl','cobol',
+        'javascript','typescript','swift','dart','groovy','clojure','elixir','haskell',
+        // Frontend
+        'react','angular','vue','svelte','html','css','tailwind','sass','less',
+        'webpack','vite','redux','mobx','bootstrap','jquery',
+        // Backend / Frameworks
+        'spring','django','flask','fastapi','express','rails','laravel','hibernate',
+        'quarkus','micronaut','nestjs','struts','vertx','akka','play',
+        // Mobile
+        'flutter','android','ios','xamarin','ionic','capacitor',
+        // DevOps / Cloud / Infra
+        'kubernetes','docker','terraform','ansible','jenkins','helm','argocd','flux',
+        'prometheus','grafana','nginx','linux','bash','devops','sre','vault','consul','istio',
+        'aws','azure','gcp','cloudformation','pulumi','vagrant','openshift','rancher',
+        'gitlab','github','bitbucket','git','maven','gradle','nexus','artifactory',
+        // Databases
+        'postgresql','mysql','mongodb','redis','elasticsearch','oracle','db2','sqlite',
+        'cassandra','neo4j','influxdb','hive','presto','clickhouse','cockroachdb','dynamodb',
+        'couchdb','mariadb','firestore',
+        // Data / BI / ML
+        'spark','hadoop','kafka','flink','airflow','dbt','snowflake','databricks','tableau',
+        'tensorflow','pytorch','pandas','numpy','sklearn','mlflow','kubeflow','sagemaker',
+        'pyspark','hdfs','druid','nifi','zookeeper','hbase','impala','trino',
+        // Networking / Infrastructure
+        'cisco','aruba','fortinet','juniper','checkpoint','meraki','palo alto','clearpass',
+        'bgp','ospf','mpls','vlan','routing','switching','firewall','vpn','nat','dns',
+        'dhcp','ldap','radius','sdn','sdwan','nac','wifi','802.1x','ipsec','ssl',
+        // Integration / Enterprise / Platforms
+        'mulesoft','tibco','workato','apigee','wso2','boomi','salesforce','sap',
+        'guidewire','servicenow','workday','peoplesoft','sharepoint','dynamics',
+        'jira','confluence','bamboo','splunk','sonarqube','datadog','newrelic','dynatrace',
+        // QA / Testing
+        'selenium','cypress','jest','junit','testng','postman','jmeter','playwright','mocha','pytest',
+        // AI / LLM
+        'langchain','openai','pinecone','weaviate','qdrant','llm','rag','transformers',
+        // General
+        'microservices','graphql','grpc','agile','scrum','kanban','devops','figma','ux','ui','etl','api',
+        // PM / Leadership / Non-tech roles
+        'pmp','prince2','jira','confluence','trello','asana','notion','ms project','sdlc','waterfall',
+        'budgeting','forecasting','hiring','mentoring','onboarding','okr','kpi','sla','sow','rfp'
+      ];
+
+      var found = [];
+      var foundSet = {};
+      MULTI.forEach(function(s){ if(fullText.includes(s)){ found.push(s); foundSet[s]=1; } });
+      SINGLE.forEach(function(s){
+        if(foundSet[s]) return; // already found exact match
+        var re = new RegExp('\\b'+s.replace(/[.+*?^${}()|[\]\\]/g,'\\$&')+'\\b','i');
+        if(re.test(fullText)){ found.push(s); foundSet[s]=1; }
+      });
+      // NOTE: No title-word fallback — title words are role descriptors, not skills.
+      // If description extraction found nothing, infer skills from recognised role patterns in the title.
+      if (found.length === 0) {
+        var titleLow = (j.title||'').toLowerCase();
+        var ROLE_SKILLS = [
+          { match: /project manager|programme manager|delivery manager/, skills: ['agile','scrum','jira','risk management','pmp','stakeholder management','project management'] },
+          { match: /product manager|product owner/,                       skills: ['agile','scrum','jira','roadmap','product management','okr','user stories'] },
+          { match: /scrum master|agile coach/,                            skills: ['scrum','agile','kanban','jira','confluence','sprint planning'] },
+          { match: /business analyst|ba /,                                skills: ['agile','jira','sql','power bi','stakeholder management','requirements'] },
+          { match: /data engineer/,                                        skills: ['python','sql','spark','airflow','dbt','etl','databricks'] },
+          { match: /data scientist|ml engineer|machine learning/,         skills: ['python','machine learning','pandas','tensorflow','pytorch','sql'] },
+          { match: /devops|sre|site reliability/,                         skills: ['kubernetes','docker','terraform','aws','ci/cd','linux','jenkins'] },
+          { match: /cloud engineer|cloud architect/,                      skills: ['aws','azure','gcp','kubernetes','terraform','cloudformation'] },
+          { match: /solution architect|enterprise architect/,             skills: ['aws','azure','microservices','system design','rest api','cloud'] },
+          { match: /frontend|front end|ui developer/,                     skills: ['react','javascript','typescript','html','css','next.js'] },
+          { match: /backend|back end|server.?side/,                       skills: ['java','python','node.js','sql','rest api','microservices'] },
+          { match: /full.?stack/,                                          skills: ['javascript','react','node.js','sql','rest api','docker'] },
+          { match: /mobile|android|ios|flutter/,                          skills: ['flutter','react native','android','ios','swift','kotlin'] },
+          { match: /network engineer|network admin/,                      skills: ['cisco','routing','switching','firewall','bgp','vlan','vpn'] },
+          { match: /security engineer|cybersecurity|infosec/,             skills: ['firewall','siem','splunk','owasp','vpn','aws','penetration testing'] },
+          { match: /qa engineer|test engineer|automation engineer/,       skills: ['selenium','cypress','jest','postman','jmeter','agile','testing'] },
+          { match: /integration architect|integration developer/,         skills: ['mulesoft','api','rest api','kafka','tibco','webmethods'] },
+          { match: /salesforce/,                                           skills: ['salesforce','apex','lightning','soql','crm'] },
+          { match: /guidewire/,                                            skills: ['guidewire','java','integration','insurance'] },
+          { match: /sap/,                                                  skills: ['sap','abap','hana','s4hana','fiori'] },
+          { match: /technical lead|tech lead|engineering lead/,           skills: ['agile','system design','microservices','code review','mentoring'] },
+          { match: /engineering manager|vp engineering/,                  skills: ['agile','people management','hiring','okr','engineering management'] }
+        ];
+        for (var ri=0; ri<ROLE_SKILLS.length; ri++) {
+          if (ROLE_SKILLS[ri].match.test(titleLow)) {
+            ROLE_SKILLS[ri].skills.forEach(function(s){ if(!foundSet[s]){ found.push(s); foundSet[s]=1; } });
+            break;
+          }
+        }
+      }
+      var skills = found.slice(0,12);
+      var workType = /\b(remote|work from home|wfh|telecommute)\b/i.test(fullText) ? 'Remote' : 'On-site';
+      return {
+        id:       'az_'+j.id,
+        title:    j.title||'',
+        company:  (j.company&&j.company.display_name)||'',
+        workType: workType,
+        location: (j.location&&j.location.display_name)||'',
+        expLevel: _guessExp([j.title||'']),
+        skills:   skills,
+        url:      j.redirect_url||'#',
+        postedBy: '',
+        notes:    (j.salary_min&&j.salary_max) ? '💰 ₹'+Math.round(j.salary_min/1000)+'k – ₹'+Math.round(j.salary_max/1000)+'k/yr' : '',
+        description: rawDesc.replace(/\s+/g,' ').trim().substring(0,1500),
+        postedAt: j.created||new Date().toISOString(),
+        source:   'adzuna'
+      };
+    }
+    function _showLiveSkeleton() {
+      var s=''; for(var i=0;i<6;i++) s+='<div class="skeleton-card"><div class="skeleton-bar skeleton-top"></div>'
+        +'<div class="skeleton-content"><div class="skeleton-bar skeleton-line title"></div>'
+        +'<div class="skeleton-bar skeleton-line sub"></div>'
+        +'<div class="skeleton-bar skeleton-line tags" style="margin-top:.4rem"></div></div></div>';
+      document.getElementById('liveFeedContainer').innerHTML='<div class="live-feed-loading">'+s+'</div>';
+      document.getElementById('liveFeedStats').textContent='';
+      document.getElementById('liveCountBadge').textContent='';
+    }
+    function renderLiveFeed() {
+      var container = document.getElementById('liveFeedContainer');
+      var statsEl   = document.getElementById('liveFeedStats');
+      var badge     = document.getElementById('liveCountBadge');
+      if (!_liveJobs.length) return;
+      // Recalculate match scores from the current My Skills input on every render
+      var mySkillsRaw = (document.getElementById('mySkillsInput').value||'').toLowerCase().trim();
+      var myTerms = mySkillsRaw ? mySkillsRaw.split(',').map(function(s){return s.trim();}).filter(Boolean) : [];
+      _liveJobs.forEach(function(job) {
+        if (myTerms.length) {
+          // Match against extracted skills AND description for better coverage
+          var desc = (job.description||'').toLowerCase();
+          var matchedTerms = myTerms.filter(function(m) {
+            var inSkills = (job.skills||[]).some(function(s){ return s.includes(m)||m.includes(s); });
+            var inDesc   = desc.includes(m);
+            return inSkills || inDesc;
+          });
+          job.matchCount = matchedTerms.length;
+          job.matchPct   = Math.round((job.matchCount / myTerms.length) * 100);
+        } else {
+          job.matchCount = undefined;
+          job.matchPct   = undefined;
+        }
+      });
+      var skillInput = (document.getElementById('skillFilterInput').value||'').toLowerCase().trim();
+      var expFilter  = document.getElementById('expFilterSelect').value;
+      var workFilter = document.getElementById('workTypeFilterSelect').value;
+      var cityFilter = (document.getElementById('cityFilterSelect')||{}).value || '';
+      // Populate city dropdown once when jobs first load
+      var citySelect = document.getElementById('cityFilterSelect');
+      if (citySelect && citySelect.options.length <= 1) {
+        var cities = _liveJobs.map(function(j){ return (j.location||'').split(',')[0].trim(); })
+          .filter(function(c){ return c && c.length > 1; });
+        cities = cities.filter(function(c,i){ return cities.indexOf(c) === i; }).sort();
+        cities.forEach(function(c){
+          var opt = document.createElement('option'); opt.value = c; opt.textContent = c;
+          citySelect.appendChild(opt);
+        });
+      }
+      var skillTerms = skillInput ? skillInput.split(',').map(function(t){return t.trim();}).filter(Boolean) : [];
+      var filtered = _liveJobs.filter(function(job) {
+        if (_activeSourceFilter && job.source !== _activeSourceFilter) return false;
+        if (_showSavedOnly && !_savedJobIds.has(job.id)) return false;
+        if (expFilter  && job.expLevel !== expFilter)  return false;
+        if (workFilter && job.workType !== workFilter) return false;
+        if (cityFilter && !(job.location||'').toLowerCase().startsWith(cityFilter.toLowerCase())) return false;
+        if (skillTerms.length) return skillTerms.some(function(term){
+          return (job.skills||[]).some(function(s){return s.toLowerCase().includes(term);})
+            ||(job.title||'').toLowerCase().includes(term)
+            ||(job.company||'').toLowerCase().includes(term);
+        });
+        return true;
+      });
+
+      // ── Sort ──────────────────────────────────────────────────────────────
+      var sortVal = (document.getElementById('sortJobsSelect')||{}).value || 'newest';
+      var expOrder = {'0-2':0,'2-5':1,'5-8':2,'8+':3};
+      filtered.sort(function(a,b){
+        if (sortVal==='match')   return (b.matchPct||0) - (a.matchPct||0);
+        if (sortVal==='skills')  return (b.skills||[]).length - (a.skills||[]).length;
+        if (sortVal==='company') return (a.company||'').localeCompare(b.company||'');
+        if (sortVal==='exp')     return (expOrder[a.expLevel]||0)-(expOrder[b.expLevel]||0);
+        return new Date(b.postedAt)-new Date(a.postedAt); // newest (default)
+      });
+
+      // ── Stats bar ─────────────────────────────────────────────────────────
+      var now = Date.now();
+      var statsBar = document.getElementById('liveStatsBar');
+      var remoteCount  = _liveJobs.filter(function(j){return j.workType==='Remote';}).length;
+      var onsiteCount  = _liveJobs.filter(function(j){return j.workType==='On-site';}).length;
+      var hybridCount  = _liveJobs.filter(function(j){return j.workType==='Hybrid';}).length;
+      if (statsBar) {
+        statsBar.style.display = 'flex';
+        statsBar.innerHTML = ''
+          +'<span class="live-stat-pill">📊 <span class="sn">'+_liveJobs.length+'</span> total</span>'
+          +'<span class="live-stat-sep">·</span><span class="live-stat-pill sp-new">📅 last 3 days</span>'
+          +(remoteCount  ? '<span class="live-stat-sep">·</span><span class="live-stat-pill">🌐 <span class="sn">'+remoteCount+'</span> remote</span>' : '')
+          +(hybridCount  ? '<span class="live-stat-sep">·</span><span class="live-stat-pill">🏠 <span class="sn">'+hybridCount+'</span> hybrid</span>' : '')
+          +(onsiteCount  ? '<span class="live-stat-sep">·</span><span class="live-stat-pill">🏢 <span class="sn">'+onsiteCount+'</span> on-site</span>' : '');
+      }
+
+      badge.textContent   = _liveJobs.length||'';
+      statsEl.textContent = 'Showing '+filtered.length+' of '+_liveJobs.length+' live listing'+(_liveJobs.length!==1?'s':'');
+      if (!filtered.length) {
+        container.innerHTML='<div class="job-board-empty"><div style="font-size:2rem;margin-bottom:.5rem">🔍</div><p>No live jobs match your filters.</p></div>';
+        return;
+      }
+      container.innerHTML='<div class="job-board-grid">'+filtered.map(function(job){
+        return _buildJobCardHtml(job, skillTerms, true);
+      }).join('')+'</div>';
+    }
+
+    async function fetchLiveFeed(forceRefresh) {
+      if (!forceRefresh) {
+        try {
+          var cached = JSON.parse(localStorage.getItem(LIVE_CACHE_KEY)||'null');
+          if (cached && cached.fetchedAt && (Date.now()-new Date(cached.fetchedAt).getTime())<LIVE_CACHE_TTL) {
+            // If Adzuna keys are now configured but cache was saved without Adzuna — invalidate so we get fresh Adzuna results
+            var azIdNow  = (document.getElementById('adzunaAppId').value.trim())  || localStorage.getItem('devops_adzuna_id')  || '';
+            var azKeyNow = (document.getElementById('adzunaApiKey').value.trim()) || localStorage.getItem('devops_adzuna_key') || '';
+            var cacheHasAdzuna = (cached.sources||[]).some(function(s){ return s.cls==='adzuna'; });
+            if (azIdNow && azKeyNow && !cacheHasAdzuna) {
+              // Fall through to fresh fetch — Adzuna keys added since last cache
+            } else {
+              _liveJobs = cached.jobs||[];
+              _updateLastRefreshed(cached.fetchedAt);
+              _setLiveSources(cached.sources||[]);
+              document.getElementById('liveCountBadge').textContent = _liveJobs.length||'';
+              if (_activeBoardTab==='live') renderLiveFeed();
+              return;
+            }
+          }
+        } catch(_){}
+      }
+      _showLiveSkeleton();
+      var btn = document.getElementById('liveRefreshBtn');
+      btn.disabled=true; btn.innerHTML='<span class="spin">🔄</span> Fetching…';
+      document.getElementById('liveLastUpdated').textContent='';
+      var jobs=[]; var sources=[]; var errors=[];
+
+      // Only Adzuna — best free India-specific job source
+      var azId      = (document.getElementById('adzunaAppId').value.trim())  || localStorage.getItem('devops_adzuna_id')  || '';
+      var azKey     = (document.getElementById('adzunaApiKey').value.trim()) || localStorage.getItem('devops_adzuna_key') || '';
+      var azCountry = document.getElementById('adzunaCountry').value         || localStorage.getItem('devops_adzuna_country') || 'in';
+      var countryLabels = {in:'India',gb:'UK',us:'US',au:'Australia',ca:'Canada',de:'Germany',sg:'Singapore'};
+      if (azId && azKey) {
+        try {
+          var azBase = 'https://api.adzuna.com/v1/api/jobs/'+azCountry+'/search/'
+            +'PAGE_NUM'
+            +'?app_id='+encodeURIComponent(azId)
+            +'&app_key='+encodeURIComponent(azKey)
+            +'&results_per_page=50'
+            +'&category=it-jobs'
+            +'&max_days_old=3'
+            +'&sort_by=date'
+            +'&content-type=application/json';
+
+          btn.innerHTML='<span class="spin">🔄</span> Fetching jobs (page 1)…';
+          var azr1 = await fetch(azBase.replace('PAGE_NUM','1'));
+          if (azr1.status===401) { await azr1.json().catch(()=>{}); throw new Error('401 Auth failed — check App ID & API Key at developer.adzuna.com'); }
+          if (!azr1.ok) throw new Error('HTTP '+azr1.status);
+          var azd1 = await azr1.json();
+          var azAll = azd1.results || [];
+          var azTotal = azd1.count || 0;
+
+          // Fetch up to 4 more pages in parallel (5 pages total = up to 250 jobs)
+          if (azTotal > 50) {
+            btn.innerHTML='<span class="spin">🔄</span> Fetching jobs (pages 2–5)…';
+            var extraPages = [];
+            for (var pn=2; pn<=5 && azTotal>(pn-1)*50; pn++) {
+              extraPages.push(fetch(azBase.replace('PAGE_NUM', String(pn))));
+            }
+            var extraResps = await Promise.all(extraPages);
+            for (var pi=0; pi<extraResps.length; pi++) {
+              if (extraResps[pi].ok) { var pd=await extraResps[pi].json(); azAll=azAll.concat(pd.results||[]); }
+            }
+          }
+
+          // Deduplicate by job ID
+          var azSeen = {};
+          azAll = azAll.filter(function(j){ if(azSeen[j.id]) return false; azSeen[j.id]=1; return true; });
+
+          // Remove clearly non-tech roles that slip through Adzuna's it-jobs category
+          azAll = azAll.filter(function(j){
+            var t = (j.title||'').toLowerCase();
+            return !/\b(construction|actuarial|instructional design|content develop|content writer|copywriter|technical writer|chef de|event manag|chartered accountant|\bca\b|supply chain manag|logistics manag|procurement manag|legal counsel|paralegal|legal advisor|nursing|pharmacist|radiolog|physiother|hospitality|fashion design|retail manag|insurance agent|insurance sales|life insurance|claims manag|credit analyst|accounts payable|accounts receivable|financial analys|bookkeep|payroll|administrative assist|executive assist|personal assist|receptionist|customer support exec|customer service exec|sales development rep|real estate|property consult)/.test(t);
+          });
+
+          // Apply user skill profile match score to each job
+          var mySkillsRaw = (localStorage.getItem('devops_my_skills')||'').toLowerCase();
+          var mySkills = mySkillsRaw ? mySkillsRaw.split(',').map(function(s){return s.trim();}).filter(Boolean) : [];
+          var normedJobs = azAll.map(function(j){
+            var n = _normAdzuna(j);
+            if (mySkills.length && n.skills.length) {
+              n.matchCount = n.skills.filter(function(s){ return mySkills.some(function(m){ return s.includes(m)||m.includes(s); }); }).length;
+              n.matchPct   = Math.round((n.matchCount/n.skills.length)*100);
+            }
+            return n;
+          });
+
+          jobs = jobs.concat(normedJobs);
+          sources.push({cls:'adzuna', icon:'🇮🇳', label:(countryLabels[azCountry]||azCountry)+' Jobs ('+azAll.length+')'});
+        } catch(e) {
+          errors.push('Adzuna: '+e.message);
+          var azErrLabel = e.message.includes('401') ? 'Adzuna (❌ wrong App ID/Key — fix in settings)' : 'Adzuna (error — check keys)';
+          sources.push({cls:'inactive', icon:'⚠️', label:azErrLabel});
+        }
+      } else {
+        sources.push({cls:'inactive', icon:'⚫', label:'Adzuna (add App ID + API Key)'});
+      }
+
+      jobs.sort(function(a,b){return new Date(b.postedAt)-new Date(a.postedAt);});
+      var fetchedAt=new Date().toISOString();
+      _liveJobs=jobs;
+      try { localStorage.setItem(LIVE_CACHE_KEY,JSON.stringify({jobs:jobs,fetchedAt:fetchedAt,sources:sources})); } catch(_){}
+      _setLiveSources(sources); _updateLastRefreshed(fetchedAt);
+      document.getElementById('liveCountBadge').textContent=jobs.length||'';
+      btn.disabled=false; btn.innerHTML='🔄 Refresh';
+      clearTimeout(window._autoRefreshTimer);
+      window._autoRefreshTimer = setTimeout(function(){ fetchLiveFeed(true); }, 6*60*60*1000);
+      _updateSavedCount();
+
+      if (_activeBoardTab==='live') {
+        if (!jobs.length) {
+          document.getElementById('liveFeedContainer').innerHTML=
+            '<div class="live-feed-error"><div class="err-icon">⚠️</div>'
+            +'<div><strong>Could not load live jobs.</strong> '+(errors.length?_escHtml(errors.join('; ')):'No results.')
+            +'<br><span style="font-size:.82rem">CORS may block API calls when opening the file locally. '
+            +'Try hosting on a server, or use the <strong>🤝 Community</strong> tab to post jobs manually.</span></div></div>';
+        } else { renderLiveFeed(); }
+      }
+    }
+
+    // ── Community Board ──────────────────────────────────────────────────────
+    function togglePostForm() {
+      var form=document.getElementById('referralPostForm');
+      var toggle=document.getElementById('postFormToggle');
+      var open=form.style.display!=='none';
+      form.style.display=open?'none':'block';
+      toggle.textContent=open?'▼ Expand to post':'▲ Collapse';
+    }
+    function clearJobForm() {
+      ['rjTitle','rjCompany','rjLocation','rjPostedBy','rjSkills','rjUrl','rjNotes'].forEach(function(id){
+        document.getElementById(id).value='';
+      });
+      document.getElementById('rjWorkType').value='Remote';
+      document.getElementById('rjExpLevel').value='';
+      document.getElementById('postJobStatus').style.display='none';
+    }
+    function submitJobPosting() {
+      var title=document.getElementById('rjTitle').value.trim();
+      var company=document.getElementById('rjCompany').value.trim();
+      var expLevel=document.getElementById('rjExpLevel').value;
+      var skills=document.getElementById('rjSkills').value.trim();
+      var url=document.getElementById('rjUrl').value.trim();
+      var st=document.getElementById('postJobStatus');
+      function showSt(msg,color,bg){
+        st.textContent=msg; st.style.color=color;
+        st.style.background=bg||'transparent'; st.style.padding=bg?'0.3rem 0.7rem':'0';
+        st.style.borderRadius='6px'; st.style.display='';
+      }
+      if(!title)    {showSt('⚠ Job title is required.','#c62828','#fdecea');return;}
+      if(!company)  {showSt('⚠ Company is required.','#c62828','#fdecea');return;}
+      if(!expLevel) {showSt('⚠ Please select an experience level.','#c62828','#fdecea');return;}
+      if(!skills)   {showSt('⚠ At least one skill is required.','#c62828','#fdecea');return;}
+      if(!url)      {showSt('⚠ Job post URL is required.','#c62828','#fdecea');return;}
+      try{new URL(url);}catch(_){showSt('⚠ Enter a valid URL (https://…)','#c62828','#fdecea');return;}
+      var job={
+        id:Date.now(), title, company,
+        workType:document.getElementById('rjWorkType').value,
+        location:document.getElementById('rjLocation').value.trim(),
+        expLevel, skills:skills.split(',').map(function(s){return s.trim();}).filter(Boolean),
+        url, postedBy:document.getElementById('rjPostedBy').value.trim(),
+        notes:document.getElementById('rjNotes').value.trim(),
+        postedAt:new Date().toISOString()
+      };
+      var jobs=_loadJobBoard(); jobs.unshift(job); _saveJobBoard(jobs);
+      renderJobBoard(); clearJobForm();
+      document.getElementById('referralPostForm').style.display='none';
+      document.getElementById('postFormToggle').textContent='▼ Expand to post';
+      showSt('✅ Job posted!','#2e7d32','#e8f5e9');
+      setTimeout(function(){st.style.display='none';},3000);
+      switchBoardTab('community');
+    }
+    function deleteJobPosting(id) {
+      if(!confirm('Remove this posting from your board?')) return;
+      _saveJobBoard(_loadJobBoard().filter(function(j){return j.id!==id;}));
+      renderJobBoard();
+    }
+
+    // ── Shared card renderer ─────────────────────────────────────────────────
+    function _expBadgeClass(l){return {'0-2':'exp-0','2-5':'exp-2','5-8':'exp-5','8+':'exp-8'}[l]||'exp-2';}
+    function _expBadgeLabel(l){return {'0-2':'0–2 yrs','2-5':'2–5 yrs','5-8':'5–8 yrs','8+':'8+ yrs (Lead)'}[l]||l;}
+    function _workBadgeClass(t){return {'Remote':'remote','Hybrid':'hybrid','On-site':'onsite'}[t]||'remote';}
+    function _cardAccentClass(t){return {'Remote':'accent-remote','Hybrid':'accent-hybrid','On-site':'accent-onsite'}[t]||'accent-remote';}
+    function _avatarColor(n){
+      var p=['#0d9488','#7c3aed','#dc2626','#2563eb','#d97706','#db2777','#059669','#4f46e5'],h=0;
+      for(var i=0;i<n.length;i++) h=n.charCodeAt(i)+((h<<5)-h);
+      return p[Math.abs(h)%p.length];
+    }
+    function _buildJobCardHtml(job, skillTerms, isLive) {
+      var skillsHtml=(job.skills||[]).map(function(s){
+        var m=(skillTerms||[]).some(function(t){return s.toLowerCase().includes(t);});
+        return '<span class="skill-tag'+(m?' matched':'')+'">'+_escHtml(s)+'</span>';
+      }).join('');
+      var date=new Date(job.postedAt).toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+      var ageMs = Date.now() - new Date(job.postedAt).getTime();
+      var newBadge = '';  // Adzuna batch-indexes all jobs at the same time — badge removed to avoid misleading counts
+      var initials=(job.company||'?').trim().split(/\s+/).slice(0,2).map(function(w){return w[0];}).join('');
+      var notesHtml=job.notes?'<div class="job-card-notes"><span>💬</span><span>'+_escHtml(job.notes)+'</span></div>':'';
+      var matchHtml='';
+      if (isLive && job.matchPct !== undefined && job.matchPct > 0) {
+        var mCls = job.matchPct>=70?'match-high':job.matchPct>=40?'match-mid':'match-low';
+        matchHtml='<span class="job-match-score '+mCls+'" title="'+job.matchCount+' of '+job.skills.length+' skill terms match your profile">🎯 '+job.matchPct+'% match</span>';
+      }
+      var locHtml=job.location?'<span class="job-location">📍 '+_escHtml(job.location)+'</span>':'';
+      var sourceBadge=isLive&&job.source?'<span class="job-source-badge '+_escHtml(job.source)+'">'+_escHtml(job.source)+'</span>':'';
+      var deleteBtn=!isLive?'<button class="job-delete-btn" onclick="deleteJobPosting('+job.id+')" title="Remove">✕</button>':'';
+      var isSaved = _savedJobIds.has(job.id);
+      var trackerHtml = '';
+      if (isLive && isSaved) {
+        var ts = (_jobTracker[job.id] && _jobTracker[job.id].status) || 'saved';
+        trackerHtml = '<div class="job-tracker-wrap">'
+          +'<span class="job-tracker-label">📋 Status:</span>'
+          +'<select class="tracker-select ts-'+ts+'" data-tracker-id="'+job.id+'" onchange="setJobStatus(\''+job.id+'\',this.value)">'
+          +'<option value="saved"'+(ts==='saved'?' selected':'')+'>🔖 Saved</option>'
+          +'<option value="applied"'+(ts==='applied'?' selected':'')+'>📤 Applied</option>'
+          +'<option value="interview"'+(ts==='interview'?' selected':'')+'>🗓 Interview Scheduled</option>'
+          +'<option value="offer"'+(ts==='offer'?' selected':'')+'>🎉 Offer Received</option>'
+          +'<option value="rejected"'+(ts==='rejected'?' selected':'')+'>❌ Rejected</option>'
+          +'</select></div>';
+      }
+      var liveActions = isLive
+        ? '<div class="job-card-actions">'
+          +'<button class="job-practice-btn" onclick="practiceInterviewForJob(\''+job.id+'\')" title="Auto-fill AI interviewer with this job role">🎯 Practice Interview</button>'
+          +'<button class="job-tailor-btn" onclick="tailorResumeForJob(\''+job.id+'\')" title="Pre-fill Resume Builder with this job description">📄 Tailor Resume</button>'
+          +'<button class="job-copy-btn" onclick="copyJobLink(\''+job.id+'\',this)" title="Copy job URL to clipboard">🔗 Copy Link</button>'
+          +'<button class="job-save-btn'+(isSaved?' saved':'')+'" data-save-id="'+job.id+'" onclick="toggleSaveJob(\''+job.id+'\')">'+(isSaved?'✅ Saved':'💾 Save')+'</button>'
+          +'</div>'
+          +trackerHtml : '';
+      return '<div class="job-card '+_cardAccentClass(job.workType)+'">'
+        +deleteBtn
+        +'<div class="job-card-inner">'
+        +'<div class="job-card-header-row">'
+        +'<div class="job-card-header-text">'
+        +'<div class="job-card-title">'+_escHtml(job.title)+newBadge+'</div>'
+        +'<div class="job-card-company">'+_escHtml(job.company)+'</div>'
+        +'</div>'
+        +'<div class="job-card-avatar" style="background:'+_avatarColor(job.company||'')+'">'+_escHtml(initials)+'</div>'
+        +'</div>'
+        +'<div class="job-card-meta">'
+        +'<span class="job-badge '+_workBadgeClass(job.workType)+'">'+_escHtml(job.workType)+'</span>'
+        +(job.expLevel?'<span class="job-badge '+_expBadgeClass(job.expLevel)+'">'+_expBadgeLabel(job.expLevel)+'</span>':'')
+        +matchHtml
+        +locHtml+'</div>'
+        +'<div class="job-skills-wrap">'+skillsHtml+'</div>'
+        +notesHtml
+        +liveActions
+        +'</div>'
+        +'<div class="job-card-footer">'
+        +'<div class="job-card-meta-bottom">'
+        +(job.postedBy?'<div>👤 '+_escHtml(job.postedBy)+'</div>':'')
+        +'<div>🕐 '+date+'</div></div>'
+        +sourceBadge
+        +'<a href="'+_escHtml(job.url)+'" target="_blank" rel="noopener noreferrer" class="job-apply-btn">View Post ↗</a>'
+        +'</div></div>';
+    }
+
+    function renderJobBoard() {
+      var skillInput=(document.getElementById('skillFilterInput').value||'').toLowerCase().trim();
+      var expFilter=document.getElementById('expFilterSelect').value;
+      var workFilter=document.getElementById('workTypeFilterSelect').value;
+      var grid=document.getElementById('jobBoardGrid');
+      var emptyMsg=document.getElementById('jobBoardEmpty');
+      var statsEl=document.getElementById('boardStats');
+      var badge=document.getElementById('boardCountBadge');
+      var allJobs=_loadJobBoard();
+      var skillTerms=skillInput?skillInput.split(',').map(function(t){return t.trim();}).filter(Boolean):[];
+      var filtered=allJobs.filter(function(job){
+        if(expFilter&&job.expLevel!==expFilter) return false;
+        if(workFilter&&job.workType!==workFilter) return false;
+        if(skillTerms.length) return skillTerms.some(function(term){
+          return (job.skills||[]).some(function(s){return s.toLowerCase().includes(term);})
+            ||job.title.toLowerCase().includes(term)||job.company.toLowerCase().includes(term);
+        });
+        return true;
+      });
+      badge.textContent=allJobs.length||'';
+      statsEl.textContent=allJobs.length?'Showing '+filtered.length+' of '+allJobs.length+' posting'+(allJobs.length!==1?'s':''):'';
+      if(!filtered.length){grid.innerHTML='';emptyMsg.classList.remove('hidden');return;}
+      emptyMsg.classList.add('hidden');
+      grid.innerHTML=filtered.map(function(job){return _buildJobCardHtml(job,skillTerms,false);}).join('');
+    }
+
+    function clearBoardFilters() {
+      document.getElementById('skillFilterInput').value='';
+      document.getElementById('expFilterSelect').value='';
+      document.getElementById('workTypeFilterSelect').value='';
+      var city=document.getElementById('cityFilterSelect'); if(city) city.value='';
+      var s=document.getElementById('sortJobsSelect'); if(s) s.value='newest';
+      // Clear active role preset
+      _activeRolePreset=null;
+      document.querySelectorAll('.role-preset-btn').forEach(function(b){ b.classList.remove('active'); });
+      _activeSourceFilter=null; _setLiveSources(_cachedSources);
+      onFilterChange();
+    }
+    function exportJobBoard() {
+      var jobs=_loadJobBoard();
+      if(!jobs.length){alert('No community postings to export yet.');return;}
+      var blob=new Blob([JSON.stringify(jobs,null,2)],{type:'application/json;charset=utf-8'});
+      var u=URL.createObjectURL(blob);
+      var a=Object.assign(document.createElement('a'),{href:u,download:'devops-job-board-'+new Date().toISOString().slice(0,10)+'.json'});
+      document.body.appendChild(a);a.click();document.body.removeChild(a);
+      setTimeout(function(){URL.revokeObjectURL(u);},1000);
+    }
+    function importJobBoard(input) {
+      var file=input.files[0]; if(!file) return;
+      var reader=new FileReader();
+      reader.onload=function(e){
+        try{
+          var imported=JSON.parse(e.target.result);
+          if(!Array.isArray(imported)) throw new Error();
+          var existing=_loadJobBoard(); var ids={};
+          existing.forEach(function(j){ids[j.id]=true;});
+          var newJobs=imported.filter(function(j){return j.id&&j.title&&j.url&&!ids[j.id];});
+          if(!newJobs.length){alert('No new postings found — duplicates skipped.');return;}
+          _saveJobBoard(existing.concat(newJobs).sort(function(a,b){return b.id-a.id;}));
+          renderJobBoard();
+          alert('✅ Imported '+newJobs.length+' new posting'+(newJobs.length!==1?'s':'')+'!');
+        }catch(_){alert('❌ Invalid file format.');}
+        finally{input.value='';}
+      };
+      reader.readAsText(file);
+    }
   </script>
 </body>
 </html>
