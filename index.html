@@ -6181,12 +6181,14 @@ ${code}
       if (_activeBoardTab === 'live' && _liveJobs.length) renderLiveFeed();
     }
     (function(){
-      var id  = localStorage.getItem('devops_adzuna_id');
-      var key = localStorage.getItem('devops_adzuna_key');
+      var BUILT_IN_ID  = 'd0ee9128';
+      var BUILT_IN_KEY = '60e182beb41ec111554597b2e72deade';
+      var id  = localStorage.getItem('devops_adzuna_id')  || BUILT_IN_ID;
+      var key = localStorage.getItem('devops_adzuna_key') || BUILT_IN_KEY;
       var country = localStorage.getItem('devops_adzuna_country') || 'in';
       var mySkills = localStorage.getItem('devops_my_skills') || '';
-      if (id)  document.getElementById('adzunaAppId').value   = id;
-      if (key) document.getElementById('adzunaApiKey').value  = key;
+      if (id)  { document.getElementById('adzunaAppId').value  = id;  localStorage.setItem('devops_adzuna_id',  id);  }
+      if (key) { document.getElementById('adzunaApiKey').value = key; localStorage.setItem('devops_adzuna_key', key); }
       document.getElementById('adzunaCountry').value = country;
       if (mySkills) document.getElementById('mySkillsInput').value = mySkills;
     })();
